@@ -7,6 +7,12 @@ body{
   background: #F5F5F8;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.content2 {
+  display: flex;
+  gap: 8px;
 }
 
 .header{
@@ -25,19 +31,25 @@ body{
   padding: 6px 0px 10px 0px;
 }
 
-.container{
+.serchBarContainer{
   display: flex;
   align-items: center;
 }
 
-input {
+#searchBarInput {
   width: 314px;
   border-radius: 34px;
   font-size: 16px;
   padding: 8px 30px 8px 0px;
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);  border-style: none;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08); 
+  border-style: none;
   color: rgba(51, 51, 51, 0.5);
 
+}
+
+#searchBarInput:focus {
+  outline: none;
+  border: solid 1px #075C93;
 }
 
 .searchIcon {
@@ -66,7 +78,6 @@ input {
   cursor: pointer;
   text-align: right;
   padding-right: 16px;
-  margin-right: 8px;
 } 
 
 .downArrow {
@@ -74,4 +85,33 @@ input {
   position: absolute;
   height: 24px;
   width: 24px;
+}
+
+.greyRoundButtonIcon {
+  position: absolute;
+}
+
+.greyRoundContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.greyRoundButton {
+  height: 36px;
+  width: 36px;
+  border-radius: 18px;
+  border: none;
+  background: #E0E0E0;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.newTaskButton{
+  border-radius: 25px;
+  background: #075C93;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
+  padding: 8px 16px;
+  color: #FFF;
+  font-size: 16px;
+  border: none;
 }

@@ -2,9 +2,9 @@ export default function SearchBar(){
 
   return(
     <>
-      <div className='container'>
+      <div className='serchBarContainer'>
         <SearchIcon />
-        <input type='text' className='searchBarInput' value='חיפוש' />
+        <input type='text' id='searchBarInput' value='חיפוש' />
       </div>
     </>
   )
