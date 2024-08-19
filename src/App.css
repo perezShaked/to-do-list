@@ -1,5 +1,6 @@
 body{
   user-select: none;
+  width: 100%;
 }
 
 .content{
@@ -8,6 +9,7 @@ body{
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 99%;
 }
 
 .content2 {
@@ -20,7 +22,7 @@ body{
   font-size: 36px;
   margin-bottom: 24px;
   margin-right: 8px;
-  padding-left: 100%;
+  width: 99%;
 }
 
 .timeStemp{
@@ -29,6 +31,7 @@ body{
   font-size: 14px;
   color: rgba(51, 51, 51, 0.8);
   padding: 6px 0px 10px 0px;
+  width: 99%;
 }
 
 .serchBarContainer{
@@ -80,15 +83,17 @@ body{
   padding-right: 16px;
 } 
 
-.downArrow {
+#sortDownArrow {
   padding-left: 16px;
   position: absolute;
   height: 24px;
   width: 24px;
+  cursor: pointer;
 }
 
 .greyRoundButtonIcon {
   position: absolute;
+  cursor: pointer;
 }
 
 .greyRoundContainer {
@@ -114,4 +119,139 @@ body{
   color: #FFF;
   font-size: 16px;
   border: none;
+  cursor: pointer;
 }
+
+#statusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.taskStatus{
+  border-radius: 8px;
+  border: none;
+  height: 32px;
+  width: 153px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: right;
+  padding-right: 8px;
+} 
+
+#statusDownArrow {
+  padding-left: 4px;
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+  fill: white;
+}
+
+#pendingUpdate{
+  background-color: #929292;
+}
+
+#wait{
+  background-color: #2999ED;
+}
+
+#completed{
+  background-color: #2D8B00;
+}
+
+#canceled{
+  background-color: #F85359;
+}
+
+#inProgress{
+  background-color: #F0AD00;
+}
+
+#statusSelector{
+  border-radius: 8px;
+  border: 1px solid #E0E0E0;
+  background-color: #E2EBF5;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-wrap: wrap;
+  width: 169px;
+  height: 220px;
+  justify-content: center;
+}
+
+.custom-checkbox{
+  width: 16px;
+  height: 16px;
+  
+}
+
+.custom-checkbox:checked{
+  accent-color: #075C93;
+}
+
+
+#lables{
+  font-size: 14px;
+  color: rgba(146, 146, 146, 1);
+  display: grid;
+  grid-template-columns: 35% 15.75% 15.75% 15.75% 15.75%;
+  gap: 0.4%;
+}
+
+#endDateLable{
+  grid-column-start: 2;
+}
+
+#tasksRows{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.taskRow{
+  display: grid;
+  grid-template-columns: 35% 15.75% 15.75% 15.75% 15.75%;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08); 
+  height: 53px;
+  border-radius: 12px;
+  gap: 0.4%;
+  width: 99.7%;
+}
+
+.taskInfo{
+  display: flex;
+  align-items: center;
+  gap: 1%;
+  padding-right: 2%;
+}
+
+#taskRowArrowButton{
+  height: 24px;
+  width: 24px;
+  transform: rotate(90deg);
+  transform-origin: center;
+  fill: #075C93;
+}
+ 
+#numOfSubTasks{
+  font-size: 16px;
+  color: rgba(51, 51, 51, 0.5);
+}
+
+.inputTask{
+  height: 18px;
+  font-size: 16px;
+  color: rgba(51, 51, 51, 1);
+  border: none;
+}
+
+#taskLable{
+  width: auto;
+  box-sizing: content-box;
+}
+
+
+
