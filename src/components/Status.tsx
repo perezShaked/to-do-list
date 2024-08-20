@@ -1,5 +1,5 @@
 import './components_style/Status.css'
-import ArrowButton from "./ArrowButton";
+import {ArrowIcon} from './ArrowIcon'
 
 const statuses = new Map<string, string>([
   ['wait', 'מחכה'],
@@ -13,7 +13,7 @@ export default function Status({status, includeArrow}:{status: string, includeAr
   return(
     <div id="statusContainer">
       <button className="status" id={status}>{statuses.get(status)}</button>
-      {includeArrow ? <ArrowButton usedBy="statusDownArrow" direction='down'/> : null}
+      {includeArrow ? <ArrowIcon usedBy="statusDownArrow" direction='down' /> : null}
     </div>
   )
 }

@@ -1,9 +1,11 @@
 #sortContainer {
   display: flex;
-  align-items: center;
 }
 
 #sortButton{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: solid 1px #075C93;
   height: 27px;
   width: 110px;
@@ -12,13 +14,9 @@
   color: #075C93;
   font-size: 12px;
   cursor: pointer;
-  text-align: right;
-  padding-right: 12px;
 } 
 
-#sortDownArrow {
-  padding-right: 80px;
-  position: absolute;
+#sortButtonArrow {
   height: 24px;
   width: 24px;
   cursor: pointer;

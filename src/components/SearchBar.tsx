@@ -6,7 +6,7 @@ export default function SearchBar(){
     <>
       <div className='serchBarContainer'>
         <SearchIcon />
-        <input type='text' id='searchBarInput' value='חיפוש' />
+        <input type='text' id='searchBarInput' value='חיפוש' onChange={() => {}}/>
       </div>
     </>
   )

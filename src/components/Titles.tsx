@@ -1,11 +1,11 @@
-
+import './components_style/Titles.css'
 
 export default function Titles(){
   return(
     <div id='titles'>
-      <label id="endDateLable">תאריך לביצוע</label>
-      <label id="madeByLable">יוצר</label>
-      <label id="OwnerLable">בעלים</label>
+      <label id="dueDateTitle">תאריך לביצוע</label>
+      <label >יוצר</label>
+      <label >בעלים</label>
     </div>
   )
 }

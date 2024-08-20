@@ -1,6 +1,6 @@
 import './components_style/TimeStemp.css'
 
-export default function TimeStemp () {
+export const TimeStemp = () => {
   const today = new Date();
   
   const getTodayDayOfTheWeek = () => {
