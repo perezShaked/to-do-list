@@ -3,10 +3,10 @@ import  TimeStemp  from './components/TimeStemp'
 import  SearchBar  from './components/SearchBar'
 import  SortButton  from './components/SortButton'
 import DeleteTaskButton from './components/DeleteTaskButton'
-import DuplicateTaskButton from './components/DuplicateTaskButton'
 import NewTaskButton from './components/NewTaskButton'
+import Titles from './components/Titles'
+import { tasks } from "./tasksData"; 
 import TaskRow from './components/TaskRow'
-import Tasks from './components/Tasks'
 
 function App() {
   return (
@@ -17,13 +17,11 @@ function App() {
           <div className='content2'>
             <SearchBar />
             <SortButton />
-          </div>
-          <div className='content2'>
             <DeleteTaskButton/>
-            <DuplicateTaskButton />
             <NewTaskButton />
           </div>
-          <Tasks />
+          <Titles />
+          {tasks.map((t) => <TaskRow task={t} subTasksOpen={false}/>)}
       </div>
     </>
   )

@@ -1,4 +1,5 @@
 import TaskRow from "./TaskRow"
+import {tasks} from '../tasksData'
 
 export default function Tasks(){
   return(
@@ -9,9 +10,7 @@ export default function Tasks(){
         <label id="OwnerLable">בעלים</label>
       </div>
       <div id="tasksRows">
-        <TaskRow taskStatus='inProgress' />
-        <TaskRow taskStatus='canceled' />
-        <TaskRow taskStatus='pendingUpdate' />
+      
       </div>
     </div>
 

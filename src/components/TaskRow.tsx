@@ -1,23 +1,22 @@
 import CheckBox from "./CheckBox";
 import ArrowButton from "./ArrowButton";
-import TaskStatus from "./TaskStatus";
+import Status from "./Status";
 import NumOfSubTasks from "./NumOfSubTasks";
+import {Task} from '../tasksData';
 
-type taskOptions = 'wait' | 'pendingUpdate' | 'completed' | 'canceled' | 'inProgress'
 
-
-export default function TaskRow({taskStatus}:{taskStatus: taskOptions }){
+export default function TaskRow({task, subTasksOpen}:{task: Task, subTasksOpen: boolean}){
   return(
-    <div className="taskRow">
+    <div className="taskRow" about={`${subTasksOpen}`}>
       <div className="taskInfo">
         <CheckBox/>
-        <ArrowButton usedBy="taskRowArrowButton" />
-        <input className='inputTask' id="taskLable"></input>
+        {subTasksOpen ? <ArrowButton usedBy="taskRowArrowButton" direction="down"/> : <ArrowButton usedBy="taskRowArrowButton" direction="left"/>}
+        <input className='inputTask' id="taskLable" value={task.title} onChange={()=>{}} />
         <NumOfSubTasks numOfSubTasks={4}/>
       </div>
-      <input className='inputTask' id="taskEndDate"></input>
-      <input className='inputTask' id="TaskMadeBy"></input>
-      <input className='inputTask' id="TaskOwner"></input>
-      <TaskStatus includeArrow={true} status={taskStatus}/>
+      <input className='inputTask' id='dueDate' type="date" value={task.dueDate} onChange={()=>{}} />
+      <input className='inputTask' id="TaskMadeBy" value={task.madeBy} onChange={()=>{}}/>
+      <input className='inputTask' id="TaskOwner" value={task.owner} onChange={()=>{}}/>
+      {subTasksOpen ? null : <Status includeArrow={true} status={task.status}/>}
     </div>)
 }

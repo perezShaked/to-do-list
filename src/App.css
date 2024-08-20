@@ -13,160 +13,19 @@ body{
 }
 
 .content2 {
-  display: flex;
+  display: grid;
+  grid-template-columns: 19% 67.5% 3% 10%;
+  align-items: center;
   gap: 8px;
+  width: 98%; 
 }
 
 .header{
   color: #075C93;
-  font-size: 36px;
-  margin-bottom: 24px;
+  font-size: 28px;
+  margin-bottom: 1px;
   margin-right: 8px;
   width: 99%;
-}
-
-.timeStemp{
-  direction: ltr;
-  align-self: self-end;
-  font-size: 14px;
-  color: rgba(51, 51, 51, 0.8);
-  padding: 6px 0px 10px 0px;
-  width: 99%;
-}
-
-.serchBarContainer{
-  display: flex;
-  align-items: center;
-}
-
-#searchBarInput {
-  width: 314px;
-  border-radius: 34px;
-  font-size: 16px;
-  padding: 8px 30px 8px 0px;
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08); 
-  border-style: none;
-  color: rgba(51, 51, 51, 0.5);
-
-}
-
-#searchBarInput:focus {
-  outline: none;
-  border: solid 1px #075C93;
-}
-
-.searchIcon {
-  position: absolute;
-  padding: 8px;
-  width: 16px;
-  height: 16px;
-  fill: #075C93;
-}
-
-#sortContainer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-#sortButton{
-  border: solid 1px #075C93;
-  height: 34px;
-  width: 146px;
-  border-radius: 25px;
-  background-color: white;
-  color: #075C93;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
-  font-size: 14px;
-  cursor: pointer;
-  text-align: right;
-  padding-right: 16px;
-} 
-
-#sortDownArrow {
-  padding-left: 16px;
-  position: absolute;
-  height: 24px;
-  width: 24px;
-  cursor: pointer;
-}
-
-.greyRoundButtonIcon {
-  position: absolute;
-  cursor: pointer;
-}
-
-.greyRoundContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.greyRoundButton {
-  height: 36px;
-  width: 36px;
-  border-radius: 18px;
-  border: none;
-  background: #E0E0E0;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.newTaskButton{
-  border-radius: 25px;
-  background: #075C93;
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
-  padding: 8px 16px;
-  color: #FFF;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-#statusContainer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.taskStatus{
-  border-radius: 8px;
-  border: none;
-  height: 32px;
-  width: 153px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: right;
-  padding-right: 8px;
-} 
-
-#statusDownArrow {
-  padding-left: 4px;
-  position: absolute;
-  height: 24px;
-  width: 24px;
-  cursor: pointer;
-  fill: white;
-}
-
-#pendingUpdate{
-  background-color: #929292;
-}
-
-#wait{
-  background-color: #2999ED;
-}
-
-#completed{
-  background-color: #2D8B00;
-}
-
-#canceled{
-  background-color: #F85359;
-}
-
-#inProgress{
-  background-color: #F0AD00;
 }
 
 #statusSelector{
@@ -184,7 +43,6 @@ body{
 .custom-checkbox{
   width: 16px;
   height: 16px;
-  
 }
 
 .custom-checkbox:checked{
@@ -192,12 +50,14 @@ body{
 }
 
 
-#lables{
+#titles{
+  padding-top: 8px;
   font-size: 14px;
   color: rgba(146, 146, 146, 1);
   display: grid;
   grid-template-columns: 35% 15.75% 15.75% 15.75% 15.75%;
   gap: 0.4%;
+  width: 100%;
 }
 
 #endDateLable{
@@ -215,10 +75,11 @@ body{
   align-items: center;
   background-color: white;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08); 
-  height: 53px;
+  height: 45px;
   border-radius: 12px;
   gap: 0.4%;
   width: 99.7%;
+  margin-bottom: 0.8%;
 }
 
 .taskInfo{
@@ -231,9 +92,17 @@ body{
 #taskRowArrowButton{
   height: 24px;
   width: 24px;
+  fill: #075C93;
+}
+
+.arrowButton-left{
   transform: rotate(90deg);
   transform-origin: center;
-  fill: #075C93;
+}
+
+.arrowButton-down{
+  transform: rotate(0deg);
+  transform-origin: center;
 }
  
 #numOfSubTasks{
@@ -242,10 +111,16 @@ body{
 }
 
 .inputTask{
-  height: 18px;
-  font-size: 16px;
+  height: 30px;
+  font-size: 14px;
   color: rgba(51, 51, 51, 1);
   border: none;
+  background-color: #075b9300;
+}
+
+.inputTask:focus{
+  outline: none;
+  border-bottom: 2px solid #075C93;
 }
 
 #taskLable{
@@ -253,5 +128,17 @@ body{
   box-sizing: content-box;
 }
 
+#dueDate{
+  text-align: right;
+}
+
+#dueDate::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.taskRow[about='true']{
+  background-color: rgba(182, 209, 237, 0.3);
+}
 
 

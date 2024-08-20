@@ -1,0 +1,47 @@
+#statusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 9px;
+}
+
+.status{
+  border-radius: 8px;
+  border: none;
+  height: 30px;
+  width: 135px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: right;
+  padding-right: 8px;
+} 
+
+#statusDownArrow {
+  padding-left: 4px;
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+  fill: white;
+}
+
+#pendingUpdate{
+  background-color: #929292;
+}
+
+#wait{
+  background-color: #2999ED;
+}
+
+#completed{
+  background-color: #2D8B00;
+}
+
+#canceled{
+  background-color: #F85359;
+}
+
+#inProgress{
+  background-color: #F0AD00;
+}

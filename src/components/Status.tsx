@@ -1,3 +1,4 @@
+import './components_style/Status.css'
 import ArrowButton from "./ArrowButton";
 
 const statuses = new Map<string, string>([
@@ -8,11 +9,11 @@ const statuses = new Map<string, string>([
   ['inProgress', 'בעבודה']
 ]);
 
-export default function TaskStatus({status, includeArrow}:{status: string, includeArrow: boolean}){
+export default function Status({status, includeArrow}:{status: string, includeArrow: boolean}){
   return(
     <div id="statusContainer">
-      <button className="taskStatus" id={status}>{statuses.get(status)}</button>
-      {includeArrow && <ArrowButton usedBy="statusDownArrow" />}
+      <button className="status" id={status}>{statuses.get(status)}</button>
+      {includeArrow ? <ArrowButton usedBy="statusDownArrow" direction='down'/> : null}
     </div>
   )
 }

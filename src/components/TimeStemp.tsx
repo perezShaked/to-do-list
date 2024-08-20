@@ -1,3 +1,5 @@
+import './components_style/TimeStemp.css'
+
 export default function TimeStemp () {
   const today = new Date();
   

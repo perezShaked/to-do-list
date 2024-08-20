@@ -1,0 +1,10 @@
+#newTaskButton{
+  height: 27px;
+  width: 120px;
+  border-radius: 25px;
+  background: #075C93;
+  color: #FFF;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}

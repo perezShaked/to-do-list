@@ -1,13 +1,13 @@
-import TaskStatus from "./TaskStatus"
+import Status from "./Status"
 
 export default function StatusSelector(){
   return(
     <div id="statusSelector">
-      <TaskStatus status={'completed'} includeArrow={false}/>
-      <TaskStatus status={'canceled'} includeArrow={false}/>
-      <TaskStatus status={'inProgress'} includeArrow={false}/>
-      <TaskStatus status={'wait'} includeArrow={false}/>
-      <TaskStatus status={'pendingUpdate'} includeArrow={false}/>
+      <Status status={'completed'} includeArrow={false}/>
+      <Status status={'canceled'} includeArrow={false}/>
+      <Status status={'inProgress'} includeArrow={false}/>
+      <Status status={'wait'} includeArrow={false}/>
+      <Status status={'pendingUpdate'} includeArrow={false}/>
     </div>
   )
 }
