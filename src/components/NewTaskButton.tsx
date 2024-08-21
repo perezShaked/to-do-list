@@ -1,10 +1,8 @@
 import './components_style/NewTaskButton.css'
 
-export default function NewTaskButton(){
+export const NewTaskButton = () => {
   return(
-    <>
-      <button id="newTaskButton" >+ משימה חדשה</button>
-    </>
+      <button className="newTaskButton" >+ משימה חדשה</button>
   )
 }
 

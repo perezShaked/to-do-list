@@ -1,6 +1,6 @@
-#titles{
+.titles{
   display: grid;
-  grid-template-columns: 35% 15.75% 15.75% 15.75% 15.75%;
+  grid-template-columns: 35% 17% 17% 17% 14%;
   gap: 0.4%;
   width: 100%;
   padding-top: 8px;
@@ -8,6 +8,6 @@
   color: rgba(146, 146, 146, 1);
 }
 
-#dueDateTitle{
+.dueDateTitle{
   grid-column-start: 2;
 }

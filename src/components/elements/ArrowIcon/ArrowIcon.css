@@ -1,7 +1,7 @@
-.arrowButton-left{
+.leftArrowIcon{
   transform: rotate(90deg);
 }
 
-.arrowButton-down{
+.downArrowIcon{
   transform: rotate(0deg);
 }

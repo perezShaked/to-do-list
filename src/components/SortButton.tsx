@@ -1,8 +1,8 @@
 import './components_style/SortButton.css'
-import {ArrowIcon} from './ArrowIcon'
+import {ArrowIcon} from './elements/ArrowIcon/ArrowIcon'
 
-export default function SortButton(){
+export const SortButton = () => {
   return(
-    <button id="sortButton">כל הסטטוסים<ArrowIcon usedBy='sortButtonArrow' direction='down'/></button>
+    <button className="sortButton">כל הסטטוסים<ArrowIcon className='sortButtonArrow' direction='down'/></button>
   )
 }

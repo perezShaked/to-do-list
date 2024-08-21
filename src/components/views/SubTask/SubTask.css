@@ -1,16 +1,16 @@
 .subTask{
   display: grid;
   justify-items: center;
-  grid-template-columns: 3% 82% 16%;
+  grid-template-columns: 3% 80.2% 18%;
   align-items: center;
   background-color: white;
-  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.08); 
+  box-shadow: 4px 4px 4px 0px #00000014; 
   height: 45px;
   gap: 0.4%;
-  width: 99.7%;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-#subTaskLable{
+.subTaskLabel{
   justify-self: flex-start;
-  width: 50%;
+  width: 500px;
 }

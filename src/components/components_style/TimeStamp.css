@@ -1,8 +1,8 @@
-.timeStemp{
+.timeStamp{
   direction: ltr;
   align-self: self-end;
   font-size: 14px;
-  color: rgba(51, 51, 51, 0.8);
+  color: #333333cc;
   padding: 6px 0px 10px 0px;
   width: 99%;
 }

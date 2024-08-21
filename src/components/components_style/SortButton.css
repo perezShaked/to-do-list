@@ -1,8 +1,4 @@
-#sortContainer {
-  display: flex;
-}
-
-#sortButton{
+.sortButton{
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +12,7 @@
   cursor: pointer;
 } 
 
-#sortButtonArrow {
+.sortButtonArrow {
   height: 24px;
   width: 24px;
   cursor: pointer;

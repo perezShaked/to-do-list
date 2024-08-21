@@ -1,21 +1,21 @@
 import './App.css';
-import  {TimeStemp}  from './components/TimeStemp';
-import  SearchBar  from './components/SearchBar';
-import  SortButton  from './components/SortButton';
-import DeleteTaskButton from './components/DeleteTaskButton';
-import NewTaskButton from './components/NewTaskButton';
-import Titles from './components/Titles';
-import { tasks } from "./tasksData"; 
-import TaskRow from './components/TaskRow';
+import  {TimeStamp}  from './components/TimeStamp';
+import  {SearchBar}  from './components/SearchBar';
+import  {SortButton}  from './components/SortButton';
+import {DeleteTaskButton} from './components/DeleteTaskButton';
+import {NewTaskButton} from './components/NewTaskButton';
+import {TasksContentTitles} from './components/TasksContentTitles';
+import {tasks} from "./components/types/tasksData"; 
+import {TaskRow} from './components/views/TaskRow/TaskRow';
 
-function App() {
+const App = () => {
   return (
     <>
-      <TimeStemp />
-      <div className='content'>
-        <h1 className='header'>משימות</h1>
-          <div className='content2'>
-            <div className='serchAndSort'>
+      <TimeStamp />
+      <div className='appContainer'>
+        <div className='header'>משימות</div>
+          <div className='manageContainer'>
+            <div className='searchAndSort'>
               <SearchBar />
               <SortButton />
             </div>
@@ -24,8 +24,10 @@ function App() {
               <NewTaskButton />
             </div>
           </div>
-          <Titles />
-          {tasks.map((t) => <TaskRow key={t.id} task={t}/>)}
+          <TasksContentTitles />
+          <div className='tasksContainer'>
+            {tasks.map((task) => <TaskRow key={task.id} task={task}/>)}
+          </div>
       </div>
     </>
   )

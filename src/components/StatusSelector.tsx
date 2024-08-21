@@ -1,13 +1,13 @@
-import Status from "./Status"
+import {TaskStatusBadge} from "./TaskStatusBadge"
 
-export default function StatusSelector(){
+export const TaskStatusBadgeSelector = () => {
   return(
-    <div id="statusSelector">
-      <Status status={'completed'} includeArrow={false}/>
-      <Status status={'canceled'} includeArrow={false}/>
-      <Status status={'inProgress'} includeArrow={false}/>
-      <Status status={'wait'} includeArrow={false}/>
-      <Status status={'pendingUpdate'} includeArrow={false}/>
+    <div className="TaskStatusBadgeSelector">
+      <TaskStatusBadge status={'completed'} includeArrow={false}/>
+      <TaskStatusBadge status={'canceled'} includeArrow={false}/>
+      <TaskStatusBadge status={'inProgress'} includeArrow={false}/>
+      <TaskStatusBadge status={'wait'} includeArrow={false}/>
+      <TaskStatusBadge status={'pendingUpdate'} includeArrow={false}/>
     </div>
   )
 }
