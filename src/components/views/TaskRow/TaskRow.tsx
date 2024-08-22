@@ -1,10 +1,10 @@
-import './components_style/TaskRow.css'
+import './TaskRow.css'
 import {CheckBox} from "../../elements/CheckBox/CheckBox";
 import {ArrowIcon} from '../../elements/ArrowIcon/ArrowIcon'
 import {TaskStatusBadge} from "../../TaskStatusBadge";
 import {Task} from '../../types/tasksData';
 import {useState} from "react";
-import {SubTask} from "./SubTask";
+import {SubTask} from "../SubTask/SubTask";
 
 type TaskRowProps = {task: Task}
 
