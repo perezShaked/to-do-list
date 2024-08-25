@@ -1,8 +1,5 @@
 
 .status{
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
   border-radius: 8px;
   border: none;
   height: 30px;
@@ -14,8 +11,3 @@
   padding-right: 8px;
 } 
 
-.statusDownArrow {
-  height: 24px;
-  width: 24px;
-  fill: white;
-}

@@ -2,7 +2,7 @@ import './ArrowIcon.css'
 
 type ArrowIconProps = {
   className: string,
-  direction: 'down' | 'left'
+  direction: 'down' | 'left' | 'up'
   onClick?: () => void
 }
 

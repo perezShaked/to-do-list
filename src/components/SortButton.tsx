@@ -1,5 +1,5 @@
 import './components_style/SortButton.css'
-import {ArrowIcon} from './elements/ArrowIcon/ArrowIcon'
+import {ArrowIcon} from './elements/ArrowIcon'
 
 export const SortButton = () => {
   return(

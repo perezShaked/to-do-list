@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import './components_style/TaskStatusBadge.css'
-import {ArrowIcon} from './elements/ArrowIcon/ArrowIcon'
 import { statusOptions } from './types/tasksData';
-import { TaskStatusBadgeSelector } from './TaskStatusBadgeSelector'
+
 
 const statuses = new Map<string, {hebrewName:string, color: string}>([
   ['wait',
@@ -18,30 +16,15 @@ const statuses = new Map<string, {hebrewName:string, color: string}>([
 ]);
 
 type StatusProps = {
-  status: statusOptions, 
-  includeArrow: boolean,
+  status: statusOptions
 }
 
-export const TaskStatusBadge = ({status, includeArrow}:StatusProps) => {
-  const [statusSelectorOpen, setStatusSelectorOpen] = useState(false);
-  
-  const openStatusSelector = () => {
-    if(includeArrow){
-      setStatusSelectorOpen(!statusSelectorOpen);
-    } 
-    else{
-      /* להעביר לקומפוננטה את האיידי של המשימה שהוא עלייה ואז לשנות את הסטטוס שלה במאגר מידע */
-
-    }
-  }
-
+export const TaskStatusBadge = ({status}:StatusProps) => {
   return(
-    <div className="statusContainer">
-      <button className={`status ${status}`} onClick={openStatusSelector} style={{backgroundColor: (statuses.get(status)?.color)}} >
+    <div>
+      <button className={`status`} style={{backgroundColor: (statuses.get(status)?.color)}} >
         {statuses.get(status)?.hebrewName}
-        {includeArrow && <ArrowIcon className="statusDownArrow" direction='down' />}
       </button>
-      {statusSelectorOpen && <TaskStatusBadgeSelector/>}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import './TaskRow.css'
 import {CheckBox} from "../../elements/CheckBox/CheckBox";
-import {ArrowIcon} from '../../elements/ArrowIcon/ArrowIcon'
-import {TaskStatusBadge} from "../../TaskStatusBadge";
+import {ArrowIcon} from '../../elements/ArrowIcon'
+import {TaskStatusChanger} from "../../TaskStatusChanger";
 import {Task} from '../../types/tasksData';
 import {useState} from "react";
 import {SubTask} from "../SubTask/SubTask";
@@ -39,7 +39,7 @@ export const TaskRow = ({task}:TaskRowProps) => {
         <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)} onChange={()=>{}} />
         <input className='inputTask' value={task.madeBy} onChange={()=>{}}/>
         <input className='inputTask' value={task.owner} onChange={()=>{}}/>
-        <TaskStatusBadge includeArrow={true} status={task.status}/>
+        <TaskStatusChanger status={task.status}/>
       </div>
       {(task.subTasks.length > 0) && showSubTasks && 
         <div>
