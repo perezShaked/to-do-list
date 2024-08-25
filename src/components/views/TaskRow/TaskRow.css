@@ -4,7 +4,6 @@
 
 .task{
   display: grid;
-  justify-items: center;
   grid-template-columns: 35% 17.2% 17.2% 17.2% 11%;
   align-items: center;
   background-color: white;
