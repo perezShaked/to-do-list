@@ -1,4 +1,4 @@
-import './components_style/DeleteTaskButton.css'
+import './DeleteTaskButton.css'
 
 export const DeleteTaskButton = () => {
   return(

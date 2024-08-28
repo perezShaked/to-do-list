@@ -45,59 +45,6 @@ body{
   margin-right: 8px;
 }
 
-.statusChanger{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.statusContainer{
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  position: relative;
-}
-
-.statusSelector{
-  position: absolute;
-  top: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.statusArrow {
-  position: absolute;
-  height: 24px;
-  width: 24px;
-  fill: white;
-  margin: 5px;
-}
-
-
-.TaskStatusBadgeSelector{
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  border: 1px solid #E0E0E0;
-  background-color: #E2EBF5;
-  box-shadow: 0px 10px 0px 0px #0000000d;
-  border-radius: 8px;
-  height: 190px;
-  padding: 8px;
-}
-
-.custom-checkbox{
-  width: 16px;
-  height: 16px;
-}
-
-.custom-checkbox:checked{
-  accent-color: #075C93;
-}
 
 
  

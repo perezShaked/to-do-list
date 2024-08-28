@@ -7,8 +7,9 @@
   font-size: 14px;
   border: none;
   cursor: pointer;
+  transition: all 0.5s;
 }
 
 .newTaskButton:hover{
-  background-color: #3a7196;
+  background-color: #064671;
 }

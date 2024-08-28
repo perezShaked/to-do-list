@@ -1,4 +1,4 @@
-import './components_style/SearchBar.css'
+import './SearchBar.css'
 
 export const SearchBar = () => {
   return(

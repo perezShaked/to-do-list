@@ -1,8 +1,13 @@
-import {TaskStatusBadge} from "./TaskStatusBadge"
+import {TaskStatusBadge} from "../TaskStatusBadge";
+import './TaskStatusSelector.css';
 
-export const TaskStatusBadgeSelector = () => {
+type StatusSelectorProps = {
+  className: string
+}
+
+export const TaskStatusSelector = ({className}: StatusSelectorProps) => {
   return(
-    <div className={`TaskStatusBadgeSelector`}>
+    <div className={className}>
       <TaskStatusBadge status={'completed'}/>
       <TaskStatusBadge status={'canceled'}/>
       <TaskStatusBadge status={'inProgress'}/>

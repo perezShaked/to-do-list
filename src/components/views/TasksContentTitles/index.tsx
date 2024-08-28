@@ -1,4 +1,4 @@
-import './components_style/TasksContentTitles.css'
+import './TasksContentTitles.css'
 
 export const TasksContentTitles = () => {
   return(

@@ -1,7 +1,10 @@
+import './CheckBox.css'
 
-
-export const CheckBox = () => {
+export const CheckBox = ({...rest}:React.ComponentProps<'input'>) => {
   return(
-    <input type="checkBox" className="custom-checkbox"/>
+    <div className="checkBoxContainer">
+      <input {...rest} type="checkBox" className="checkBox"/>
+      <label className='checkBox2'></label>
+    </div>
   )
 }

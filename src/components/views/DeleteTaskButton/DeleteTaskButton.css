@@ -10,10 +10,15 @@
   background: #E0E0E0;
   box-shadow: 0px 4px 4px 0px #00000040;
   cursor: pointer;
+  transition: all 0.5s;
 }
 
 .deleteButtonIcon {
   fill: white;
   height: 16px;
   width: 18px;
+}
+
+.deleteButton:hover{
+  background-color: #acacac;
 }

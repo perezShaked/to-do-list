@@ -22,8 +22,8 @@
 .taskInfo{
   display: flex;
   align-items: center;
-  gap: 1%;
-  padding-right: 2%;
+  gap: 4%;
+  padding-right: 4%;
 }
 
 .taskRowArrowButton{

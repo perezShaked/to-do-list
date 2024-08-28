@@ -1,5 +1,5 @@
-import './components_style/TaskStatusBadge.css'
-import { statusOptions } from './types/tasksData';
+import './TaskStatusBadge.css'
+import { statusOptions } from '../../types/tasksData';
 
 
 const statuses = new Map<string, {hebrewName:string, color: string}>([

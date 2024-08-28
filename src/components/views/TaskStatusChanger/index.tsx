@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import './components_style/TaskStatusBadge.css'
-import {ArrowIcon} from './elements/ArrowIcon'
-import { statusOptions } from './types/tasksData';
-import { TaskStatusBadgeSelector } from './TaskStatusBadgeSelector'
-import { TaskStatusBadge } from './TaskStatusBadge';
+import './TaskStatusChanger.css'
+import {ArrowIcon} from '../../elements/ArrowIcon'
+import { statusOptions } from '../../types/tasksData';
+import { TaskStatusSelector } from '../TaskStatusSelector'
+import { TaskStatusBadge } from '../TaskStatusBadge';
 
 
 type StatusProps = {
@@ -40,7 +40,7 @@ export const TaskStatusChanger = ({status}:StatusProps) => {
         <TaskStatusBadge  status={status}/>
         <ArrowIcon className="statusArrow" direction={isStatusSelectorOpen ? 'up' :'down'} />
       </div>
-      {isStatusSelectorOpen && <div className='statusSelector'><TaskStatusBadgeSelector /></div>}
+      {isStatusSelectorOpen && <div className='statusSelector'><TaskStatusSelector className='TaskStatusSelector'/></div>}
     </div>
   )
 }

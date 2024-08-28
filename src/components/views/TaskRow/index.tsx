@@ -1,16 +1,15 @@
 import './TaskRow.css'
 import {CheckBox} from "../../elements/CheckBox/CheckBox";
 import {ArrowIcon} from '../../elements/ArrowIcon'
-import {TaskStatusChanger} from "../../TaskStatusChanger";
+import {TaskStatusChanger} from "../TaskStatusChanger";
 import {Task} from '../../types/tasksData';
 import {useState} from "react";
-import {SubTask} from "../SubTask/SubTask";
+import {SubTask} from "./SubTask";
 
 type TaskRowProps = {task: Task}
 
 export const TaskRow = ({task}:TaskRowProps) => {
-  const haveSubtasks = task.subTasks.length > 0 
-  const [showSubTasks, setShowSubTask] = useState(haveSubtasks);
+  const [showSubTasks, setShowSubTask] = useState(false);
   
   const openSubTasks = () => {
     setShowSubTask(!showSubTasks);

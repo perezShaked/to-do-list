@@ -1,4 +1,4 @@
-import './components_style/NewTaskButton.css'
+import './NewTaskButton.css'
 
 export const NewTaskButton = () => {
   return(

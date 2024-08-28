@@ -1,4 +1,4 @@
-import './components_style/TimeStamp.css'
+import './TimeStamp.css'
 
 export const TimeStamp = () => {
   const today = new Date();

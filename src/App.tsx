@@ -1,12 +1,12 @@
 import './App.css';
-import  {TimeStamp}  from './components/TimeStamp';
-import  {SearchBar}  from './components/SearchBar';
-import  {SortButton}  from './components/SortButton';
-import {DeleteTaskButton} from './components/DeleteTaskButton';
-import {NewTaskButton} from './components/NewTaskButton';
-import {TasksContentTitles} from './components/TasksContentTitles';
+import  {TimeStamp}  from './components/views/TimeStamp';
+import  {SearchBar}  from './components/views/SearchBar';
+import  {SortButton}  from './components/views/SortButton';
+import {DeleteTaskButton} from './components/views/DeleteTaskButton';
+import {NewTaskButton} from './components/views/NewTaskButton';
+import {TasksContentTitles} from './components/views/TasksContentTitles';
 import {tasks} from "./components/types/tasksData"; 
-import {TaskRow} from './components/views/TaskRow/TaskRow';
+import {TaskRow} from './components/views/TaskRow';
 
 const App = () => {
   return (
