@@ -7,8 +7,12 @@ import {NewTaskButton} from './components/views/NewTaskButton';
 import {TasksContentTitles} from './components/views/TasksContentTitles';
 import {tasks} from "./components/types/tasksData"; 
 import {TaskRow} from './components/views/TaskRow';
+import { useState } from 'react';
 
 const App = () => {
+  const [nextId, setNextId] = useState(0);
+  
+
   return (
     <>
       <TimeStamp />
@@ -21,12 +25,12 @@ const App = () => {
             </div>
             <div className='addAndDelete'>
               <DeleteTaskButton/>
-              <NewTaskButton />
+              <NewTaskButton nextId={nextId} setNextId={setNextId}/>
             </div>
           </div>
           <TasksContentTitles />
           <div className='tasksContainer'>
-            {tasks.map((task) => <TaskRow key={task.id} task={task}/>)}
+            {tasks.map((task) => <TaskRow key={task.id} receivedTask={task}/>)}
           </div>
       </div>
     </>

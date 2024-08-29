@@ -37,7 +37,7 @@ export const TaskStatusChanger = ({status}:StatusProps) => {
   return(
     <div ref={statusSelectorRef} className='statusChanger'>
       <div className='statusContainer' onClick={openStatusSelector}>
-        <TaskStatusBadge  status={status}/>
+        <TaskStatusBadge status={status}/>
         <ArrowIcon className="statusArrow" direction={isStatusSelectorOpen ? 'up' :'down'} />
       </div>
       {isStatusSelectorOpen && <div className='statusSelector'><TaskStatusSelector className='TaskStatusSelector'/></div>}

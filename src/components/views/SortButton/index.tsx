@@ -9,8 +9,6 @@ export const SortButton = () => {
 
   const handleStatusSelectorShowState = (e: MouseEvent) => {
     if(statusSelectorRef.current && !statusSelectorRef.current.contains(e.target as Node)){
-      console.log("ddd");
-      
       setIsStatusSelectorOpen(false);
     }
   }

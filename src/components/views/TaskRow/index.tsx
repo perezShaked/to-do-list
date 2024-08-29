@@ -5,12 +5,14 @@ import {TaskStatusChanger} from "../TaskStatusChanger";
 import {Task} from '../../types/tasksData';
 import {useState} from "react";
 import {SubTask} from "./SubTask";
+import { taskContext } from '../../hooks/context';
 
-type TaskRowProps = {task: Task}
+type TaskRowProps = {receivedTask: Task}
 
-export const TaskRow = ({task}:TaskRowProps) => {
+export const TaskRow = ({receivedTask}:TaskRowProps) => {
   const [showSubTasks, setShowSubTask] = useState(false);
-  
+  const [task, setTask] = useState<Task>(receivedTask);
+
   const openSubTasks = () => {
     setShowSubTask(!showSubTasks);
   }
@@ -23,28 +25,36 @@ export const TaskRow = ({task}:TaskRowProps) => {
     return `${year}-${month}-${day}`;
   }
 
+  const handleInputChange = (field: string) => (element: React.FormEvent<HTMLInputElement>) => {
+    setTask({...task, [field]:(element.currentTarget.value)})
+    console.log(task);
+  }; 
+
+
   return(
     <div className="taskRow">
-      <div className={`task ${showSubTasks}ShowSubTasks`}>
-        <div className="taskInfo">
-          <CheckBox/>
-          {
-            (task.subTasks.length > 0) &&
-              <ArrowIcon className="taskRowArrowButton" direction={showSubTasks ? "down" : "left"} onClick={openSubTasks}/>       
-          }
-          <input className='inputTask taskLabel' value={task.title} onChange={()=>{}} />
-          {(task.subTasks.length > 0) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
+      <taskContext.Provider value={{task, setTask}}>
+        <div className={`task ${showSubTasks}ShowSubTasks`}>
+          <div className="taskInfo">
+            <CheckBox/>
+            {
+              (task.subTasks.length > 0) &&
+                <ArrowIcon className="taskRowArrowButton" direction={showSubTasks ? "down" : "left"} onClick={openSubTasks}/>       
+            }
+            <input className='inputTask taskLabel' value={task.title} onInput={handleInputChange('title')} />
+            {(task.subTasks.length > 0) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
+          </div>
+          <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)}/>
+          <input className='inputTask' value={task.madeBy} onInput={handleInputChange('madeBy')}/>
+          <input className='inputTask' value={task.owner} onInput={handleInputChange('owner')}/>
+          <TaskStatusChanger status={task.status}/>
         </div>
-        <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)} onChange={()=>{}} />
-        <input className='inputTask' value={task.madeBy} onChange={()=>{}}/>
-        <input className='inputTask' value={task.owner} onChange={()=>{}}/>
-        <TaskStatusChanger status={task.status}/>
-      </div>
-      {(task.subTasks.length > 0) && showSubTasks && 
-        <div>
-          {task.subTasks.map((subTask) => <SubTask key={subTask.id} status={subTask.status} title={subTask.title}/>)}  
-        </div>
-      }
+        {(task.subTasks.length > 0) && showSubTasks && 
+          <div>
+            {task.subTasks.map((subTask) => <SubTask key={subTask.id} status={subTask.status} title={subTask.title}/>)}  
+          </div>
+        }
+      </taskContext.Provider>
     </div>
     )
 }

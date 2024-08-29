@@ -1,5 +1,7 @@
 import './TaskStatusBadge.css'
 import { statusOptions } from '../../types/tasksData';
+import { taskContext } from '../../hooks/context';
+import { useContext } from 'react';
 
 
 const statuses = new Map<string, {hebrewName:string, color: string}>([
@@ -17,12 +19,17 @@ const statuses = new Map<string, {hebrewName:string, color: string}>([
 
 type StatusProps = {
   status: statusOptions
-}
+};
 
 export const TaskStatusBadge = ({status}:StatusProps) => {
+  const context = useContext(taskContext)
+
+  const handleStatusChange = () => {
+    context.setTask({...context?.task, status: status});
+  }
   return(
     <div>
-      <button className={`status`} style={{backgroundColor: (statuses.get(status)?.color)}} >
+      <button className={`status`} onClick={handleStatusChange} style={{backgroundColor: (statuses.get(status)?.color)}} >
         {statuses.get(status)?.hebrewName}
       </button>
     </div>
