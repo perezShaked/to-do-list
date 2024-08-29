@@ -1,0 +1,11 @@
+.leftArrowIcon{
+  transform: rotate(90deg);
+}
+
+.downArrowIcon{
+  transform: rotate(0deg);
+}
+
+.upArrowIcon{
+  transform: rotate(180deg);
+}

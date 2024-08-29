@@ -1,0 +1,39 @@
+.sortButton{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #075C93;
+  height: 27px;
+  width: 110px;
+  border-radius: 25px;
+  background-color: white;
+  color: #075C93;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.5s;
+} 
+
+.sortButton:hover{
+  background-color: #8cb9d6;
+}
+
+.sortButtonArrow {
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+  fill: #075C93;
+}
+
+.sortChanger{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.sortSelector{
+  position: absolute;
+  top: 100%;
+  display: flex;
+  justify-content: center;
+}

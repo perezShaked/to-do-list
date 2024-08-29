@@ -1,0 +1,15 @@
+.newTaskButton{
+  height: 27px;
+  width: 120px;
+  border-radius: 25px;
+  background-color: #075C93;
+  color: #FFF;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.newTaskButton:hover{
+  background-color: #064671;
+}
