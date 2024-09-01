@@ -1,19 +1,34 @@
 import './SubTask.css'
 import {CheckBox} from "../../../elements/CheckBox/CheckBox";
 import {TaskStatusChanger} from "../../TaskStatusChanger";
-import {statusOptions} from '../../../types/tasksData';
+import {statusOptions, SubTaskType} from '../../../types/tasksData';
+import { useState } from 'react';
 
 type SubTaskProps = {
-  title:string, 
-  status: statusOptions,
+  receivedSubTask: SubTaskType,
+  handleCheckedTask: (taskId: number, checkedStatus: boolean) => void,
 }
 
-export const SubTask = ({title, status}:SubTaskProps) => {  
+export const SubTaskRow = ({receivedSubTask, handleCheckedTask }:SubTaskProps) => {
+  const [subTask, setSubTask] = useState(receivedSubTask); 
+  const [isChecked, setIsChecked] = useState(false);
+
+
+  const handleSubTaskStatusChange = (status: statusOptions) => () => {
+    setSubTask({...subTask, status: status});
+  }
+
+  const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedChecked = element.target.checked;
+    setIsChecked(updatedChecked);
+    handleCheckedTask(subTask.id, updatedChecked);
+  }
+
   return(
     <div className="subTask">
-      <CheckBox/>
-      <input className='inputTask subTaskLabel' value={title} onChange={()=>{}} />
-      <TaskStatusChanger status={status}/>
+      <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
+      <input className='inputTask subTaskLabel' value={subTask.title} onChange={()=>{}} />
+      <TaskStatusChanger onClick={handleSubTaskStatusChange} status={subTask.status}/>
     </div>
   )
 }

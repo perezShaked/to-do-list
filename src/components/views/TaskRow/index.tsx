@@ -2,16 +2,19 @@ import './TaskRow.css'
 import {CheckBox} from "../../elements/CheckBox/CheckBox";
 import {ArrowIcon} from '../../elements/ArrowIcon'
 import {TaskStatusChanger} from "../TaskStatusChanger";
-import {Task} from '../../types/tasksData';
+import {statusOptions, Task} from '../../types/tasksData';
 import {useState} from "react";
-import {SubTask} from "./SubTask";
-import { taskContext } from '../../hooks/context';
+import {SubTaskRow} from "./SubTask";
 
-type TaskRowProps = {receivedTask: Task}
+type TaskRowProps = {
+  receivedTask: Task,
+  handleCheckedTask: (taskId: number, checkedStatus: boolean) => void,
+}
 
-export const TaskRow = ({receivedTask}:TaskRowProps) => {
+export const TaskRow = ({receivedTask, handleCheckedTask}:TaskRowProps) => {
   const [showSubTasks, setShowSubTask] = useState(false);
   const [task, setTask] = useState<Task>(receivedTask);
+  const [isChecked, setIsChecked] = useState(false);
 
   const openSubTasks = () => {
     setShowSubTask(!showSubTasks);
@@ -25,18 +28,25 @@ export const TaskRow = ({receivedTask}:TaskRowProps) => {
     return `${year}-${month}-${day}`;
   }
 
-  const handleInputChange = (field: string) => (element: React.FormEvent<HTMLInputElement>) => {
+  const handleInputChange = (field: keyof Task) => (element: React.FormEvent<HTMLInputElement>) => {
     setTask({...task, [field]:(element.currentTarget.value)})
-    console.log(task);
   }; 
 
+  const handleStatusChange = (status: statusOptions) => () => {
+    setTask({...task, status: status})
+  };
+
+  const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedChecked = element.target.checked;
+    setIsChecked(updatedChecked);
+    handleCheckedTask(task.id, updatedChecked);
+  }
 
   return(
     <div className="taskRow">
-      <taskContext.Provider value={{task, setTask}}>
         <div className={`task ${showSubTasks}ShowSubTasks`}>
           <div className="taskInfo">
-            <CheckBox/>
+            <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
             {
               (task.subTasks.length > 0) &&
                 <ArrowIcon className="taskRowArrowButton" direction={showSubTasks ? "down" : "left"} onClick={openSubTasks}/>       
@@ -44,17 +54,16 @@ export const TaskRow = ({receivedTask}:TaskRowProps) => {
             <input className='inputTask taskLabel' value={task.title} onInput={handleInputChange('title')} />
             {(task.subTasks.length > 0) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
           </div>
-          <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)}/>
+          <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)} onInput={() => {}}/>
           <input className='inputTask' value={task.madeBy} onInput={handleInputChange('madeBy')}/>
           <input className='inputTask' value={task.owner} onInput={handleInputChange('owner')}/>
-          <TaskStatusChanger status={task.status}/>
+          <TaskStatusChanger onClick={handleStatusChange} status={task.status}/>
         </div>
         {(task.subTasks.length > 0) && showSubTasks && 
           <div>
-            {task.subTasks.map((subTask) => <SubTask key={subTask.id} status={subTask.status} title={subTask.title}/>)}  
+            {task.subTasks.map((subTask) => <SubTaskRow key={subTask.id} receivedSubTask={subTask} handleCheckedTask={handleCheckedTask}/>)}  
           </div>
         }
-      </taskContext.Provider>
     </div>
     )
 }

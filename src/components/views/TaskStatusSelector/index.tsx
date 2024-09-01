@@ -1,18 +1,20 @@
+import { statusOptions } from "../../types/tasksData";
 import {TaskStatusBadge} from "../TaskStatusBadge";
 import './TaskStatusSelector.css';
 
 type StatusSelectorProps = {
-  className: string
+  className: string,
+  onClick: (status: statusOptions) => () => void
 }
 
-export const TaskStatusSelector = ({className}: StatusSelectorProps) => {
+export const TaskStatusSelector = ({className, onClick}: StatusSelectorProps) => {
   return(
     <div className={className}>
-      <TaskStatusBadge status={'completed'}/>
-      <TaskStatusBadge status={'canceled'}/>
-      <TaskStatusBadge status={'inProgress'}/>
-      <TaskStatusBadge status={'wait'}/>
-      <TaskStatusBadge status={'pendingUpdate'}/>
+      <TaskStatusBadge status={'completed'} onClick={onClick('completed')}/>
+      <TaskStatusBadge status={'canceled'} onClick={onClick('canceled')}/>
+      <TaskStatusBadge status={'inProgress'} onClick={onClick("inProgress")}/>
+      <TaskStatusBadge status={'wait'} onClick={onClick("wait")}/>
+      <TaskStatusBadge status={'pendingUpdate'} onClick={onClick("pendingUpdate")}/>
     </div>
   )
 }

@@ -10,9 +10,25 @@ import {TaskRow} from './components/views/TaskRow';
 import { useState } from 'react';
 
 const App = () => {
-  const [nextId, setNextId] = useState(0);
-  
+  const [nextId, setNextId] = useState(2);
+  const [checkedTasksId, setCheckedTasksId] = useState(new Set<number>());
 
+  const handleDeleteTask = () => () => {
+
+  }
+
+  const handleCheckedTask = (taskId: number, checkedStatus: boolean) => {
+    const updateCheckedTasksId = checkedTasksId;
+    if(checkedStatus){
+      updateCheckedTasksId.add(taskId);
+      setCheckedTasksId(updateCheckedTasksId);
+    }else{
+      updateCheckedTasksId.delete(taskId);
+      setCheckedTasksId(updateCheckedTasksId);
+    }
+    console.log(updateCheckedTasksId);
+  }
+  
   return (
     <>
       <TimeStamp />
@@ -24,13 +40,13 @@ const App = () => {
               <SortButton />
             </div>
             <div className='addAndDelete'>
-              <DeleteTaskButton/>
+              <DeleteTaskButton onClick={handleDeleteTask()}/>
               <NewTaskButton nextId={nextId} setNextId={setNextId}/>
             </div>
           </div>
           <TasksContentTitles />
           <div className='tasksContainer'>
-            {tasks.map((task) => <TaskRow key={task.id} receivedTask={task}/>)}
+            {tasks.map((task) => <TaskRow key={task.id} receivedTask={task} handleCheckedTask={handleCheckedTask}/>)}
           </div>
       </div>
     </>
