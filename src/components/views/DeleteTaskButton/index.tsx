@@ -6,7 +6,6 @@ export const DeleteTaskButton = ({...rest}:React.ComponentProps<'button'>) => {
   )
 }
 
-
 const DeleteTaskIcon = () => {
   return(
     <svg className='deleteButtonIcon' viewBox="2 1 16 18" xmlns="http://www.w3.org/2000/svg">

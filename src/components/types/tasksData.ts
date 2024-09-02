@@ -29,6 +29,12 @@ export type SubTaskType = {
   status: statusOptions;
 };
 
+export type checkedTasks = {
+  id: number;
+  type: "task" | "subTask";
+  parentId: number;
+};
+
 export const tasks: Task[] = [
   {
     id: 0,
@@ -41,6 +47,35 @@ export const tasks: Task[] = [
   },
   {
     id: 1,
+    title: "חשוב ממש ממש",
+    dueDate: new Date(),
+    madeBy: "שקד",
+    owner: "שקד",
+    status: "canceled",
+    subTasks: [
+      {
+        id: 0,
+        title: "כותרת ופירוט וכל מיני דברים",
+        status: "wait",
+      },
+      {
+        id: 1,
+        title: "בקבוק",
+        status: "inProgress",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "כל מיני דברים",
+    dueDate: new Date(),
+    madeBy: "שקד",
+    owner: "שקד",
+    status: "pendingUpdate",
+    subTasks: [],
+  },
+  {
+    id: 3,
     title: "חשוב ממש ממש",
     dueDate: new Date(),
     madeBy: "שקד",

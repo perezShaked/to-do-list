@@ -2,19 +2,26 @@ import './TaskRow.css'
 import {CheckBox} from "../../elements/CheckBox/CheckBox";
 import {ArrowIcon} from '../../elements/ArrowIcon'
 import {TaskStatusChanger} from "../TaskStatusChanger";
-import {statusOptions, Task} from '../../types/tasksData';
+import {checkedTasks, statusOptions, Task} from '../../types/tasksData';
 import {useState} from "react";
 import {SubTaskRow} from "./SubTask";
 
 type TaskRowProps = {
   receivedTask: Task,
-  handleCheckedTask: (taskId: number, checkedStatus: boolean) => void,
+  handleCheckedTask: (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => void,
+  checkedTasks: checkedTasks[],
 }
 
-export const TaskRow = ({receivedTask, handleCheckedTask}:TaskRowProps) => {
+export const TaskRow = ({receivedTask, handleCheckedTask, checkedTasks}:TaskRowProps) => {
   const [showSubTasks, setShowSubTask] = useState(false);
   const [task, setTask] = useState<Task>(receivedTask);
-  const [isChecked, setIsChecked] = useState(false);
+
+  const isTaskChecked = (taskId: number, parentId: number) => {
+    const result = checkedTasks.some((t) => t.id == taskId && t.parentId == parentId);
+    return result;
+  }
+
+  const [isChecked, setIsChecked] = useState(isTaskChecked(task.id, -1));
 
   const openSubTasks = () => {
     setShowSubTask(!showSubTasks);
@@ -39,7 +46,7 @@ export const TaskRow = ({receivedTask, handleCheckedTask}:TaskRowProps) => {
   const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = element.target.checked;
     setIsChecked(updatedChecked);
-    handleCheckedTask(task.id, updatedChecked);
+    handleCheckedTask(task.id, updatedChecked, 'task', -1);
   }
 
   return(
@@ -61,7 +68,7 @@ export const TaskRow = ({receivedTask, handleCheckedTask}:TaskRowProps) => {
         </div>
         {(task.subTasks.length > 0) && showSubTasks && 
           <div>
-            {task.subTasks.map((subTask) => <SubTaskRow key={subTask.id} receivedSubTask={subTask} handleCheckedTask={handleCheckedTask}/>)}  
+            {task.subTasks.map((subTask) => <SubTaskRow key={subTask.id} isSTChecked={isTaskChecked(subTask.id, task.id)} receivedSubTask={subTask} parentId={task.id} handleCheckedTask={handleCheckedTask}/>)}  
           </div>
         }
     </div>

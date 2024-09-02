@@ -6,13 +6,14 @@ import { useState } from 'react';
 
 type SubTaskProps = {
   receivedSubTask: SubTaskType,
-  handleCheckedTask: (taskId: number, checkedStatus: boolean) => void,
+  handleCheckedTask: (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => void,
+  parentId: number,
+  isSTChecked: boolean
 }
 
-export const SubTaskRow = ({receivedSubTask, handleCheckedTask }:SubTaskProps) => {
+export const SubTaskRow = ({receivedSubTask, handleCheckedTask, parentId, isSTChecked}:SubTaskProps) => {
   const [subTask, setSubTask] = useState(receivedSubTask); 
-  const [isChecked, setIsChecked] = useState(false);
-
+  const [isChecked, setIsChecked] = useState(isSTChecked);
 
   const handleSubTaskStatusChange = (status: statusOptions) => () => {
     setSubTask({...subTask, status: status});
@@ -21,7 +22,7 @@ export const SubTaskRow = ({receivedSubTask, handleCheckedTask }:SubTaskProps) =
   const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = element.target.checked;
     setIsChecked(updatedChecked);
-    handleCheckedTask(subTask.id, updatedChecked);
+    handleCheckedTask(subTask.id, updatedChecked, 'subTask', parentId);
   }
 
   return(

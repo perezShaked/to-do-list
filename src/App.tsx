@@ -5,28 +5,26 @@ import  {SortButton}  from './components/views/SortButton';
 import {DeleteTaskButton} from './components/views/DeleteTaskButton';
 import {NewTaskButton} from './components/views/NewTaskButton';
 import {TasksContentTitles} from './components/views/TasksContentTitles';
-import {tasks} from "./components/types/tasksData"; 
+import {tasks, checkedTasks} from "./components/types/tasksData"; 
 import {TaskRow} from './components/views/TaskRow';
 import { useState } from 'react';
 
+
+
 const App = () => {
   const [nextId, setNextId] = useState(2);
-  const [checkedTasksId, setCheckedTasksId] = useState(new Set<number>());
+  const [checkedTasks, setCheckedTasks] = useState<checkedTasks[]>([]);
 
   const handleDeleteTask = () => () => {
 
   }
 
-  const handleCheckedTask = (taskId: number, checkedStatus: boolean) => {
-    const updateCheckedTasksId = checkedTasksId;
+  const handleCheckedTask = (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => {
     if(checkedStatus){
-      updateCheckedTasksId.add(taskId);
-      setCheckedTasksId(updateCheckedTasksId);
+      setCheckedTasks([...checkedTasks, {id: taskId, type: type, parentId: parentId}]);
     }else{
-      updateCheckedTasksId.delete(taskId);
-      setCheckedTasksId(updateCheckedTasksId);
+      setCheckedTasks([...checkedTasks].filter(task => {taskId !== task.id}));
     }
-    console.log(updateCheckedTasksId);
   }
   
   return (
@@ -46,7 +44,7 @@ const App = () => {
           </div>
           <TasksContentTitles />
           <div className='tasksContainer'>
-            {tasks.map((task) => <TaskRow key={task.id} receivedTask={task} handleCheckedTask={handleCheckedTask}/>)}
+            {tasks.map((task) => <TaskRow key={task.id} checkedTasks={checkedTasks} receivedTask={task} handleCheckedTask={handleCheckedTask}/>)}
           </div>
       </div>
     </>
