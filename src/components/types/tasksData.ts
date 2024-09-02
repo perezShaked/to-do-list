@@ -35,7 +35,7 @@ export type checkedTasks = {
   parentId: number;
 };
 
-export const tasks: Task[] = [
+export let tasksData: Task[] = [
   {
     id: 0,
     title: "כל מיני דברים",

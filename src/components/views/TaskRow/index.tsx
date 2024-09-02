@@ -2,30 +2,25 @@ import './TaskRow.css'
 import {CheckBox} from "../../elements/CheckBox/CheckBox";
 import {ArrowIcon} from '../../elements/ArrowIcon'
 import {TaskStatusChanger} from "../TaskStatusChanger";
-import {checkedTasks, statusOptions, Task} from '../../types/tasksData';
+import {checkedTasks, statusOptions, Task, SubTaskType} from '../../types/tasksData';
 import {useState} from "react";
 import {SubTaskRow} from "./SubTask";
 
 type TaskRowProps = {
-  receivedTask: Task,
+  task: Task,
   handleCheckedTask: (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => void,
   checkedTasks: checkedTasks[],
+  updateTaskData: (updateTask: Task, taskId: number) => void,
 }
 
-export const TaskRow = ({receivedTask, handleCheckedTask, checkedTasks}:TaskRowProps) => {
+export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData}:TaskRowProps) => {
   const [showSubTasks, setShowSubTask] = useState(false);
-  const [task, setTask] = useState<Task>(receivedTask);
 
   const isTaskChecked = (taskId: number, parentId: number) => {
     const result = checkedTasks.some((t) => t.id == taskId && t.parentId == parentId);
     return result;
   }
-
   const [isChecked, setIsChecked] = useState(isTaskChecked(task.id, -1));
-
-  const openSubTasks = () => {
-    setShowSubTask(!showSubTasks);
-  }
 
   const convertDateToString = (date:Date) => {
     const year = date.getFullYear();
@@ -36,11 +31,13 @@ export const TaskRow = ({receivedTask, handleCheckedTask, checkedTasks}:TaskRowP
   }
 
   const handleInputChange = (field: keyof Task) => (element: React.FormEvent<HTMLInputElement>) => {
-    setTask({...task, [field]:(element.currentTarget.value)})
+    const updateTask: Task = {...task, [field]:(element.currentTarget.value)};
+    updateTaskData(updateTask, task.id);
   }; 
 
   const handleStatusChange = (status: statusOptions) => () => {
-    setTask({...task, status: status})
+    const updateTask = {...task, status: status};
+    updateTaskData(updateTask, task.id);
   };
 
   const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +46,10 @@ export const TaskRow = ({receivedTask, handleCheckedTask, checkedTasks}:TaskRowP
     handleCheckedTask(task.id, updatedChecked, 'task', -1);
   }
 
+  const updateSubTaskData = (updateSubTask: SubTaskType, subTaskId: number) => {
+    updateTaskData({...task, subTasks: task.subTasks.map((subTask) => (subTask.id === subTaskId ? updateSubTask : subTask)) }, task.id);
+  };
+
   return(
     <div className="taskRow">
         <div className={`task ${showSubTasks}ShowSubTasks`}>
@@ -56,7 +57,7 @@ export const TaskRow = ({receivedTask, handleCheckedTask, checkedTasks}:TaskRowP
             <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
             {
               (task.subTasks.length > 0) &&
-                <ArrowIcon className="taskRowArrowButton" direction={showSubTasks ? "down" : "left"} onClick={openSubTasks}/>       
+                <ArrowIcon className="taskRowArrowButton" direction={showSubTasks ? "down" : "left"} onClick={() => {setShowSubTask(!showSubTasks)}}/>       
             }
             <input className='inputTask taskLabel' value={task.title} onInput={handleInputChange('title')} />
             {(task.subTasks.length > 0) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
@@ -68,7 +69,13 @@ export const TaskRow = ({receivedTask, handleCheckedTask, checkedTasks}:TaskRowP
         </div>
         {(task.subTasks.length > 0) && showSubTasks && 
           <div>
-            {task.subTasks.map((subTask) => <SubTaskRow key={subTask.id} isSTChecked={isTaskChecked(subTask.id, task.id)} receivedSubTask={subTask} parentId={task.id} handleCheckedTask={handleCheckedTask}/>)}  
+            {task.subTasks.map((subTask) => <SubTaskRow 
+                key={subTask.id} 
+                updateSubTaskData={updateSubTaskData} 
+                isSTChecked={isTaskChecked(subTask.id, task.id)} 
+                subTask={subTask} parentId={task.id} 
+                handleCheckedTask={handleCheckedTask}/>)
+            }  
           </div>
         }
     </div>

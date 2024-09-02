@@ -1,30 +1,9 @@
 import './NewTaskButton.css';
-import {tasks} from '../../types/tasksData';
 
-type newTaskProps = {
-  nextId: number,
-  setNextId: (value: number) => void
-}
 
-export const NewTaskButton = ({nextId, setNextId}: newTaskProps) => {
-  
-  const addNewTask = () => {
-    tasks.push(
-      {
-        id: nextId,
-        title: '',
-        dueDate: new Date(),
-        madeBy: '',
-        owner: '',
-        status: "pendingUpdate",
-        subTasks: [],
-      },
-    )
-    setNextId(nextId + 1);
-  }
-
+export const NewTaskButton = ({onClick, ...rest}:React.ComponentProps<'button'>) => {  
   return(
-      <button className="newTaskButton" onClick={addNewTask}>+ משימה חדשה</button>
+      <button className="newTaskButton" {...rest} onClick={onClick}>+ משימה חדשה</button>
   )
 }
 
