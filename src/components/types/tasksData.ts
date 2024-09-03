@@ -3,7 +3,8 @@ export type statusOptions =
   | "pendingUpdate"
   | "completed"
   | "canceled"
-  | "inProgress";
+  | "inProgress"
+  | "allStatuses";
 
 export const statuses = new Map<string, { hebrewName: string; color: string }>([
   ["wait", { hebrewName: "מחכה", color: "#2999ED" }],
@@ -11,6 +12,7 @@ export const statuses = new Map<string, { hebrewName: string; color: string }>([
   ["completed", { hebrewName: "בוצע", color: "#2D8B00" }],
   ["canceled", { hebrewName: "בוטל", color: "#F85359" }],
   ["inProgress", { hebrewName: "בעבודה", color: "#F0AD00" }],
+  ["allStatuses", { hebrewName: "כל הסטטוסים", color: "#FFFFFF" }],
 ]);
 
 export type Task = {

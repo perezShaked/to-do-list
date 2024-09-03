@@ -9,8 +9,6 @@ import {tasksData, checkedTasks, Task} from "./components/types/tasksData";
 import {TaskRow} from './components/views/TaskRow';
 import { useState } from 'react';
 
-
-
 const App = () => {
   const [nextId, setNextId] = useState(5);
   const [checkedTasks, setCheckedTasks] = useState<checkedTasks[]>([]);
@@ -115,7 +113,13 @@ const App = () => {
           </div>
           <TasksContentTitles />
           <div className='tasksContainer'>
-            {tasks.map((task) => <TaskRow key={task.id} checkedTasks={checkedTasks} updateTaskData={updateTaskData} task={task} handleCheckedTask={handleCheckedTask}/>)}
+            {tasks.map((task) => <TaskRow 
+                      key={task.id} 
+                      checkedTasks={checkedTasks} 
+                      updateTaskData={updateTaskData} 
+                      task={task} 
+                      handleCheckedTask={handleCheckedTask}
+                      isSubTasksOpen={false}/>)}
           </div>
       </div>
     </>
