@@ -5,7 +5,7 @@ import  {SortButton}  from './components/views/SortButton';
 import {DeleteTaskButton} from './components/views/DeleteTaskButton';
 import {NewTaskButton} from './components/views/NewTaskButton';
 import {TasksContentTitles} from './components/views/TasksContentTitles';
-import {tasksData, checkedTasks, Task, SubTaskType} from "./components/types/tasksData"; 
+import {tasksData, checkedTasks, Task} from "./components/types/tasksData"; 
 import {TaskRow} from './components/views/TaskRow';
 import { useState } from 'react';
 
@@ -15,6 +15,7 @@ const App = () => {
   const [nextId, setNextId] = useState(5);
   const [checkedTasks, setCheckedTasks] = useState<checkedTasks[]>([]);
   const [tasks, setTasks] = useState<Task[]>(tasksData)
+  const [isSubTaskChecked2, setIsSubTaskChecked] = useState(false);
 
   const updateTaskData = (updateTask: Task, taskId: number) => {
       setTasks(() => tasks.map((task) => (task.id === taskId ? updateTask : task)));
@@ -38,14 +39,28 @@ const App = () => {
     })
     setTasks(updateTasks)
     setCheckedTasks([]);
+    setIsSubTaskChecked(false);
   }
 
   const handleCheckedTask = (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => {
+    let updateCheckedTasks = [...checkedTasks];
     if(checkedStatus){
-      setCheckedTasks([...checkedTasks, {id: taskId, type: type, parentId: parentId}]);
+      updateCheckedTasks = ([...checkedTasks, {id: taskId, type: type, parentId: parentId}]);
     }else{
-      setCheckedTasks([...checkedTasks].filter(task => {taskId !== task.id}));
+      updateCheckedTasks = ([...checkedTasks].filter(task => {taskId !== task.id}));
     }
+    setCheckedTasks(updateCheckedTasks);
+    isSubTaskChecked(updateCheckedTasks);
+  }
+
+  const isSubTaskChecked = (updateCheckedTasks: checkedTasks[]) => {  
+    let updateIsSubTaskChecked = false; 
+    updateCheckedTasks.forEach((task) => {
+      if(task.type == 'subTask'){
+        updateIsSubTaskChecked = (true);
+      }
+    })
+    setIsSubTaskChecked(updateIsSubTaskChecked);
   }
 
   const handleAddNewTask = () => {
@@ -75,7 +90,7 @@ const App = () => {
             </div>
             <div className='addAndDelete'>
               <DeleteTaskButton onClick={handleDeleteTask}/>
-              <NewTaskButton onClick={handleAddNewTask} />
+              <NewTaskButton onClick={handleAddNewTask} disabled={isSubTaskChecked2}/>
             </div>
           </div>
           <TasksContentTitles />

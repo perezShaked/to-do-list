@@ -1,9 +1,9 @@
 import './NewTaskButton.css';
 
 
-export const NewTaskButton = ({onClick, ...rest}:React.ComponentProps<'button'>) => {  
+export const NewTaskButton = ({onClick, disabled, ...rest}:React.ComponentProps<'button'>) => {  
   return(
-      <button className="newTaskButton" {...rest} onClick={onClick}>+ משימה חדשה</button>
+      <button className="newTaskButton" disabled={disabled} {...rest} onClick={onClick}>+ משימה חדשה</button>
   )
 }
 

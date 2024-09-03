@@ -3,13 +3,21 @@
   width: 120px;
   border-radius: 25px;
   background-color: #075C93;
-  color: #FFF;
+  color: white;
   font-size: 14px;
   border: none;
   cursor: pointer;
   transition: all 0.5s;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
 }
 
 .newTaskButton:hover{
   background-color: #064671;
+}
+
+.newTaskButton:disabled{
+  background: #c4c3c3;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
 }
