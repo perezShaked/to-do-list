@@ -45,9 +45,9 @@ const App = () => {
   const handleCheckedTask = (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => {
     let updateCheckedTasks = [...checkedTasks];
     if(checkedStatus){
-      updateCheckedTasks = ([...checkedTasks, {id: taskId, type: type, parentId: parentId}]);
+      updateCheckedTasks = [...updateCheckedTasks, {id: taskId, type: type, parentId: parentId}];
     }else{
-      updateCheckedTasks = ([...checkedTasks].filter(task => {taskId !== task.id}));
+      updateCheckedTasks = [...updateCheckedTasks].filter((task) => taskId !== task.id);
     }
     setCheckedTasks(updateCheckedTasks);
     isSubTaskChecked(updateCheckedTasks);
@@ -64,18 +64,38 @@ const App = () => {
   }
 
   const handleAddNewTask = () => {
-    tasks.push(
-      {
-        id: nextId,
-        title: '',
-        dueDate: new Date(),
-        madeBy: '',
-        owner: '',
-        status: "pendingUpdate",
-        subTasks: [],
-      },
-    )
-    setNextId(nextId + 1);
+    let updateTasks = [...tasks];
+    if(checkedTasks.length != 0){
+      checkedTasks.forEach((checkedTask) => {
+        updateTasks.forEach((task) => {
+          if(checkedTask.id == task.id){
+            let nextSubTaskId = 0;
+            if(task.subTasks.length > 0){
+              nextSubTaskId = task.subTasks[task.subTasks.length-1].id + 1;
+            }
+            task.subTasks.push({
+              id: nextSubTaskId,
+              title: '',
+              status: 'pendingUpdate'
+            })
+          }
+        })
+      })
+    }else{
+      updateTasks.push(
+        {
+          id: nextId,
+          title: '',
+          dueDate: new Date(),
+          madeBy: '',
+          owner: '',
+          status: "pendingUpdate",
+          subTasks: [],
+        },
+      )
+      setNextId(nextId + 1);
+    }
+    setTasks(updateTasks);
   }
 
   return (
