@@ -20,8 +20,24 @@ const App = () => {
       setTasks(() => tasks.map((task) => (task.id === taskId ? updateTask : task)));
   };
 
-  const handleDeleteTask = () => () => {
-    
+  const handleDeleteTask = () => {
+    let updateTasks = [...tasks]
+    checkedTasks.map((checkedTask) => {
+      if(checkedTask.type == 'subTask'){
+        updateTasks = updateTasks.map(task => {
+          if(task.id == checkedTask.parentId){
+            return{
+              ...task,
+              subTasks: task.subTasks.filter(task => task.id != checkedTask.id)
+            };
+          }return task;
+        })
+      }else{
+        updateTasks = (updateTasks.filter(task => task.id != checkedTask.id))
+      }
+    })
+    setTasks(updateTasks)
+    setCheckedTasks([]);
   }
 
   const handleCheckedTask = (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => {
@@ -58,7 +74,7 @@ const App = () => {
               <SortButton />
             </div>
             <div className='addAndDelete'>
-              <DeleteTaskButton onClick={handleDeleteTask()}/>
+              <DeleteTaskButton onClick={handleDeleteTask}/>
               <NewTaskButton onClick={handleAddNewTask} />
             </div>
           </div>

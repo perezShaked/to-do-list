@@ -15,6 +15,7 @@ type TaskRowProps = {
 
 export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData}:TaskRowProps) => {
   const [showSubTasks, setShowSubTask] = useState(false);
+  const haveSubTasks = task.subTasks.length > 0;
 
   const isTaskChecked = (taskId: number, parentId: number) => {
     const result = checkedTasks.some((t) => t.id == taskId && t.parentId == parentId);
@@ -52,15 +53,15 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData}:
 
   return(
     <div className="taskRow">
-        <div className={`task ${showSubTasks}ShowSubTasks`}>
+        <div className={`task ${showSubTasks && haveSubTasks}ShowSubTasks`}>
           <div className="taskInfo">
             <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
             {
-              (task.subTasks.length > 0) &&
+              (haveSubTasks) &&
                 <ArrowIcon className="taskRowArrowButton" direction={showSubTasks ? "down" : "left"} onClick={() => {setShowSubTask(!showSubTasks)}}/>       
             }
             <input className='inputTask taskLabel' value={task.title} onInput={handleInputChange('title')} />
-            {(task.subTasks.length > 0) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
+            {(haveSubTasks) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
           </div>
           <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)} onInput={() => {}}/>
           <input className='inputTask' value={task.madeBy} onInput={handleInputChange('madeBy')}/>
