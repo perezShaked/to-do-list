@@ -51,8 +51,6 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
   const updateSubTaskData = (updateSubTask: SubTaskType, subTaskId: number) => {
     updateTaskData({...task, subTasks: task.subTasks.map((subTask) => (subTask.id === subTaskId ? updateSubTask : subTask)) }, task.id);
   };
-
-  console.log(task);
   
   return(
     <div className="taskRow">

@@ -1,10 +1,15 @@
 import './SearchBar.css'
 
-export const SearchBar = () => {
+type searchBarProps = {
+  value: string,
+  onChange: (value: string) => void
+}
+
+export const SearchBar = ({value, onChange}: searchBarProps) => {
   return(
       <div className='searchBarContainer'>
         <SearchIcon />
-        <input type='text' className='searchBarInput' value='חיפוש' onChange={() => {}}/>
+        <input type='text' className='searchBarInput' value={value} placeholder='חיפוש' onChange={(element) => onChange(element.target.value)}/>
       </div>
   )
 }

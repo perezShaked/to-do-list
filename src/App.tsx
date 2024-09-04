@@ -15,6 +15,7 @@ const App = () => {
   const [tasks, setTasks] = useState<Task[]>(tasksData)
   const [isSubTaskChecked2, setIsSubTaskChecked] = useState(false);
   const [sortStatus, setSortStatus] = useState<statusOptions>('allStatuses')
+  const [searchValue, setSearchValue] = useState<string>('')
 
 
   const updateTaskData = (updateTask: Task, taskId: number) => {
@@ -102,19 +103,23 @@ const App = () => {
     setSortStatus(status);
   }
 
-  const sortByStatus = (tasks: Task[]):Task[] => {
-    if(sortStatus === 'allStatuses')
+  const sortByStatusAndSearch = (tasks: Task[]):Task[] => {
+    if(sortStatus === 'allStatuses' && searchValue === '')
       return tasks;
 
     let updateTasks = tasks.map((task) => {
       return {
         ...task,
-        subTasks: task.subTasks.filter(subTask => subTask.status === sortStatus),
+        subTasks: task.subTasks.filter(subTask => ((subTask.status === sortStatus || sortStatus === 'allStatuses') && subTask.title.includes(searchValue))),
       }})
 
     return updateTasks.filter((task) => {
-      return (task.status === sortStatus || task.subTasks.length > 0)
+      return (((task.status === sortStatus || sortStatus === 'allStatuses')) && task.title.includes(searchValue) || task.subTasks.length > 0)
     })
+  }
+
+  const handleSearchValueChange = (value: string) => {
+    setSearchValue(value);
   }
 
   return (
@@ -124,7 +129,7 @@ const App = () => {
         <div className='header'>משימות</div>
           <div className='manageContainer'>
             <div className='searchAndSort'>
-              <SearchBar />
+              <SearchBar value={searchValue} onChange={handleSearchValueChange}/>
               <SortButton onClick={handleSortStatusChange} sortStatus={sortStatus} />
             </div>
             <div className='addAndDelete'>
@@ -134,7 +139,7 @@ const App = () => {
           </div>
           <TasksContentTitles />
           <div className='tasksContainer'>
-            {sortByStatus(tasks).map((task) => <TaskRow 
+            {sortByStatusAndSearch(tasks).map((task) => <TaskRow 
                       key={task.id} 
                       checkedTasks={checkedTasks} 
                       updateTaskData={updateTaskData} 
