@@ -7,7 +7,7 @@ import {NewTaskButton} from './components/views/NewTaskButton';
 import {TasksContentTitles} from './components/views/TasksContentTitles';
 import {tasksData, checkedTasks, Task, statusOptions} from "./components/types/tasksData"; 
 import {TaskRow} from './components/views/TaskRow';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 const App = () => {
   const [nextId, setNextId] = useState(5);
@@ -16,6 +16,7 @@ const App = () => {
   const [isSubTaskChecked2, setIsSubTaskChecked] = useState(false);
   const [sortStatus, setSortStatus] = useState<statusOptions>('allStatuses')
   const [searchValue, setSearchValue] = useState<string>('')
+  const [isFiltered, setIsFiltered] = useState(false);
 
 
   const updateTaskData = (updateTask: Task, taskId: number) => {
@@ -103,20 +104,30 @@ const App = () => {
     setSortStatus(status);
   }
 
-  const sortByStatusAndSearch = (tasks: Task[]):Task[] => {
-    if(sortStatus === 'allStatuses' && searchValue === '')
-      return tasks;
+  const sortedTasks = useMemo(
+    ():Task[] => {
+      if(sortStatus === 'allStatuses' && searchValue === '')
+        return tasks;
+  
+      const updateTasks = tasks.map((task) => {
+        return {
+          ...task,
+          subTasks: task.subTasks.filter(subTask => ((subTask.status === sortStatus || sortStatus === 'allStatuses') && subTask.title.includes(searchValue))),
+        }})
+  
+      return updateTasks.filter((task) => {
+        return (((task.status === sortStatus || sortStatus === 'allStatuses')) && task.title.includes(searchValue) || task.subTasks.length > 0)
+      })
+    },[sortStatus, searchValue])
+ 
 
-    let updateTasks = tasks.map((task) => {
-      return {
-        ...task,
-        subTasks: task.subTasks.filter(subTask => ((subTask.status === sortStatus || sortStatus === 'allStatuses') && subTask.title.includes(searchValue))),
-      }})
-
-    return updateTasks.filter((task) => {
-      return (((task.status === sortStatus || sortStatus === 'allStatuses')) && task.title.includes(searchValue) || task.subTasks.length > 0)
-    })
-  }
+  useEffect(() => {  
+    if (sortStatus !== 'allStatuses' || searchValue !== '') {
+      setIsFiltered(true);
+    } else {
+      setIsFiltered(false);
+    }
+  }, [sortStatus, searchValue]);
 
   const handleSearchValueChange = (value: string) => {
     setSearchValue(value);
@@ -139,13 +150,13 @@ const App = () => {
           </div>
           <TasksContentTitles />
           <div className='tasksContainer'>
-            {sortByStatusAndSearch(tasks).map((task) => <TaskRow 
+            {sortedTasks.map((task) => <TaskRow 
                       key={task.id} 
                       checkedTasks={checkedTasks} 
                       updateTaskData={updateTaskData} 
                       task={task} 
                       handleCheckedTask={handleCheckedTask}
-                      isSubTasksOpen={false}/>)}
+                      isSubTasksOpen={isFiltered}/>)}
           </div>
       </div>
     </>

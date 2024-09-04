@@ -39,8 +39,7 @@
   border: none;
   background-color: #075b9300;
   border-bottom: 2px solid #075b9300;
-  max-width: 38ch;
-  min-width: 10ch;
+  width: 70%;
 }
 
 .inputTask:focus{

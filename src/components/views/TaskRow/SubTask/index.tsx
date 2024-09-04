@@ -20,6 +20,11 @@ export const SubTaskRow = ({subTask, handleCheckedTask, parentId, isSTChecked, u
     updateSubTaskData(updateSubTask, subTask.id);
     }
 
+  const handleSubTaskTitleChange = (element: React.ChangeEvent<HTMLInputElement>) => {
+      const updateSubTask = {...subTask, title: element.target.value}
+      updateSubTaskData(updateSubTask, subTask.id);
+      }
+
   const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = element.target.checked;
     setIsChecked(updatedChecked);
@@ -29,7 +34,7 @@ export const SubTaskRow = ({subTask, handleCheckedTask, parentId, isSTChecked, u
   return(
     <div className="subTask">
       <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
-      <input className='inputTask subTaskLabel' value={subTask.title} onChange={()=>{}} />
+      <input className='inputTask subTaskLabel' value={subTask.title} onChange={handleSubTaskTitleChange} />
       <TaskStatusChanger onClick={handleSubTaskStatusChange} status={subTask.status}/>
     </div>
   )
