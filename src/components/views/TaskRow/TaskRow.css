@@ -52,10 +52,10 @@
   text-align: right;
 }
 
-.dueDate::-webkit-calendar-picker-indicator {
+/* .dueDate::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
-}
+} */
 
 .numOfSubTasks{
   font-size: 16px;

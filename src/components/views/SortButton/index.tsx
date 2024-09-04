@@ -35,6 +35,10 @@ export const SortButton = ({onClick, sortStatus}:sortButtonProps) => {
     
   },[isStatusSelectorOpen])
 
+  useEffect(() => {
+    setIsStatusSelectorOpen(false);
+  },[sortStatus])
+
   return(
     <div ref={statusSelectorRef}  className='sortChanger'>
       <button className="sortButton" onClick={openStatusSelector}>{statuses.get(sortStatus)?.hebrewName}<ArrowIcon className='sortButtonArrow' direction={isStatusSelectorOpen ? 'up' :'down'}/></button>

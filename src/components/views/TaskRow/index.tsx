@@ -25,15 +25,15 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
   const [isChecked, setIsChecked] = useState(isTaskChecked(task.id, -1));
 
   const convertDateToString = (date:Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-  
-    return `${year}-${month}-${day}`;
+    return date.toISOString().split("T")[0];
   }
 
   const handleInputChange = (field: keyof Task) => (element: React.ChangeEvent<HTMLInputElement>) => {
-    const updateTask: Task = {...task, [field]:(element.currentTarget.value)};
+    let value: string | Date = element.currentTarget.value;
+    if(field === 'dueDate'){
+      value = new Date(element.currentTarget.value)
+    }
+    const updateTask: Task = {...task, [field]:value};
     updateTaskData(updateTask, task.id);
   }; 
 
@@ -51,6 +51,7 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
   const updateSubTaskData = (updateSubTask: SubTaskType, subTaskId: number) => {
     updateTaskData({...task, subTasks: task.subTasks.map((subTask) => (subTask.id === subTaskId ? updateSubTask : subTask)) }, task.id);
   };
+  console.log(task.dueDate.toISOString().split("T")[0]);
   
   return(
     <div className="taskRow">
@@ -64,7 +65,7 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
             <input className='inputTask' value={task.title} onChange={handleInputChange('title')} style={{width:`${task.title.length}ch`}} />
             {(haveSubTasks) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
           </div>
-          <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)} onInput={() => {}}/>
+          <input className='inputTask dueDate' type="date" value={convertDateToString(task.dueDate)} onChange={handleInputChange('dueDate')} onKeyDown={(e) => e.preventDefault()}/>
           <input className='inputTask' value={task.madeBy} onInput={handleInputChange('madeBy')}/>
           <input className='inputTask' value={task.owner} onInput={handleInputChange('owner')}/>
           <TaskStatusChanger onClick={handleStatusChange} status={task.status}/>
