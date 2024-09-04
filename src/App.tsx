@@ -5,7 +5,7 @@ import  {SortButton}  from './components/views/SortButton';
 import {DeleteTaskButton} from './components/views/DeleteTaskButton';
 import {NewTaskButton} from './components/views/NewTaskButton';
 import {TasksContentTitles} from './components/views/TasksContentTitles';
-import {tasksData, checkedTasks, Task} from "./components/types/tasksData"; 
+import {tasksData, checkedTasks, Task, statusOptions} from "./components/types/tasksData"; 
 import {TaskRow} from './components/views/TaskRow';
 import { useState } from 'react';
 
@@ -14,6 +14,8 @@ const App = () => {
   const [checkedTasks, setCheckedTasks] = useState<checkedTasks[]>([]);
   const [tasks, setTasks] = useState<Task[]>(tasksData)
   const [isSubTaskChecked2, setIsSubTaskChecked] = useState(false);
+  const [sortStatus, setSortStatus] = useState<statusOptions>('allStatuses')
+
 
   const updateTaskData = (updateTask: Task, taskId: number) => {
       setTasks(() => tasks.map((task) => (task.id === taskId ? updateTask : task)));
@@ -96,6 +98,25 @@ const App = () => {
     setTasks(updateTasks);
   }
 
+  const handleSortStatusChange = (status: statusOptions) => () => {
+    setSortStatus(status);
+  }
+
+  const sortByStatus = (tasks: Task[]):Task[] => {
+    if(sortStatus === 'allStatuses')
+      return tasks;
+
+    let updateTasks = tasks.map((task) => {
+      return {
+        ...task,
+        subTasks: task.subTasks.filter(subTask => subTask.status === sortStatus),
+      }})
+
+    return updateTasks.filter((task) => {
+      return (task.status === sortStatus || task.subTasks.length > 0)
+    })
+  }
+
   return (
     <>
       <TimeStamp />
@@ -104,7 +125,7 @@ const App = () => {
           <div className='manageContainer'>
             <div className='searchAndSort'>
               <SearchBar />
-              <SortButton />
+              <SortButton onClick={handleSortStatusChange} sortStatus={sortStatus} />
             </div>
             <div className='addAndDelete'>
               <DeleteTaskButton onClick={handleDeleteTask}/>
@@ -113,7 +134,7 @@ const App = () => {
           </div>
           <TasksContentTitles />
           <div className='tasksContainer'>
-            {tasks.map((task) => <TaskRow 
+            {sortByStatus(tasks).map((task) => <TaskRow 
                       key={task.id} 
                       checkedTasks={checkedTasks} 
                       updateTaskData={updateTaskData} 

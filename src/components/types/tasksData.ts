@@ -49,7 +49,7 @@ export let tasksData: Task[] = [
   },
   {
     id: 1,
-    title: "חשוב ממש ממש",
+    title: "חשוב ממש ממש ועוד כל מיני דברים",
     dueDate: new Date(),
     madeBy: "שקד",
     owner: "שקד",

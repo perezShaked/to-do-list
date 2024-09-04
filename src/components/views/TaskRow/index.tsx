@@ -52,6 +52,8 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
     updateTaskData({...task, subTasks: task.subTasks.map((subTask) => (subTask.id === subTaskId ? updateSubTask : subTask)) }, task.id);
   };
 
+  console.log(task);
+  
   return(
     <div className="taskRow">
         <div className={`task ${showSubTasks && haveSubTasks}ShowSubTasks`}>

@@ -5,9 +5,14 @@ import { TaskStatusSelector } from '../TaskStatusSelector';
 import { statusOptions } from '../../types/tasksData';
 import { statuses } from '../../types/tasksData';
 
-export const SortButton = () => {
+
+type sortButtonProps = {
+  onClick: (sortStatus: statusOptions) => () => void,
+  sortStatus: statusOptions
+}
+
+export const SortButton = ({onClick, sortStatus}:sortButtonProps) => {
   const [isStatusSelectorOpen, setIsStatusSelectorOpen] = useState(false);
-  const [sortStatus, setSortStatus] = useState('כל הסטטוסים')
   const statusSelectorRef = useRef<HTMLInputElement>(null)
 
   const handleStatusSelectorShowState = (e: MouseEvent) => {
@@ -30,14 +35,10 @@ export const SortButton = () => {
     
   },[isStatusSelectorOpen])
 
-  const handleSortStatusChange = (status: statusOptions) => () => {
-    setSortStatus(`${statuses.get(status)?.hebrewName}`);
-  }
-
   return(
     <div ref={statusSelectorRef}  className='sortChanger'>
-      <button className="sortButton" onClick={openStatusSelector}>{sortStatus}<ArrowIcon className='sortButtonArrow' direction={isStatusSelectorOpen ? 'up' :'down'}/></button>
-      {isStatusSelectorOpen && <div className='sortSelector'><TaskStatusSelector onClick={handleSortStatusChange} className='sortStatusSelector'/></div>}
+      <button className="sortButton" onClick={openStatusSelector}>{statuses.get(sortStatus)?.hebrewName}<ArrowIcon className='sortButtonArrow' direction={isStatusSelectorOpen ? 'up' :'down'}/></button>
+      {isStatusSelectorOpen && <div className='sortSelector'><TaskStatusSelector onClick={onClick} className='sortStatusSelector'/></div>}
     </div>   
   )
 }
