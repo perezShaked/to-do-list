@@ -30,6 +30,7 @@
   height: 24px;
   width: 24px;
   fill: #075C93;
+  cursor: pointer;
 }
 
 .inputTask{
@@ -49,12 +50,13 @@
 
 .dueDate{
   text-align: right;
+  cursor: text;
 }
 
-/* .dueDate::-webkit-calendar-picker-indicator {
+.dueDate::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
-} */
+}
 
 .numOfSubTasks{
   font-size: 16px;

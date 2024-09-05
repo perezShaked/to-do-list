@@ -1,29 +1,28 @@
 import './SubTask.css'
-import {CheckBox} from '../../../../elements/CheckBox';
-import {TaskStatusChanger} from "../TaskStatusChanger";
-import {statusOptions, SubTaskType} from '../../../../types/tasksData';
+import { CheckBox } from '../../../../elements/CheckBox';
+import { TaskStatusChanger } from "../TaskStatusChanger";
+import { statusOptions, SubTaskType} from '../../../../types/tasksData';
 import { useState } from 'react';
 
 type SubTaskProps = {
   subTask: SubTaskType,
   handleCheckedTask: (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => void,
   parentId: number,
-  isSTChecked: boolean,
+  isSubTaskChecked: boolean,
   updateSubTaskData: (updateSubTask: SubTaskType, subTaskId: number) => void
 }
 
-export const SubTaskRow = ({subTask, handleCheckedTask, parentId, isSTChecked, updateSubTaskData }:SubTaskProps) => {
-  const [isChecked, setIsChecked] = useState(isSTChecked);
+export const SubTaskRow = ({subTask, handleCheckedTask, parentId, isSubTaskChecked, updateSubTaskData }:SubTaskProps) => {
+  const [isChecked, setIsChecked] = useState(isSubTaskChecked);
+  const [subTaskTitle, setSubTaskTitle] = useState(subTask.title);
 
   const handleSubTaskStatusChange = (status: statusOptions) => () => {
-    const updateSubTask = {...subTask, status: status}
-    updateSubTaskData(updateSubTask, subTask.id);
+    updateSubTaskData({...subTask, status: status} , subTask.id);
     }
 
   const handleSubTaskTitleChange = (element: React.ChangeEvent<HTMLInputElement>) => {
-      const updateSubTask = {...subTask, title: element.target.value}
-      updateSubTaskData(updateSubTask, subTask.id);
-      }
+    updateSubTaskData({...subTask, title: element.target.value} , subTask.id);
+    }
 
   const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = element.target.checked;
@@ -34,7 +33,7 @@ export const SubTaskRow = ({subTask, handleCheckedTask, parentId, isSTChecked, u
   return(
     <div className="subTask">
       <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
-      <input className='inputTask subTaskLabel' value={subTask.title} onChange={handleSubTaskTitleChange} />
+      <input className='inputTask subTaskTitle' value={subTaskTitle} onChange={(e) => setSubTaskTitle(e.target.value)} onBlur={handleSubTaskTitleChange} />
       <TaskStatusChanger onClick={handleSubTaskStatusChange} status={subTask.status}/>
     </div>
   )

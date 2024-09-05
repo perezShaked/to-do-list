@@ -1,3 +1,4 @@
+import './ManageContainer.css'
 import { SearchBar } from "./SearchBar";
 import { SortButton } from "./SortButton";
 import { DeleteTaskButton } from "./DeleteTaskButton";
@@ -8,22 +9,21 @@ import { useEffect, useState } from "react";
 type ManagementContainerProps = {
   tasks: Task[],
   checkedTasks: checkedTasks[],
-  updateTasksData: (updateTasks: Task[]) => void,
   sortStatus: statusOptions,
   searchValue: string,
+  updateTasksData: (updateTasks: Task[]) => void,
   updateCheckedTasksData: (updateCheckedTasks: checkedTasks[]) => void,
   handleSearchValueChange: (value: string) => void,
   handleSortStatusChange: (status: statusOptions) => () => void,
 }
 
-
 export const ManagementContainer = ({tasks, checkedTasks, updateTasksData, sortStatus, searchValue, updateCheckedTasksData, handleSearchValueChange, handleSortStatusChange}: ManagementContainerProps) => {
   const [nextId, setNextId] = useState(tasks.length);
-  const [isSubTaskChecked2, setIsSubTaskChecked] = useState(false);
+  const [isAnySubTaskChecked, setIsAnySubTaskChecked] = useState(false);
 
 
   const handleAddNewTask = () => {
-    let updateTasks = [...tasks];
+    const updateTasks = [...tasks];
     if(checkedTasks.length != 0){
       checkedTasks.forEach((checkedTask) => {
         updateTasks.forEach((task) => {
@@ -75,21 +75,21 @@ export const ManagementContainer = ({tasks, checkedTasks, updateTasksData, sortS
     })
     updateTasksData(updateTasks)
     updateCheckedTasksData([]);
-    setIsSubTaskChecked(false);
+    setIsAnySubTaskChecked(false);
   }
 
-  const isSubTaskChecked = (checkedTasks: checkedTasks[]) => {  
+  const updateIsAnySubTaskChecked = (checkedTasks: checkedTasks[]) => {  
     let updateIsSubTaskChecked = false; 
     checkedTasks.forEach((task) => {
       if(task.type == 'subTask'){
         updateIsSubTaskChecked = (true);
       }
     })
-    setIsSubTaskChecked(updateIsSubTaskChecked);
+    setIsAnySubTaskChecked(updateIsSubTaskChecked);
   }
 
   useEffect(() => {
-    isSubTaskChecked(checkedTasks);
+    updateIsAnySubTaskChecked(checkedTasks);
   },[checkedTasks])
 
 
@@ -101,7 +101,7 @@ export const ManagementContainer = ({tasks, checkedTasks, updateTasksData, sortS
       </div>
       <div className='addAndDelete'>
         <DeleteTaskButton onClick={handleDeleteTask}/>
-        <NewTaskButton onClick={handleAddNewTask} disabled={isSubTaskChecked2}/>
+        <NewTaskButton onClick={handleAddNewTask} disabled={isAnySubTaskChecked}/>
       </div>
    </div>
   )

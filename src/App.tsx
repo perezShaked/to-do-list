@@ -1,6 +1,6 @@
 import './App.css';
 import { useState} from 'react';
-import  { TimeStamp }  from './components/views/TimeStamp';
+import { TimeStamp }  from './components/views/TimeStamp';
 import { tasksData, checkedTasks, Task, statusOptions } from "./components/types/tasksData"; 
 import { TasksContainer } from './components/views/TasksContainer'
 import { ManagementContainer } from './components/views/ManagementContainer';

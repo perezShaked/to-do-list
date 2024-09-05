@@ -50,7 +50,7 @@ export const TasksContainer = ({tasks, sortStatus, searchValue, updateTaskData, 
                   updateTaskData={updateTaskData} 
                   task={task} 
                   handleCheckedTask={handleCheckedTask}
-                  isSubTasksOpen={sortStatus}/>)}
+                  sortStatus={sortStatus}/>)}
       </div>
     </>
 

@@ -1,5 +1,5 @@
 import { statusOptions } from "../../types/tasksData";
-import {StatusBadge} from "../StatusBadge";
+import { StatusBadge } from "../StatusBadge";
 import './TaskStatusSelector.css';
 
 type StatusSelectorProps = {

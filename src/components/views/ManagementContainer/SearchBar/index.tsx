@@ -9,7 +9,12 @@ export const SearchBar = ({value, onChange}: searchBarProps) => {
   return(
       <div className='searchBarContainer'>
         <SearchIcon />
-        <input type='text' className='searchBarInput' value={value} placeholder='חיפוש' onChange={(element) => onChange(element.target.value)}/>
+        <input 
+          type='text' 
+          className='searchBarInput' 
+          value={value} 
+          placeholder='חיפוש' 
+          onChange={(element) => onChange(element.target.value)}/>
       </div>
   )
 }

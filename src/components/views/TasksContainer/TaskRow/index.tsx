@@ -11,10 +11,10 @@ type TaskRowProps = {
   handleCheckedTask: (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => void,
   checkedTasks: checkedTasks[],
   updateTaskData: (updateTask: Task, taskId: number) => void,
-  isSubTasksOpen: statusOptions
+  sortStatus: statusOptions
 }
 
-export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, isSubTasksOpen}:TaskRowProps) => {
+export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, sortStatus}:TaskRowProps) => {
   const [showSubTasks, setShowSubTask] = useState(false);
   const [taskTitle, setTaskTitle] = useState(task.title);
 
@@ -28,7 +28,7 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
   const haveSubTasks = task.subTasks.length > 0;
 
   const isTaskChecked = (taskId: number, parentId: number) => {
-    const result = checkedTasks.some((t) => t.id == taskId && t.parentId == parentId);
+    const result = checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
     return result;
   }
   
@@ -48,7 +48,7 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
     updateTaskData(updateTask, task.id);
   };
 
-  const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChecked = ( element: React.ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = element.target.checked;
     setIsChecked(updatedChecked);
     if(updatedChecked) {
@@ -61,23 +61,22 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
     updateTaskData({...task, subTasks: task.subTasks.map((subTask) => (subTask.id === subTaskId ? updateSubTask : subTask)) }, task.id);
   };
 
-  
-  const prevIsSubTasksOpen = useRef(isSubTasksOpen);
-  const m = (prevIsSubTasksOpen.current !== isSubTasksOpen && (isSubTasksOpen !== 'allStatuses') || showSubTasks) 
+  const prevSortStatus = useRef(sortStatus);
+  const subTasksExpanded = (prevSortStatus.current !== sortStatus && (sortStatus !== 'allStatuses') || showSubTasks) 
 
   useEffect(() => {
-    prevIsSubTasksOpen.current = isSubTasksOpen;
-  }, [isSubTasksOpen]); 
+    prevSortStatus.current = sortStatus;
+  }, [sortStatus]); 
   
 
   return(
     <div className="taskRow">
-        <div className={`task ${(m) && haveSubTasks}ShowSubTasks`}>
+        <div className={`task ${(subTasksExpanded) && haveSubTasks}ShowSubTasks`}>
           <div className="taskInfo">
-            <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
+            <CheckBox checked={isChecked} onChange={handleChecked}/>
             {
               (haveSubTasks) &&
-                <ArrowIcon className="taskRowArrowButton" direction={(m) ? "down" : "left"} onClick={() => {setShowSubTask(!showSubTasks)}}/>       
+                <ArrowIcon className="taskRowArrowButton" direction={(subTasksExpanded) ? "down" : "left"} onClick={() => {setShowSubTask(!showSubTasks)}}/>       
             }
             <input className='inputTask' value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} onBlur={handleInputChange('title')}/>
             {(haveSubTasks) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
@@ -87,12 +86,12 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
           <input className='inputTask' value={taskOwner} onChange={(e) => setTaskOwner(e.target.value)} onBlur={handleInputChange('owner')}/>
           <TaskStatusChanger onClick={handleStatusChange} status={task.status}/>
         </div>
-        {(task.subTasks.length > 0) && (m) && 
+        {(task.subTasks.length > 0) && (subTasksExpanded) && 
           <div>
             {task.subTasks.map((subTask) => <SubTaskRow 
                 key={subTask.id} 
                 updateSubTaskData={updateSubTaskData} 
-                isSTChecked={isTaskChecked(subTask.id, task.id)} 
+                isSubTaskChecked={isTaskChecked(subTask.id, task.id)} 
                 subTask={subTask} parentId={task.id} 
                 handleCheckedTask={handleCheckedTask}/>)
             }  
