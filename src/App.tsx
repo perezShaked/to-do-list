@@ -7,7 +7,7 @@ import {NewTaskButton} from './components/views/NewTaskButton';
 import {TasksContentTitles} from './components/views/TasksContentTitles';
 import {tasksData, checkedTasks, Task, statusOptions} from "./components/types/tasksData"; 
 import {TaskRow} from './components/views/TaskRow';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 const App = () => {
   const [nextId, setNextId] = useState(5);
@@ -16,11 +16,9 @@ const App = () => {
   const [isSubTaskChecked2, setIsSubTaskChecked] = useState(false);
   const [sortStatus, setSortStatus] = useState<statusOptions>('allStatuses')
   const [searchValue, setSearchValue] = useState<string>('')
-  const [isFiltered, setIsFiltered] = useState(false);
-
 
   const updateTaskData = (updateTask: Task, taskId: number) => {
-      setTasks(() => tasks.map((task) => (task.id === taskId ? updateTask : task)));
+    setTasks(() => tasks.map((task) => (task.id === taskId ? updateTask : task)));
   };
 
   const handleDeleteTask = () => {
@@ -101,11 +99,11 @@ const App = () => {
   }
 
   const handleSortStatusChange = (status: statusOptions) => () => {
-    setSortStatus(status);
+    if(status != sortStatus)
+      setSortStatus(status);
   }
 
-  const sortedTasks = useMemo(
-    ():Task[] => {
+  const sortedTasks = useMemo(():Task[] => {
       if(sortStatus === 'allStatuses' && searchValue === '')
         return tasks;
   
@@ -118,16 +116,8 @@ const App = () => {
       return updateTasks.filter((task) => {
         return (((task.status === sortStatus || sortStatus === 'allStatuses')) && task.title.includes(searchValue) || task.subTasks.length > 0)
       })
-    },[sortStatus, searchValue])
+    },[sortStatus, searchValue, tasks])
  
-
-  useEffect(() => {  
-    if (sortStatus !== 'allStatuses' || searchValue !== '') {
-      setIsFiltered(true);
-    } else {
-      setIsFiltered(false);
-    }
-  }, [sortStatus, searchValue]);
 
   const handleSearchValueChange = (value: string) => {
     setSearchValue(value);
@@ -156,7 +146,7 @@ const App = () => {
                       updateTaskData={updateTaskData} 
                       task={task} 
                       handleCheckedTask={handleCheckedTask}
-                      isSubTasksOpen={isFiltered}/>)}
+                      isSubTasksOpen={sortStatus}/>)}
           </div>
       </div>
     </>

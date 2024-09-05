@@ -11,20 +11,11 @@ type TaskRowProps = {
   handleCheckedTask: (taskId: number, checkedStatus: boolean, type: 'task'|'subTask', parentId: number) => void,
   checkedTasks: checkedTasks[],
   updateTaskData: (updateTask: Task, taskId: number) => void,
-  isSubTasksOpen: boolean
+  isSubTasksOpen: statusOptions
 }
 
 export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, isSubTasksOpen}:TaskRowProps) => {
   const [showSubTasks, setShowSubTask] = useState(false);
-
-  useEffect(() => {
-    if (isSubTasksOpen) {
-      setShowSubTask(true);
-    } else {
-      setShowSubTask(false); 
-    }
-  }, [isSubTasksOpen]);
-
   const [taskTitle, setTaskTitle] = useState(task.title);
 
   const convertDateToString = (date:Date) => {
@@ -60,25 +51,33 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
   const handleCheckedStatus = ( element: React.ChangeEvent<HTMLInputElement>) => {
     const updatedChecked = element.target.checked;
     setIsChecked(updatedChecked);
-    if(updatedChecked) 
+    if(updatedChecked) {
       setShowSubTask(true);
+    }
     handleCheckedTask(task.id, updatedChecked, 'task', -1);
   }
 
   const updateSubTaskData = (updateSubTask: SubTaskType, subTaskId: number) => {
     updateTaskData({...task, subTasks: task.subTasks.map((subTask) => (subTask.id === subTaskId ? updateSubTask : subTask)) }, task.id);
   };
-    
-  console.log(`F: ${isSubTasksOpen} S: ${showSubTasks}`);
+
+  
+  const prevIsSubTasksOpen = useRef(isSubTasksOpen);
+  const m = (prevIsSubTasksOpen.current !== isSubTasksOpen && (isSubTasksOpen !== 'allStatuses') || showSubTasks) 
+
+  useEffect(() => {
+    prevIsSubTasksOpen.current = isSubTasksOpen;
+  }, [isSubTasksOpen]); 
+  
 
   return(
     <div className="taskRow">
-        <div className={`task ${(showSubTasks) && haveSubTasks}ShowSubTasks`}>
+        <div className={`task ${(m) && haveSubTasks}ShowSubTasks`}>
           <div className="taskInfo">
             <CheckBox checked={isChecked} onChange={handleCheckedStatus}/>
             {
               (haveSubTasks) &&
-                <ArrowIcon className="taskRowArrowButton" direction={(showSubTasks) ? "down" : "left"} onClick={() => {setShowSubTask((prev) => !prev)}}/>       
+                <ArrowIcon className="taskRowArrowButton" direction={(m) ? "down" : "left"} onClick={() => {setShowSubTask(!showSubTasks)}}/>       
             }
             <input className='inputTask' value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} onBlur={handleInputChange('title')}/>
             {(haveSubTasks) && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
@@ -88,7 +87,7 @@ export const TaskRow = ({task, handleCheckedTask, checkedTasks, updateTaskData, 
           <input className='inputTask' value={taskOwner} onChange={(e) => setTaskOwner(e.target.value)} onBlur={handleInputChange('owner')}/>
           <TaskStatusChanger onClick={handleStatusChange} status={task.status}/>
         </div>
-        {(task.subTasks.length > 0) && (showSubTasks) && 
+        {(task.subTasks.length > 0) && (m) && 
           <div>
             {task.subTasks.map((subTask) => <SubTaskRow 
                 key={subTask.id} 
