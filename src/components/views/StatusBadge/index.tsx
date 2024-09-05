@@ -7,7 +7,7 @@ type StatusProps = {
   onClick?: () => void
 };
 
-export const TaskStatusBadge = ({status, onClick}:StatusProps) => {
+export const StatusBadge = ({status, onClick}:StatusProps) => {
   return(
     <div>
       <button className={`status ${status}`} onClick={onClick} style={{backgroundColor: (statuses.get(status)?.color)}} >

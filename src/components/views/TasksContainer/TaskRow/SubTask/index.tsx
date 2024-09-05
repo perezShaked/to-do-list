@@ -1,7 +1,7 @@
 import './SubTask.css'
-import {CheckBox} from "../../../elements/CheckBox/CheckBox";
-import {TaskStatusChanger} from "../../TaskStatusChanger";
-import {statusOptions, SubTaskType, Task} from '../../../types/tasksData';
+import {CheckBox} from '../../../../elements/CheckBox';
+import {TaskStatusChanger} from "../TaskStatusChanger";
+import {statusOptions, SubTaskType} from '../../../../types/tasksData';
 import { useState } from 'react';
 
 type SubTaskProps = {

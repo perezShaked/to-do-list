@@ -1,8 +1,8 @@
 import './TaskRow.css'
-import {CheckBox} from "../../elements/CheckBox/CheckBox";
-import {ArrowIcon} from '../../elements/ArrowIcon'
-import {TaskStatusChanger} from "../TaskStatusChanger";
-import {checkedTasks, statusOptions, Task, SubTaskType} from '../../types/tasksData';
+import {CheckBox} from '../../../elements/CheckBox';
+import {ArrowIcon} from '../../../elements/ArrowIcon'
+import {TaskStatusChanger} from "./TaskStatusChanger";
+import {checkedTasks, statusOptions, Task, SubTaskType} from '../../../types/tasksData';
 import {useEffect, useState, useRef} from "react";
 import {SubTaskRow} from "./SubTask";
 

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import './TaskStatusChanger.css'
-import {ArrowIcon} from '../../elements/ArrowIcon'
-import { statusOptions } from '../../types/tasksData';
-import { TaskStatusSelector } from '../TaskStatusSelector'
-import { TaskStatusBadge } from '../TaskStatusBadge';
-
+import {ArrowIcon} from '../../../../elements/ArrowIcon'
+import { statusOptions } from '../../../../types/tasksData';
+import { StatusSelector } from '../../../StatusSelector'
+import { StatusBadge } from '../../../StatusBadge';
+import { useOutsideClick } from '../../../../hooks/useOutsideClick';
 
 type StatusProps = {
   status: statusOptions, 
@@ -20,19 +20,7 @@ export const TaskStatusChanger = ({status, onClick}:StatusProps) => {
     setIsStatusSelectorOpen(!isStatusSelectorOpen);
   }
 
-  const handleStatusSelectorShowState = (e: MouseEvent) => {
-    if(statusSelectorRef.current && !statusSelectorRef.current.contains(e.target as Node)){
-      setIsStatusSelectorOpen(false);
-    }
-  }
-
-  useEffect(() => {
-    if(isStatusSelectorOpen){
-      document.addEventListener('mousedown',handleStatusSelectorShowState);
-    }else{
-      document.removeEventListener('mousedown',handleStatusSelectorShowState);
-    }   
-  },[isStatusSelectorOpen])
+  useOutsideClick(statusSelectorRef, () => setIsStatusSelectorOpen(false));
 
   useEffect(() => {
     setIsStatusSelectorOpen(false);
@@ -41,10 +29,10 @@ export const TaskStatusChanger = ({status, onClick}:StatusProps) => {
   return(
     <div ref={statusSelectorRef} className='statusChanger'>
       <div className='statusContainer' onClick={openStatusSelector}>
-        <TaskStatusBadge status={status}/>
+        <StatusBadge status={status}/>
         <ArrowIcon className="statusArrow" direction={isStatusSelectorOpen ? 'up' :'down'} />
       </div>
-      {isStatusSelectorOpen && <div className='statusSelector'><TaskStatusSelector onClick={onClick} className='TaskStatusSelector'/></div>}
+      {isStatusSelectorOpen && <div className='statusSelector'><StatusSelector onClick={onClick} className='TaskStatusSelector'/></div>}
     </div>
   )
 }
