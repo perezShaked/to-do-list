@@ -1,33 +1,58 @@
 import './App.css';
-import  {TimeStamp}  from './components/views/TimeStamp';
-import  {SearchBar}  from './components/views/SearchBar';
-import  {SortButton}  from './components/views/SortButton';
-import {DeleteTaskButton} from './components/views/DeleteTaskButton';
-import {NewTaskButton} from './components/views/NewTaskButton';
-import {TasksContentTitles} from './components/views/TasksContentTitles';
-import {tasks} from "./components/types/tasksData"; 
-import {TaskRow} from './components/views/TaskRow';
+import { useState} from 'react';
+import { TimeStamp }  from './components/views/TimeStamp';
+import { tasksData, checkedTasks, Task, statusOptions } from "./components/types/tasksData"; 
+import { TasksContainer } from './components/views/TasksContainer'
+import { ManagementContainer } from './components/views/ManagementContainer';
 
 const App = () => {
+  const [tasks, setTasks] = useState<Task[]>(tasksData)
+  const [checkedTasks, setCheckedTasks] = useState<checkedTasks[]>([]);
+  const [sortStatus, setSortStatus] = useState<statusOptions>('allStatuses')
+  const [searchValue, setSearchValue] = useState<string>('')
+
+  const updateTaskData = (updateTask: Task, taskId: number) => {
+    setTasks(() => tasks.map((task) => (task.id === taskId ? updateTask : task)));
+  };
+
+  const updateTasksData = (updateTasks: Task[]) => {
+    setTasks(updateTasks);
+  }
+
+  const updateCheckedTasksData = (updateCheckedTasks: checkedTasks[]) => {
+    setCheckedTasks(updateCheckedTasks)
+  }
+
+  const handleSortStatusChange = (status: statusOptions) => () => {
+    if(status != sortStatus)
+      setSortStatus(status);
+  }
+
+  const handleSearchValueChange = (value: string) => {
+    setSearchValue(value);
+  }
+
   return (
     <>
       <TimeStamp />
       <div className='appContainer'>
         <div className='header'>משימות</div>
-          <div className='manageContainer'>
-            <div className='searchAndSort'>
-              <SearchBar />
-              <SortButton />
-            </div>
-            <div className='addAndDelete'>
-              <DeleteTaskButton/>
-              <NewTaskButton />
-            </div>
-          </div>
-          <TasksContentTitles />
-          <div className='tasksContainer'>
-            {tasks.map((task) => <TaskRow key={task.id} task={task}/>)}
-          </div>
+          <ManagementContainer
+              tasks={tasks}
+              searchValue={searchValue} 
+              sortStatus={sortStatus} 
+              checkedTasks={checkedTasks}
+              updateTasksData={updateTasksData}
+              updateCheckedTasksData={updateCheckedTasksData}
+              handleSearchValueChange={handleSearchValueChange}
+              handleSortStatusChange={handleSortStatusChange}/>
+          <TasksContainer 
+              tasks={tasks} 
+              searchValue={searchValue} 
+              sortStatus={sortStatus} 
+              updateTaskData={updateTaskData}
+              checkedTasks={checkedTasks}
+              updateCheckedTasksData={updateCheckedTasksData}/>
       </div>
     </>
   )

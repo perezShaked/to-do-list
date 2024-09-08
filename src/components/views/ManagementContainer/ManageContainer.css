@@ -1,0 +1,20 @@
+
+.manageContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: 100%; 
+}
+
+.searchAndSort{
+  display: flex;
+  gap: 8px;
+}
+
+.addAndDelete{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}

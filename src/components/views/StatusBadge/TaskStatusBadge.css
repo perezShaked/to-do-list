@@ -9,5 +9,10 @@
   cursor: pointer;
   text-align: right;
   padding-right: 8px;
+  border: solid 1px #075b9300;
 } 
 
+.allStatuses{
+  color: #075C93;
+  border: solid 1px #075C93;
+}

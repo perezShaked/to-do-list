@@ -1,40 +1,21 @@
 body{
   user-select: none;
+  background: #F5F5F8;
+  margin: 0;
 }
 
 .appContainer{
   display: flex;
-  background: #F5F5F8;
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 6px;
 }
 
-.manageContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  width: 100%; 
-}
-
 .tasksContainer{
   width: 100%; 
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.searchAndSort{
-  display: flex;
-  gap: 8px;
-}
-
-.addAndDelete{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
   gap: 8px;
 }
 

@@ -1,7 +1,7 @@
 .sortButton{
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   border: solid 1px #075C93;
   height: 27px;
   width: 110px;

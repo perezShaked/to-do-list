@@ -6,9 +6,8 @@
   flex-direction: column;
   border: 1px solid #E0E0E0;
   background-color: #E2EBF5;
-  box-shadow: 0px 10px 0px 0px #0000000d;
   border-radius: 8px;
-  height: 190px;
+  height: 170px;
   padding: 8px;
 }
 
@@ -21,7 +20,7 @@
   background-color: white;
   box-shadow: 0px 10px 0px 0px #0000000d;
   border-radius: 8px;
-  height: 170px;
   padding: 8px;
   margin-top: 2px;
+  gap: 2px;
 }

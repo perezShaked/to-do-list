@@ -30,6 +30,7 @@
   height: 24px;
   width: 24px;
   fill: #075C93;
+  cursor: pointer;
 }
 
 .inputTask{
@@ -39,7 +40,7 @@
   border: none;
   background-color: #075b9300;
   border-bottom: 2px solid #075b9300;
-
+  width: 70%;
 }
 
 .inputTask:focus{
@@ -47,12 +48,9 @@
   border-bottom: 2px solid #075C93;
 }
 
-.taskLabel{
-  width: auto;
-}
-
 .dueDate{
   text-align: right;
+  cursor: text;
 }
 
 .dueDate::-webkit-calendar-picker-indicator {
