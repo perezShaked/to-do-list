@@ -1,10 +1,4 @@
-export type statusOptions =
-  | "wait"
-  | "pendingUpdate"
-  | "completed"
-  | "canceled"
-  | "inProgress"
-  | "allStatuses";
+import { Task, StatusOptions } from "../components/types/types";
 
 export const statuses = {
   wait: { hebrewName: "מחכה", color: "#2999ED" },
@@ -15,36 +9,14 @@ export const statuses = {
   allStatuses: { hebrewName: "כל הסטטוסים", color: "#FFFFFF" },
 };
 
-export type Task = {
-  id: number;
-  title: string;
-  dueDate: Date;
-  madeBy: string;
-  owner: string;
-  status: statusOptions;
-  subTasks: SubTaskType[];
-};
-
-export type SubTaskType = {
-  id: number;
-  title: string;
-  status: statusOptions;
-};
-
-export type checkedTasks = {
-  id: number;
-  type: "task" | "subTask";
-  parentId: number;
-};
-
-export let tasksData: Task[] = [
+export const tasksData: Task[] = [
   {
     id: 0,
     title: "כל מיני דברים",
     dueDate: new Date(),
     madeBy: "שקד",
     owner: "שקד",
-    status: "pendingUpdate",
+    status: StatusOptions.PENDING_UPDATE,
     subTasks: [],
   },
   {
@@ -53,17 +25,17 @@ export let tasksData: Task[] = [
     dueDate: new Date(),
     madeBy: "שקד",
     owner: "שקד",
-    status: "canceled",
+    status: StatusOptions.CANCELED,
     subTasks: [
       {
         id: 0,
         title: "כותרת ופירוט וכל מיני דברים",
-        status: "wait",
+        status: StatusOptions.WAIT,
       },
       {
         id: 1,
         title: "בקבוק",
-        status: "inProgress",
+        status: StatusOptions.IN_PROGRESS,
       },
     ],
   },
@@ -73,7 +45,7 @@ export let tasksData: Task[] = [
     dueDate: new Date(),
     madeBy: "שקד",
     owner: "שקד",
-    status: "pendingUpdate",
+    status: StatusOptions.PENDING_UPDATE,
     subTasks: [],
   },
   {
@@ -82,17 +54,17 @@ export let tasksData: Task[] = [
     dueDate: new Date(),
     madeBy: "שקד",
     owner: "שקד",
-    status: "canceled",
+    status: StatusOptions.CANCELED,
     subTasks: [
       {
         id: 0,
         title: "כותרת ופירוט וכל מיני דברים",
-        status: "wait",
+        status: StatusOptions.WAIT,
       },
       {
         id: 1,
         title: "בקבוק",
-        status: "inProgress",
+        status: StatusOptions.IN_PROGRESS,
       },
     ],
   },

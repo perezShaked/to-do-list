@@ -1,4 +1,5 @@
 import "./ArrowIcon.css";
+import clsx from "clsx";
 
 type ArrowIconProps = {
   className: string;
@@ -6,14 +7,10 @@ type ArrowIconProps = {
   onClick?: () => void;
 };
 
-export const ArrowIcon = ({
-  direction,
-  className,
-  onClick,
-}: ArrowIconProps) => {
+export const ArrowIcon = ({ direction, className, onClick }: ArrowIconProps) => {
   return (
     <svg
-      className={`${direction}ArrowIcon ${className}`}
+      className={clsx(className, `${direction}ArrowIcon`)}
       onClick={onClick}
       xmlns="http://www.w3.org/2000/svg"
     >

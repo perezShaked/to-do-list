@@ -14,7 +14,7 @@ export const SearchBar = ({ value, onChange }: searchBarProps) => {
         className="searchBarInput"
         value={value}
         placeholder="חיפוש"
-        onChange={(element) => onChange(element.target.value)}
+        onChange={({ target: { value } }) => onChange(value)}
       />
     </div>
   );
@@ -22,11 +22,7 @@ export const SearchBar = ({ value, onChange }: searchBarProps) => {
 
 const SearchIcon = () => {
   return (
-    <svg
-      className="searchIcon"
-      viewBox="0 0 16 17"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className="searchIcon" viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
       <path
         fillRule="evenodd"
         clipRule="evenodd"

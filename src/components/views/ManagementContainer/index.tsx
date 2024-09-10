@@ -3,18 +3,18 @@ import { SearchBar } from "./SearchBar";
 import { SortButton } from "./SortButton";
 import { DeleteTaskButton } from "./DeleteTaskButton";
 import { NewTaskButton } from "./NewTaskButton";
-import { Task, checkedTasks, statusOptions } from "../../types/tasksData";
-import { useEffect, useState } from "react";
+import { Task, CheckedTask, StatusOptions } from "../../types/types";
+import { useState, useMemo } from "react";
 
 type ManagementContainerProps = {
   tasks: Task[];
-  checkedTasks: checkedTasks[];
-  sortStatus: statusOptions;
+  checkedTasks: CheckedTask[];
+  sortStatus: StatusOptions;
   searchValue: string;
   updateTasksData: (updateTasks: Task[]) => void;
-  updateCheckedTasksData: (updateCheckedTasks: checkedTasks[]) => void;
+  updateCheckedTasksData: (updateCheckedTasks: CheckedTask[]) => void;
   handleSearchValueChange: (value: string) => void;
-  handleSortStatusChange: (status: statusOptions) => () => void;
+  handleSortStatusChange: (status: StatusOptions) => () => void;
 };
 
 export const ManagementContainer = ({
@@ -28,77 +28,77 @@ export const ManagementContainer = ({
   handleSortStatusChange,
 }: ManagementContainerProps) => {
   const [nextId, setNextId] = useState(tasks.length);
-  const [isAnySubTaskChecked, setIsAnySubTaskChecked] = useState(false);
 
-  const handleAddNewTask = () => {
-    const updateTasks = [...tasks];
-    if (checkedTasks.length != 0) {
+  const addNewSubTask = ({ subTasks }: Task) => {
+    let nextSubTaskId = 0;
+    if (subTasks.length > 0) {
+      nextSubTaskId = subTasks[subTasks.length - 1].id + 1;
+    }
+    subTasks.push({
+      id: nextSubTaskId,
+      title: "",
+      status: StatusOptions.PENDING_UPDATE,
+    });
+  };
+
+  const newTask = (): Task => {
+    return {
+      id: nextId,
+      title: "",
+      dueDate: new Date(),
+      madeBy: "",
+      owner: "",
+      status: StatusOptions.PENDING_UPDATE,
+      subTasks: [],
+    };
+  };
+
+  const handleAddNewTaskClick = () => {
+    const updatedTasks = [...tasks];
+    if (checkedTasks.length > 0) {
       checkedTasks.forEach((checkedTask) => {
-        updateTasks.forEach((task) => {
+        updatedTasks.forEach((task) => {
           if (checkedTask.id == task.id) {
-            let nextSubTaskId = 0;
-            if (task.subTasks.length > 0) {
-              nextSubTaskId = task.subTasks[task.subTasks.length - 1].id + 1;
-            }
-            task.subTasks.push({
-              id: nextSubTaskId,
-              title: "",
-              status: "pendingUpdate",
-            });
+            addNewSubTask(task);
           }
         });
       });
     } else {
-      updateTasks.push({
-        id: nextId,
-        title: "",
-        dueDate: new Date(),
-        madeBy: "",
-        owner: "",
-        status: "pendingUpdate",
-        subTasks: [],
-      });
+      updatedTasks.push(newTask());
       setNextId(nextId + 1);
     }
-    updateTasksData(updateTasks);
+    updateTasksData(updatedTasks);
   };
 
   const handleDeleteTask = () => {
-    let updateTasks = [...tasks];
-    checkedTasks.map((checkedTask) => {
-      if (checkedTask.type == "subTask") {
-        updateTasks = updateTasks.map((task) => {
-          if (task.id == checkedTask.parentId) {
+    let updatedTasks = [...tasks];
+    checkedTasks.forEach(({ parentId, id, type }) => {
+      if (type == "subTask") {
+        updatedTasks = updatedTasks.map((task) => {
+          if (task.id == parentId) {
             return {
               ...task,
-              subTasks: task.subTasks.filter(
-                (task) => task.id != checkedTask.id
-              ),
+              subTasks: task.subTasks.filter((task) => task.id != id),
             };
           }
           return task;
         });
       } else {
-        updateTasks = updateTasks.filter((task) => task.id != checkedTask.id);
+        updatedTasks = updatedTasks.filter((task) => task.id != id);
       }
     });
-    updateTasksData(updateTasks);
+    updateTasksData(updatedTasks);
     updateCheckedTasksData([]);
-    setIsAnySubTaskChecked(false);
   };
 
-  const updateIsAnySubTaskChecked = (checkedTasks: checkedTasks[]) => {
-    let updateIsSubTaskChecked = false;
-    checkedTasks.forEach((task) => {
-      if (task.type == "subTask") {
-        updateIsSubTaskChecked = true;
+  const updatedIsSubTaskChecked = useMemo(() => {
+    let updatedIsSubTaskChecked = false;
+    checkedTasks.forEach(({ type }) => {
+      if (type == "subTask") {
+        updatedIsSubTaskChecked = true;
       }
     });
-    setIsAnySubTaskChecked(updateIsSubTaskChecked);
-  };
-
-  useEffect(() => {
-    updateIsAnySubTaskChecked(checkedTasks);
+    return updatedIsSubTaskChecked;
   }, [checkedTasks]);
 
   return (
@@ -109,10 +109,7 @@ export const ManagementContainer = ({
       </div>
       <div className="addAndDelete">
         <DeleteTaskButton onClick={handleDeleteTask} />
-        <NewTaskButton
-          onClick={handleAddNewTask}
-          disabled={isAnySubTaskChecked}
-        />
+        <NewTaskButton onClick={handleAddNewTaskClick} disabled={updatedIsSubTaskChecked} />
       </div>
     </div>
   );

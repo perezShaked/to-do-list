@@ -1,16 +1,21 @@
-import './TaskStatusBadge.css'
-import { statusOptions } from '../../types/tasksData';
-import { statuses } from '../../types/tasksData';
+import "./TaskStatusBadge.css";
+import { StatusOptions } from "../../types/types";
+import { statuses } from "../../../data/data";
+import clsx from "clsx";
 
 type StatusProps = {
-  status: statusOptions,
-  onClick?: () => void
+  status: StatusOptions;
+  onClick?: () => void;
 };
 
-export const StatusBadge = ({status, onClick}:StatusProps) => {
-  return(
-    <button className={`status ${status}`} onClick={onClick} style={{backgroundColor: (statuses[status].color)}} >
+export const StatusBadge = ({ status, onClick }: StatusProps) => {
+  return (
+    <button
+      className={clsx('status', status)}
+      onClick={onClick}
+      style={{ backgroundColor: statuses[status].color }}
+    >
       {statuses[status].hebrewName}
     </button>
-  )
-}
+  );
+};

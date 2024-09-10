@@ -1,80 +1,47 @@
 import { TasksContentTitles } from "./TasksContentTitles";
 import { TaskRow } from "./TaskRow";
-import { statusOptions, Task, checkedTasks } from "../../types/tasksData";
-import { useMemo } from "react";
+import { StatusOptions, Task, CheckedTask, TasksTypes } from "../../types/types";
 
 type TasksContainerProps = {
-  tasks: Task[];
-  sortStatus: statusOptions;
-  searchValue: string;
+  displayTasks: Task[];
+  sortStatus: StatusOptions;
+
+  checkedTasks: CheckedTask[];
   updateTaskData: (updateTask: Task, taskId: number) => void;
-  checkedTasks: checkedTasks[];
-  updateCheckedTasksData: (updateCheckedTasks: checkedTasks[]) => void;
+  handleCheckedTask: (
+    taskId: number,
+    checkedStatus: boolean,
+    type: TasksTypes,
+    parentId: number
+  ) => void;
 };
 
 export const TasksContainer = ({
-  tasks,
+  displayTasks,
   sortStatus,
-  searchValue,
   updateTaskData,
   checkedTasks,
-  updateCheckedTasksData,
+  handleCheckedTask,
 }: TasksContainerProps) => {
-  const sortedTasks = useMemo((): Task[] => {
-    if (sortStatus === "allStatuses" && searchValue === "") return tasks;
 
-    const updateTasks = tasks.map((task) => {
-      return {
-        ...task,
-        subTasks: task.subTasks.filter(
-          (subTask) =>
-            (subTask.status === sortStatus || sortStatus === "allStatuses") &&
-            subTask.title.includes(searchValue)
-        ),
-      };
-    });
-
-    return updateTasks.filter((task) => {
-      return (
-        ((task.status === sortStatus || sortStatus === "allStatuses") &&
-          task.title.includes(searchValue)) ||
-        task.subTasks.length > 0
-      );
-    });
-  }, [sortStatus, searchValue, tasks]);
-
-  const handleCheckedTask = (
-    taskId: number,
-    checkedStatus: boolean,
-    type: "task" | "subTask",
-    parentId: number
-  ) => {
-    let updateCheckedTasks = [...checkedTasks];
-    if (checkedStatus) {
-      updateCheckedTasks = [
-        ...updateCheckedTasks,
-        { id: taskId, type: type, parentId: parentId },
-      ];
-    } else {
-      updateCheckedTasks = [...updateCheckedTasks].filter(
-        (task) => taskId !== task.id
-      );
-    }
-    updateCheckedTasksData(updateCheckedTasks);
+  const isTaskChecked = (taskId: number, parentId: number) => {
+    const result = checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
+    return result;
   };
 
   return (
     <>
       <TasksContentTitles />
       <div className="tasksContainer">
-        {sortedTasks.map((task) => (
+        {displayTasks.map((task) => (
           <TaskRow
             key={task.id}
-            checkedTasks={checkedTasks}
+            isTaskChecked={isTaskChecked(task.id, -1)}
             updateTaskData={updateTaskData}
             task={task}
             handleCheckedTask={handleCheckedTask}
             sortStatus={sortStatus}
+            checkedSubTasks={checkedTasks.filter((subTask) => subTask.parentId === task.id)}
           />
         ))}
       </div>

@@ -1,10 +1,8 @@
 import "./DeleteTaskButton.css";
 
-export const DeleteTaskButton = ({
-  ...rest
-}: React.ComponentProps<"button">) => {
+export const DeleteTaskButton = (props: React.ComponentProps<"button">) => {
   return (
-    <button {...rest} className="deleteButton">
+    <button {...props} className="deleteButton">
       <DeleteTaskIcon />
     </button>
   );
@@ -12,11 +10,7 @@ export const DeleteTaskButton = ({
 
 const DeleteTaskIcon = () => {
   return (
-    <svg
-      className="deleteButtonIcon"
-      viewBox="2 1 16 18"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className="deleteButtonIcon" viewBox="2 1 16 18" xmlns="http://www.w3.org/2000/svg">
       <path
         fillRule="evenodd"
         clipRule="evenodd"

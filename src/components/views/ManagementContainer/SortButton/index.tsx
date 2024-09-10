@@ -2,13 +2,13 @@ import "./SortButton.css";
 import { useRef, useState, useEffect } from "react";
 import { ArrowIcon } from "../../../elements/ArrowIcon";
 import { StatusSelector } from "../../StatusSelector";
-import { statusOptions } from "../../../types/tasksData";
-import { statuses } from "../../../types/tasksData";
+import { StatusOptions } from "../../../types/types";
+import { statuses } from "../../../../data/data";
 import { useOutsideClick } from "../../../hooks/useOutsideClick";
 
 type sortButtonProps = {
-  onClick: (sortStatus: statusOptions) => () => void;
-  sortStatus: statusOptions;
+  onClick: (sortStatus: StatusOptions) => () => void;
+  sortStatus: StatusOptions;
 };
 
 export const SortButton = ({ onClick, sortStatus }: sortButtonProps) => {
@@ -30,10 +30,7 @@ export const SortButton = ({ onClick, sortStatus }: sortButtonProps) => {
     <div ref={statusSelectorRef} className="sortChanger">
       <button className="sortButton" onClick={onSortButtonClick}>
         {statuses[sortStatus].hebrewName}
-        <ArrowIcon
-          className="sortButtonArrow"
-          direction={isStatusSelectorOpen ? "up" : "down"}
-        />
+        <ArrowIcon className="sortButtonArrow" direction={isStatusSelectorOpen ? "up" : "down"} />
       </button>
       {isStatusSelectorOpen && (
         <div className="sortSelector">
