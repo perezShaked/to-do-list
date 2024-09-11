@@ -1,11 +1,10 @@
 import "./SubTask.css";
 import { CheckBox } from "../../../../elements/CheckBox";
 import { TaskStatusChanger } from "../TaskStatusChanger";
-import { StatusOptions, SubTask, TasksTypes } from "../../../../types/types";
+import { StatusOptions, SubTask, TasksTypes } from "../../../../../types";
 import { useState } from "react";
-import clsx from "clsx";
 
-type SubTaskProps = {
+type SubTaskRowProps = {
   subTask: SubTask;
   handleCheckedTask: (
     taskId: number,
@@ -24,7 +23,7 @@ export const SubTaskRow = ({
   parentId,
   isSubTaskChecked,
   updateSubTaskData,
-}: SubTaskProps) => {
+}: SubTaskRowProps) => {
   const [isChecked, setIsChecked] = useState(isSubTaskChecked);
   const [subTaskTitle, setSubTaskTitle] = useState(subTask.title);
 
@@ -37,16 +36,15 @@ export const SubTaskRow = ({
   };
 
   const handleCheckedStatus = ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedChecked = checked;
-    setIsChecked(updatedChecked);
-    handleCheckedTask(subTask.id, updatedChecked, "subTask", parentId);
+    setIsChecked(checked);
+    handleCheckedTask(subTask.id, checked, TasksTypes.SUB_TASK, parentId);
   };
 
   return (
     <div className="subTask">
       <CheckBox checked={isChecked} onChange={handleCheckedStatus} />
       <input
-        className={clsx("inputTask", "subTaskTitle")}
+        className="inputTask subTaskTitle"
         value={subTaskTitle}
         onChange={(e) => setSubTaskTitle(e.target.value)}
         onBlur={handleSubTaskTitleChange}

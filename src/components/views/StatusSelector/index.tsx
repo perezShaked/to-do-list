@@ -1,4 +1,4 @@
-import { StatusOptions } from "../../types/types";
+import { StatusOptions } from "../../../types";
 import { StatusBadge } from "../StatusBadge";
 import "./TaskStatusSelector.css";
 

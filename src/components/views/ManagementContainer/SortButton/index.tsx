@@ -2,8 +2,8 @@ import "./SortButton.css";
 import { useRef, useState, useEffect } from "react";
 import { ArrowIcon } from "../../../elements/ArrowIcon";
 import { StatusSelector } from "../../StatusSelector";
-import { StatusOptions } from "../../../types/types";
-import { statuses } from "../../../../data/data";
+import { StatusOptions } from "../../../../types";
+import { statuses } from "../../../../data";
 import { useOutsideClick } from "../../../hooks/useOutsideClick";
 
 type sortButtonProps = {

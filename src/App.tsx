@@ -1,10 +1,10 @@
 import "./App.css";
 import { useState, useMemo } from "react";
 import { TimeStamp } from "./components/views/TimeStamp";
-import { CheckedTask, Task, StatusOptions, TasksTypes } from "./components/types/types";
+import { CheckedTask, Task, StatusOptions, TasksTypes } from "./types";
 import { TasksContainer } from "./components/views/TasksContainer";
 import { ManagementContainer } from "./components/views/ManagementContainer";
-import { tasksData } from "./data/data";
+import { tasksData } from "./data";
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>(tasksData);
@@ -13,14 +13,14 @@ const App = () => {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const displayTasks = useMemo((): Task[] => {
-    if (sortStatus === "allStatuses" && searchValue === "") return tasks;
+    if (sortStatus === StatusOptions.ALL_STATUSES && searchValue === "") return tasks;
 
     const updatedTasks = tasks.map((task) => {
       return {
         ...task,
         subTasks: task.subTasks.filter(
           (subTask) =>
-            (subTask.status === sortStatus || sortStatus === "allStatuses") &&
+            (subTask.status === sortStatus || sortStatus === StatusOptions.ALL_STATUSES) &&
             subTask.title.includes(searchValue)
         ),
       };
@@ -29,26 +29,19 @@ const App = () => {
     return updatedTasks.filter(({ status, subTasks, title }) => {
       return (
         subTasks.length > 0 ||
-        ((status === sortStatus || sortStatus === "allStatuses") && title.includes(searchValue))
+        ((status === sortStatus || sortStatus === StatusOptions.ALL_STATUSES) &&
+          title.includes(searchValue))
       );
     });
   }, [sortStatus, searchValue, tasks]);
 
   const updateTaskData = (updatedTask: Task, taskId: number) => {
     const updatedTasks = tasks.map((task) => (task.id === taskId ? updatedTask : task));
-    updateTasksData(updatedTasks);
-  };
-
-  const updateTasksData = (updatedTasks: Task[]) => {
     setTasks(updatedTasks);
   };
 
-  const updateCheckedTasksData = (updatedCheckedTasks: CheckedTask[]) => {
-    setCheckedTasks(updatedCheckedTasks);
-  };
-
   const handleSortStatusChange = (status: StatusOptions) => () => {
-    if (status != sortStatus) setSortStatus(status);
+    if (status !== sortStatus) setSortStatus(status);
   };
 
   const handleSearchValueChange = (value: string) => {
@@ -69,10 +62,10 @@ const App = () => {
       ];
     } else {
       updatedCheckedTasks = [...updatedCheckedTasks].filter(
-        (task) => taskId !== task.id || parentId != task.parentId
+        (task) => taskId !== task.id || parentId !== task.parentId
       );
     }
-    updateCheckedTasksData(updatedCheckedTasks);
+    setCheckedTasks(updatedCheckedTasks);
   };
 
   return (
@@ -85,8 +78,8 @@ const App = () => {
           searchValue={searchValue}
           sortStatus={sortStatus}
           checkedTasks={checkedTasks}
-          updateTasksData={updateTasksData}
-          updateCheckedTasksData={updateCheckedTasksData}
+          updateTasksData={setTasks}
+          updateCheckedTasksData={setCheckedTasks}
           handleSearchValueChange={handleSearchValueChange}
           handleSortStatusChange={handleSortStatusChange}
         />

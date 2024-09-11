@@ -1,6 +1,6 @@
 import { TasksContentTitles } from "./TasksContentTitles";
 import { TaskRow } from "./TaskRow";
-import { StatusOptions, Task, CheckedTask, TasksTypes } from "../../types/types";
+import { StatusOptions, Task, CheckedTask, TasksTypes } from "../../../types";
 
 type TasksContainerProps = {
   displayTasks: Task[];
@@ -23,11 +23,8 @@ export const TasksContainer = ({
   checkedTasks,
   handleCheckedTask,
 }: TasksContainerProps) => {
-
-  const isTaskChecked = (taskId: number, parentId: number) => {
-    const result = checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
-    return result;
-  };
+  const isTaskChecked = (taskId: number, parentId: number) =>
+    checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
 
   return (
     <>

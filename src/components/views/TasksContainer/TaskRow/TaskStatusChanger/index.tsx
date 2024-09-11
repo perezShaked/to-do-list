@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./TaskStatusChanger.css";
 import { ArrowIcon } from "../../../../elements/ArrowIcon";
-import { StatusOptions } from "../../../../types/types";
+import { StatusOptions } from "../../../../../types";
 import { StatusSelector } from "../../../StatusSelector";
 import { StatusBadge } from "../../../StatusBadge";
 import { useOutsideClick } from "../../../../hooks/useOutsideClick";
@@ -31,10 +31,7 @@ export const TaskStatusChanger = ({ status, onClick }: StatusProps) => {
       <div className="statusContainer">
         <div className="statusBadgeContainer" onClick={openStatusSelector}>
           <StatusBadge status={status} />
-          <ArrowIcon
-            className="statusArrow"
-            direction={isStatusSelectorOpen ? "up" : "down"}
-          />
+          <ArrowIcon className="statusArrow" direction={isStatusSelectorOpen ? "up" : "down"} />
         </div>
         {isStatusSelectorOpen && (
           <div className="statusChangerSelector">

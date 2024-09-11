@@ -3,7 +3,7 @@ import { SearchBar } from "./SearchBar";
 import { SortButton } from "./SortButton";
 import { DeleteTaskButton } from "./DeleteTaskButton";
 import { NewTaskButton } from "./NewTaskButton";
-import { Task, CheckedTask, StatusOptions } from "../../types/types";
+import { Task, CheckedTask, StatusOptions, TasksTypes } from "../../../types";
 import { useState, useMemo } from "react";
 
 type ManagementContainerProps = {
@@ -41,7 +41,7 @@ export const ManagementContainer = ({
     });
   };
 
-  const newTask = (): Task => {
+  const createNewTask = (): Task => {
     return {
       id: nextId,
       title: "",
@@ -64,7 +64,7 @@ export const ManagementContainer = ({
         });
       });
     } else {
-      updatedTasks.push(newTask());
+      updatedTasks.push(createNewTask());
       setNextId(nextId + 1);
     }
     updateTasksData(updatedTasks);
@@ -73,32 +73,31 @@ export const ManagementContainer = ({
   const handleDeleteTask = () => {
     let updatedTasks = [...tasks];
     checkedTasks.forEach(({ parentId, id, type }) => {
-      if (type == "subTask") {
+      if (type == TasksTypes.SUB_TASK) {
         updatedTasks = updatedTasks.map((task) => {
           if (task.id == parentId) {
             return {
               ...task,
-              subTasks: task.subTasks.filter((task) => task.id != id),
+              subTasks: task.subTasks.filter((task) => task.id !== id),
             };
           }
           return task;
         });
       } else {
-        updatedTasks = updatedTasks.filter((task) => task.id != id);
+        updatedTasks = updatedTasks.filter((task) => task.id !== id);
       }
     });
     updateTasksData(updatedTasks);
     updateCheckedTasksData([]);
   };
 
-  const updatedIsSubTaskChecked = useMemo(() => {
-    let updatedIsSubTaskChecked = false;
+  const isSubTaskChecked = useMemo(() => {
     checkedTasks.forEach(({ type }) => {
-      if (type == "subTask") {
-        updatedIsSubTaskChecked = true;
+      if (type == TasksTypes.SUB_TASK) {
+        return true;
       }
     });
-    return updatedIsSubTaskChecked;
+    return false;
   }, [checkedTasks]);
 
   return (
@@ -109,7 +108,7 @@ export const ManagementContainer = ({
       </div>
       <div className="addAndDelete">
         <DeleteTaskButton onClick={handleDeleteTask} />
-        <NewTaskButton onClick={handleAddNewTaskClick} disabled={updatedIsSubTaskChecked} />
+        <NewTaskButton onClick={handleAddNewTaskClick} disabled={isSubTaskChecked} />
       </div>
     </div>
   );

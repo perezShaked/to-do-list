@@ -2,10 +2,10 @@ import "./TaskRow.css";
 import { CheckBox } from "../../../elements/CheckBox";
 import { ArrowIcon } from "../../../elements/ArrowIcon";
 import { TaskStatusChanger } from "./TaskStatusChanger";
-import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes } from "../../../types/types";
+import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes } from "../../../../types";
 import { useEffect, useState, useRef } from "react";
 import { SubTaskRow } from "./SubTask";
-import { convertDateToString } from "../../../../utils/utils";
+import { convertDateToString } from "../../../../utils";
 import clsx from "clsx";
 
 type TaskRowProps = {
@@ -38,9 +38,8 @@ export const TaskRow = ({
   const [isChecked, setIsChecked] = useState(isTaskChecked);
   const haveSubTasks = task.subTasks.length > 0;
 
-  const isSubTaskChecked = (subTaskId: number): boolean => {
-    return checkedSubTasks.some((subTask) => subTaskId === subTask.id);
-  };
+  const isSubTaskChecked = (subTaskId: number): boolean =>
+    checkedSubTasks.some((subTask) => subTaskId === subTask.id);
 
   const handleInputChange = (field: keyof Task) => (event: React.ChangeEvent<HTMLInputElement>) => {
     let value: string | Date = event.currentTarget.value;
@@ -61,12 +60,11 @@ export const TaskRow = ({
   };
 
   const handleChecked = ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedChecked = checked;
-    setIsChecked(updatedChecked);
-    if (updatedChecked) {
+    setIsChecked(checked);
+    if (checked) {
       setShowSubTask(true);
     }
-    handleCheckedTask(task.id, updatedChecked, "task", -1);
+    handleCheckedTask(task.id, checked, TasksTypes.TASK, -1);
   };
 
   const updateSubTaskData = (updatedSubTask: SubTask, subTaskId: number) => {
@@ -83,7 +81,8 @@ export const TaskRow = ({
 
   const prevSortStatus = useRef(sortStatus);
   const subTasksExpanded =
-    (prevSortStatus.current !== sortStatus && sortStatus !== "allStatuses") || showSubTasks;
+    (prevSortStatus.current !== sortStatus && sortStatus !== StatusOptions.ALL_STATUSES) ||
+    showSubTasks;
 
   useEffect(() => {
     prevSortStatus.current = sortStatus;
@@ -112,7 +111,7 @@ export const TaskRow = ({
           {haveSubTasks && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
         </div>
         <input
-          className={clsx("inputTask", "dueDate")}
+          className="inputTask dueDate"
           type="date"
           value={taskDueDate}
           onChange={(e) => setTaskDueDate(e.target.value)}

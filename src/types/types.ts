@@ -23,7 +23,10 @@ export type SubTask = {
   status: StatusOptions;
 };
 
-export type TasksTypes =  "task" | "subTask";
+export enum TasksTypes {
+  TASK = "task",
+  SUB_TASK = "subTask",
+}
 
 export type CheckedTask = {
   id: number;
