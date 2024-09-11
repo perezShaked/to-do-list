@@ -1,16 +1,16 @@
-import './TimeStamp.css'
+import "./TimeStamp.css";
 
 export const TimeStamp = () => {
   const today = new Date();
 
   const options: Intl.DateTimeFormatOptions = {
-    weekday: 'short', 
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    weekday: "short",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   };
 
-  const formattedDate = today.toLocaleDateString('he-IL', options);
+  const formattedDate = today.toLocaleDateString("he-IL", options);
 
-  return <div className="timeStamp">{`${formattedDate}`}</div>
-}
+  return <div className="timeStamp">{`${formattedDate}`}</div>;
+};

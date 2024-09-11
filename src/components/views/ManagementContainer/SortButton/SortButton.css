@@ -1,3 +1,10 @@
+.sortChanger{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
 .sortButton{
   display: inline-flex;
   align-items: center;
@@ -24,12 +31,7 @@
   fill: #075C93;
 }
 
-.sortChanger{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
+
 
 .sortSelector{
   position: absolute;

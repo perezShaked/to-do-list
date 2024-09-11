@@ -1,12 +1,14 @@
 .subTask{
   display: grid;
-  justify-items: center;
-  grid-template-columns: 4% 84.2% 11%;
+  justify-items: flex-end;
+  grid-template-columns: 1.4% 83.8% 12%;
   align-items: center;
   background-color: white;
   box-shadow: 4px 4px 4px 0px #00000014; 
   height: 45px;
   border-bottom: 1px solid #e0e0e0;
+  padding: 0px 18px 0px 12px;
+  gap: 1.5%;
 }
 
 .subTaskTitle{

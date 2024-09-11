@@ -1,38 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
-import './TaskStatusChanger.css'
-import {ArrowIcon} from '../../../../elements/ArrowIcon'
-import { statusOptions } from '../../../../types/tasksData';
-import { StatusSelector } from '../../../StatusSelector'
-import { StatusBadge } from '../../../StatusBadge';
-import { useOutsideClick } from '../../../../hooks/useOutsideClick';
+import { useEffect, useRef, useState } from "react";
+import "./TaskStatusChanger.css";
+import { ArrowIcon } from "../../../../elements/ArrowIcon";
+import { StatusOptions } from "../../../../../types";
+import { StatusSelector } from "../../../StatusSelector";
+import { StatusBadge } from "../../../StatusBadge";
+import { useOutsideClick } from "../../../../hooks/useOutsideClick";
 
 type StatusProps = {
-  status: statusOptions, 
-  onClick: (status: statusOptions) => () => void
-}
+  status: StatusOptions;
+  onClick: (status: StatusOptions) => () => void;
+};
 
-export const TaskStatusChanger = ({status, onClick}:StatusProps) => {  
+export const TaskStatusChanger = ({ status, onClick }: StatusProps) => {
   const [isStatusSelectorOpen, setIsStatusSelectorOpen] = useState(false);
-  const statusSelectorRef = useRef<HTMLDivElement>(null)
+  const statusSelectorRef = useRef<HTMLDivElement>(null);
 
   const openStatusSelector = (event: React.MouseEvent) => {
     event.stopPropagation();
     setIsStatusSelectorOpen(!isStatusSelectorOpen);
-  }
+  };
 
   useOutsideClick(statusSelectorRef, () => setIsStatusSelectorOpen(false));
 
   useEffect(() => {
     setIsStatusSelectorOpen(false);
-  },[status])
+  }, [status]);
 
-  return(
-    <div ref={statusSelectorRef} className='statusChanger'>
-      <div className='statusContainer' onClick={openStatusSelector}>
-        <StatusBadge status={status}/>
-        <ArrowIcon className="statusArrow" direction={isStatusSelectorOpen ? 'up' :'down'} />
+  return (
+    <div ref={statusSelectorRef} className="statusChanger">
+      <div className="statusContainer">
+        <div className="statusBadgeContainer" onClick={openStatusSelector}>
+          <StatusBadge status={status} />
+          <ArrowIcon className="statusArrow" direction={isStatusSelectorOpen ? "up" : "down"} />
+        </div>
+        {isStatusSelectorOpen && (
+          <div className="statusChangerSelector">
+            <StatusSelector onClick={onClick} className="taskStatusSelector" />
+          </div>
+        )}
       </div>
-      {isStatusSelectorOpen && <div className='statusSelector'><StatusSelector onClick={onClick} className='TaskStatusSelector'/></div>}
     </div>
-  )
-}
+  );
+};

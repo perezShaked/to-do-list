@@ -1,18 +1,21 @@
 .statusChanger{
   display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: flex-end;
 }
 
 .statusContainer{
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   position: relative;
 }
 
-.statusSelector{
+.statusBadgeContainer{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.statusChangerSelector{
   position: absolute;
   top: 100%;
   display: flex;

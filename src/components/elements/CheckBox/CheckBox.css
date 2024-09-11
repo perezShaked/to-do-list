@@ -1,16 +1,16 @@
 
-.checkBox{
+.checkBoxInput{
   cursor: pointer;
   opacity: 0;
   position: absolute;
 }
 
-.checkBox2{
+.checkBoxLabel{
   cursor: pointer;
   display: flex;
 }
 
-.checkBox2::before{
+.checkBoxLabel::before{
   content: '';
   width: 12px;
   height: 12px;
@@ -19,12 +19,12 @@
   transition: background-color 0.5s;
 }
 
-.checkBox2:hover::before,
-.checkBox:hover + label::before{
+.checkBoxLabel:hover::before,
+.checkBoxInput:hover + label::before{
   background-color: #8cb9d6;
 }
 
-.checkBox:checked + label::before{
+.checkBoxInput:checked + label::before{
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -34,10 +34,6 @@
   font-size: 10px;
   background-color: #075C93;
 }
-
-
-
-
 
 .checkBoxContainer {
   display: flex;
