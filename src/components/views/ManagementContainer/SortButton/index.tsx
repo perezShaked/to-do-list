@@ -1,10 +1,10 @@
-import "./SortButton.css";
-import { useRef, useState, useEffect } from "react";
-import { ArrowIcon } from "../../../elements/ArrowIcon";
-import { StatusSelector } from "../../StatusSelector";
-import { StatusOptions } from "../../../../types";
-import { statuses } from "../../../../data";
-import { useOutsideClick } from "../../../hooks/useOutsideClick";
+import { useRef, useState, useEffect, useContext } from 'react';
+import { ArrowIcon } from '../../../elements';
+import { StatusSelector } from '../../StatusSelector';
+import { StatusOptions } from '../../../../types';
+import { useOutsideClick } from '../../../hooks';
+import './SortButton.css';
+import { statusesContext } from '../../../../context';
 
 type sortButtonProps = {
   onClick: (sortStatus: StatusOptions) => () => void;
@@ -26,11 +26,13 @@ export const SortButton = ({ onClick, sortStatus }: sortButtonProps) => {
     setIsStatusSelectorOpen(false);
   }, [sortStatus]);
 
+  const statuses = useContext(statusesContext);
+
   return (
     <div ref={statusSelectorRef} className="sortChanger">
       <button className="sortButton" onClick={onSortButtonClick}>
-        {statuses[sortStatus].hebrewName}
-        <ArrowIcon className="sortButtonArrow" direction={isStatusSelectorOpen ? "up" : "down"} />
+        {statuses && statuses[sortStatus].hebrew_name}
+        <ArrowIcon className="sortButtonArrow" direction={isStatusSelectorOpen ? 'up' : 'down'} />
       </button>
       {isStatusSelectorOpen && (
         <div className="sortSelector">

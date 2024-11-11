@@ -1,2 +1,1 @@
-export * from "./tasksData";
-export * from "./statusesData";
+export * from './tasksData';

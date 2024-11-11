@@ -1,19 +1,21 @@
-import "./App.css";
-import { useState, useMemo } from "react";
-import { TimeStamp } from "./components/views/TimeStamp";
-import { CheckedTask, Task, StatusOptions, TasksTypes } from "./types";
-import { TasksContainer } from "./components/views/TasksContainer";
-import { ManagementContainer } from "./components/views/ManagementContainer";
-import { tasksData } from "./data";
+import './App.css';
+import { useState, useMemo } from 'react';
+import { TimeStamp } from './components/views/TimeStamp';
+import { CheckedTask, Task, StatusOptions, TasksTypes } from './types';
+import { TasksContainer } from './components/views/TasksContainer';
+import { ManagementContainer } from './components/views/ManagementContainer';
+import { tasksData } from './data';
+import { useFetchStatuses } from './components/hooks';
+import { statusesContext } from './context';
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>(tasksData);
   const [checkedTasks, setCheckedTasks] = useState<CheckedTask[]>([]);
   const [sortStatus, setSortStatus] = useState<StatusOptions>(StatusOptions.ALL_STATUSES);
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>('');
 
   const displayTasks = useMemo((): Task[] => {
-    if (sortStatus === StatusOptions.ALL_STATUSES && searchValue === "") return tasks;
+    if (sortStatus === StatusOptions.ALL_STATUSES && searchValue === '') return tasks;
 
     const updatedTasks = tasks.map((task) => {
       return {
@@ -71,26 +73,28 @@ const App = () => {
   return (
     <>
       <TimeStamp />
-      <div className="appContainer">
-        <div className="header">משימות</div>
-        <ManagementContainer
-          tasks={tasks}
-          searchValue={searchValue}
-          sortStatus={sortStatus}
-          checkedTasks={checkedTasks}
-          updateTasksData={setTasks}
-          updateCheckedTasksData={setCheckedTasks}
-          handleSearchValueChange={handleSearchValueChange}
-          handleSortStatusChange={handleSortStatusChange}
-        />
-        <TasksContainer
-          displayTasks={displayTasks}
-          sortStatus={sortStatus}
-          updateTaskData={updateTaskData}
-          checkedTasks={checkedTasks}
-          handleCheckedTask={handleCheckedTask}
-        />
-      </div>
+      <statusesContext.Provider value={useFetchStatuses()}>
+        <div className="appContainer">
+          <div className="header">משימות</div>
+          <ManagementContainer
+            tasks={tasks}
+            searchValue={searchValue}
+            sortStatus={sortStatus}
+            checkedTasks={checkedTasks}
+            updateTasksData={setTasks}
+            updateCheckedTasksData={setCheckedTasks}
+            handleSearchValueChange={handleSearchValueChange}
+            handleSortStatusChange={handleSortStatusChange}
+          />
+          <TasksContainer
+            displayTasks={displayTasks}
+            sortStatus={sortStatus}
+            updateTaskData={updateTaskData}
+            checkedTasks={checkedTasks}
+            handleCheckedTask={handleCheckedTask}
+          />
+        </div>
+      </statusesContext.Provider>
     </>
   );
 };

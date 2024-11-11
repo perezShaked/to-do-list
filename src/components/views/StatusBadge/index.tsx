@@ -1,7 +1,8 @@
-import "./TaskStatusBadge.css";
-import { StatusOptions } from "../../../types";
-import { statuses } from "../../../data";
-import clsx from "clsx";
+import './TaskStatusBadge.css';
+import { StatusOptions } from '../../../types';
+import clsx from 'clsx';
+import { useContext } from 'react';
+import { statusesContext } from '../../../context';
 
 type StatusProps = {
   status: StatusOptions;
@@ -9,13 +10,15 @@ type StatusProps = {
 };
 
 export const StatusBadge = ({ status, onClick }: StatusProps) => {
+  const statuses = useContext(statusesContext);
+
   return (
     <button
-      className={clsx("status", status)}
+      className={clsx('status', status)}
       onClick={onClick}
-      style={{ backgroundColor: statuses[status].color }}
+      style={{ backgroundColor: statuses && statuses[status].color }}
     >
-      {statuses[status].hebrewName}
+      {statuses && statuses[status].hebrew_name}
     </button>
   );
 };

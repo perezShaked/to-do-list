@@ -1,6 +1,6 @@
-import { StatusOptions } from "../../../types";
-import { StatusBadge } from "../StatusBadge";
-import "./TaskStatusSelector.css";
+import { StatusOptions } from '../../../types';
+import { StatusBadge } from '../StatusBadge';
+import './TaskStatusSelector.css';
 
 type StatusSelectorProps = {
   className: string;
@@ -21,7 +21,7 @@ export const StatusSelector = ({ className, onClick }: StatusSelectorProps) => {
         status={StatusOptions.PENDING_UPDATE}
         onClick={onClick(StatusOptions.PENDING_UPDATE)}
       />
-      {className === "sortStatusSelector" && (
+      {className === 'sortStatusSelector' && (
         <StatusBadge
           status={StatusOptions.ALL_STATUSES}
           onClick={onClick(StatusOptions.ALL_STATUSES)}

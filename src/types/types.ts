@@ -1,11 +1,18 @@
 export enum StatusOptions {
-  WAIT = "wait",
-  COMPLETED = "completed",
-  PENDING_UPDATE = "pendingUpdate",
-  CANCELED = "canceled",
-  IN_PROGRESS = "inProgress",
-  ALL_STATUSES = "allStatuses",
+  WAIT = 'wait',
+  COMPLETED = 'completed',
+  PENDING_UPDATE = 'pendingUpdate',
+  CANCELED = 'canceled',
+  IN_PROGRESS = 'inProgress',
+  ALL_STATUSES = 'allStatuses',
 }
+
+export type Statuses = {
+  [key: string]: {
+    hebrew_name: string;
+    color: string;
+  };
+};
 
 export type Task = {
   id: number;
@@ -24,8 +31,8 @@ export type SubTask = {
 };
 
 export enum TasksTypes {
-  TASK = "task",
-  SUB_TASK = "subTask",
+  TASK = 'task',
+  SUB_TASK = 'subTask',
 }
 
 export type CheckedTask = {
