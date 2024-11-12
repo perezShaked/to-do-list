@@ -1,17 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import './TaskStatusChanger.css';
 import { ArrowIcon } from '../../../../elements/ArrowIcon';
 import { StatusOptions } from '../../../../../types';
 import { StatusSelector } from '../../../StatusSelector';
 import { StatusBadge } from '../../../StatusBadge';
 import { useOutsideClick } from '../../../../hooks/useOutsideClick';
+import { statusesContext } from '../../../../../context';
 
 type StatusProps = {
-  status: StatusOptions;
+  statusId: number;
   onClick: (status: StatusOptions) => () => void;
 };
 
-export const TaskStatusChanger = ({ status, onClick }: StatusProps) => {
+export const TaskStatusChanger = ({ statusId, onClick }: StatusProps) => {
   const [isStatusSelectorOpen, setIsStatusSelectorOpen] = useState(false);
   const statusSelectorRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,7 @@ export const TaskStatusChanger = ({ status, onClick }: StatusProps) => {
     <div ref={statusSelectorRef} className="statusChanger">
       <div className="statusContainer">
         <div className="statusBadgeContainer" onClick={openStatusSelector}>
-          <StatusBadge status={status} />
+          <StatusBadge statusId={statusId} />
           <ArrowIcon className="statusArrow" direction={isStatusSelectorOpen ? 'up' : 'down'} />
         </div>
         {isStatusSelectorOpen && (

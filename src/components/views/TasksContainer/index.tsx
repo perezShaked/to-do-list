@@ -1,6 +1,7 @@
-import { TasksContentTitles } from "./TasksContentTitles";
-import { TaskRow } from "./TaskRow";
-import { StatusOptions, Task, CheckedTask, TasksTypes } from "../../../types";
+import { TasksContentTitles } from './TasksContentTitles';
+import { TaskRow } from './TaskRow';
+import { StatusOptions, Task, CheckedTask, TasksTypes } from '../../../types';
+import { useTasksQuery } from '../../hooks';
 
 type TasksContainerProps = {
   displayTasks: Task[];
@@ -23,6 +24,7 @@ export const TasksContainer = ({
   checkedTasks,
   handleCheckedTask,
 }: TasksContainerProps) => {
+  const tasks = useTasksQuery().data;
   const isTaskChecked = (taskId: number, parentId: number) =>
     checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
 
@@ -30,15 +32,15 @@ export const TasksContainer = ({
     <>
       <TasksContentTitles />
       <div className="tasksContainer">
-        {displayTasks.map((task) => (
+        {tasks?.map((task) => (
           <TaskRow
-            key={task.id}
-            isTaskChecked={isTaskChecked(task.id, -1)}
+            key={task.taskId}
+            isTaskChecked={isTaskChecked(task.taskId, -1)}
             updateTaskData={updateTaskData}
             task={task}
             handleCheckedTask={handleCheckedTask}
             sortStatus={sortStatus}
-            checkedSubTasks={checkedTasks.filter((subTask) => subTask.parentId === task.id)}
+            checkedSubTasks={checkedTasks.filter((subTask) => subTask.parentId === task.taskId)}
           />
         ))}
       </div>

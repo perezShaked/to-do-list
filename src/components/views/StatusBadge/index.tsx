@@ -5,20 +5,20 @@ import { useContext } from 'react';
 import { statusesContext } from '../../../context';
 
 type StatusProps = {
-  status: StatusOptions;
+  statusId: number;
   onClick?: () => void;
 };
 
-export const StatusBadge = ({ status, onClick }: StatusProps) => {
+export const StatusBadge = ({ statusId, onClick }: StatusProps) => {
   const statuses = useContext(statusesContext);
 
   return (
     <button
-      className={clsx('status', status)}
+      className={clsx('status', 'status' + statusId)}
       onClick={onClick}
-      style={{ backgroundColor: statuses && statuses[status].color }}
+      style={{ backgroundColor: statuses && statuses[statusId].color }}
     >
-      {statuses && statuses[status].hebrew_name}
+      {statuses && statuses[statusId].hebrew_name}
     </button>
   );
 };

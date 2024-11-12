@@ -1,4 +1,4 @@
-import "./TasksContentTitles.css";
+import './TasksContentTitles.css';
 
 export const TasksContentTitles = () => {
   return (

@@ -13,16 +13,4 @@ export const GET_SUB_TASKS_BY_TASK_ID = gql`
   }
 `;
 
-export const GET_ALL_TASKS = gql`
-  query getAllTasks {
-    allTasks(condition: { isDeleted: false }) {
-      nodes {
-        dueDate
-        madeBy
-        owner
-        statusId
-        title
-      }
-    }
-  }
-`;
+

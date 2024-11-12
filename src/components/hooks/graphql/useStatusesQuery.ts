@@ -5,7 +5,7 @@ export const GET_ALL_STATUSES = gql`
   query getAllStatuses {
     allStatuses {
       nodes {
-        englishName
+        id
         hebrewName
         color
       }
@@ -14,7 +14,7 @@ export const GET_ALL_STATUSES = gql`
 `;
 
 export type RawStatus = {
-  englishName: string;
+  id: number;
   hebrewName: string;
   color: string;
 };
@@ -33,8 +33,8 @@ export const useStatusesQuery = () => {
   } = useQuery<RawStatuses>(GET_ALL_STATUSES);
 
   return {
-    data: rawData?.allStatuses.nodes.reduce((statuses, { englishName, hebrewName, color }) => {
-      statuses[englishName] = {
+    data: rawData?.allStatuses.nodes.reduce((statuses, { id, hebrewName, color }) => {
+      statuses[id] = {
         hebrew_name: hebrewName,
         color,
       };

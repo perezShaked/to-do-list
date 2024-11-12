@@ -7,8 +7,8 @@ import { statusesContext } from '../../../../context';
 import './SortButton.css';
 
 type sortButtonProps = {
-  onClick: (sortStatus: StatusOptions) => () => void;
-  sortStatus: StatusOptions;
+  onClick: (sortStatus: number) => () => void;
+  sortStatus: number;
 };
 
 export const SortButton = ({ onClick, sortStatus }: sortButtonProps) => {

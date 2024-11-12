@@ -1,14 +1,14 @@
 export enum StatusOptions {
-  WAIT = 'wait',
-  COMPLETED = 'completed',
-  PENDING_UPDATE = 'pendingUpdate',
-  CANCELED = 'canceled',
-  IN_PROGRESS = 'inProgress',
-  ALL_STATUSES = 'allStatuses',
+  WAIT = 1,
+  PENDING_UPDATE = 2,
+  COMPLETED = 3,
+  CANCELED = 4,
+  IN_PROGRESS = 5,
+  ALL_STATUSES = 6,
 }
 
 export type Statuses = {
-  [key: string]: {
+  [key: number]: {
     hebrew_name: string;
     color: string;
   };
@@ -22,6 +22,15 @@ export type Task = {
   owner: string;
   status: StatusOptions;
   subTasks: SubTask[];
+};
+
+export type newTask = {
+  taskId: number;
+  dueDate: string;
+  madeBy: string;
+  owner: string;
+  statusId: number;
+  title: string;
 };
 
 export type SubTask = {
