@@ -1,8 +1,8 @@
-import "./SubTask.css";
-import { CheckBox } from "../../../../elements/CheckBox";
-import { TaskStatusChanger } from "../TaskStatusChanger";
-import { StatusOptions, SubTask, TasksTypes } from "../../../../../types";
-import { useState } from "react";
+import './SubTask.css';
+import { CheckBox } from '../../../../elements/CheckBox';
+import { TaskStatusChanger } from '../TaskStatusChanger';
+import { StatusOptions, SubTask, TasksTypes } from '../../../../../types';
+import { useState } from 'react';
 
 type SubTaskRowProps = {
   subTask: SubTask;
@@ -27,17 +27,17 @@ export const SubTaskRow = ({
   const [isChecked, setIsChecked] = useState(isSubTaskChecked);
   const [subTaskTitle, setSubTaskTitle] = useState(subTask.title);
 
-  const handleSubTaskStatusChange = (status: StatusOptions) => () => {
-    updateSubTaskData({ ...subTask, status }, subTask.id);
+  const handleSubTaskStatusChange = (statusId: number) => () => {
+    updateSubTaskData({ ...subTask, statusId }, subTask.subTaskId);
   };
 
   const handleSubTaskTitleChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-    updateSubTaskData({ ...subTask, title: value }, subTask.id);
+    updateSubTaskData({ ...subTask, title: value }, subTask.subTaskId);
   };
 
   const handleCheckedStatus = ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(checked);
-    handleCheckedTask(subTask.id, checked, TasksTypes.SUB_TASK, parentId);
+    handleCheckedTask(subTask.subTaskId, checked, TasksTypes.SUB_TASK, parentId);
   };
 
   return (
@@ -49,7 +49,7 @@ export const SubTaskRow = ({
         onChange={(e) => setSubTaskTitle(e.target.value)}
         onBlur={handleSubTaskTitleChange}
       />
-      <TaskStatusChanger onClick={handleSubTaskStatusChange} status={subTask.status} />
+      <TaskStatusChanger onClick={handleSubTaskStatusChange} statusId={subTask.statusId} />
     </div>
   );
 };

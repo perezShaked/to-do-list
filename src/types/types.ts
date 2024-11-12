@@ -34,9 +34,9 @@ export type newTask = {
 };
 
 export type SubTask = {
-  id: number;
+  subTaskId: number;
+  statusId: number;
   title: string;
-  status: StatusOptions;
 };
 
 export enum TasksTypes {
