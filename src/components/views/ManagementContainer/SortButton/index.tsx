@@ -3,8 +3,8 @@ import { ArrowIcon } from '../../../elements';
 import { StatusSelector } from '../../StatusSelector';
 import { StatusOptions } from '../../../../types';
 import { useOutsideClick } from '../../../hooks';
-import './SortButton.css';
 import { statusesContext } from '../../../../context';
+import './SortButton.css';
 
 type sortButtonProps = {
   onClick: (sortStatus: StatusOptions) => () => void;

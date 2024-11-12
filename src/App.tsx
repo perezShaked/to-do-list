@@ -5,7 +5,7 @@ import { CheckedTask, Task, StatusOptions, TasksTypes } from './types';
 import { TasksContainer } from './components/views/TasksContainer';
 import { ManagementContainer } from './components/views/ManagementContainer';
 import { tasksData } from './data';
-import { useFetchStatuses } from './components/hooks';
+import { useStatusesQuery } from './components/hooks';
 import { statusesContext } from './context';
 
 const App = () => {
@@ -73,7 +73,7 @@ const App = () => {
   return (
     <>
       <TimeStamp />
-      <statusesContext.Provider value={useFetchStatuses()}>
+      .<statusesContext.Provider value={useStatusesQuery().data}>
         <div className="appContainer">
           <div className="header">משימות</div>
           <ManagementContainer
