@@ -4,9 +4,10 @@ import { TimeStamp } from './components/views/TimeStamp';
 import { CheckedTask, Task, StatusOptions, TasksTypes } from './types';
 import { TasksContainer } from './components/views/TasksContainer';
 import { ManagementContainer } from './components/views/ManagementContainer';
-import { tasksData } from './data';
 import { useStatusesQuery, useTasksQuery } from './components/hooks';
 import { statusesContext } from './context';
+import { UPDATE_TASK } from './services';
+import { useMutation } from '@apollo/client';
 
 const App = () => {
   const allTasks = useTasksQuery();
@@ -15,6 +16,11 @@ const App = () => {
   const [checkedTasks, setCheckedTasks] = useState<CheckedTask[]>([]);
   const [sortStatus, setSortStatus] = useState<StatusOptions>(StatusOptions.ALL_STATUSES);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [updateTask] = useMutation(UPDATE_TASK, {
+    onCompleted: () => {
+      allTasks.tasksRefetch(); // Fetch the updated tasks after mutation completes
+    },
+  });
 
   const displayTasks = useMemo((): Task[] | undefined => {
     if (sortStatus === StatusOptions.ALL_STATUSES && searchValue === '') return allTasks.data;
@@ -30,7 +36,6 @@ const App = () => {
       };
     });
 
-
     return updatedTasks?.filter((task) => {
       return (
         (task && task.subTasks && task.subTasks.length > 0) ||
@@ -40,13 +45,20 @@ const App = () => {
     });
   }, [sortStatus, searchValue, allTasks.data, allTasks.tasksLoading]);
 
-  const updateTaskData = (updatedTask: Task, taskId: number) => {
-    console.log('updateTaskData');
-
-    /*     const updatedTasks = allTasks.data?.map((task) =>
-      task.taskId === taskId ? updatedTask : task
-    );
-    setTasks(updatedTasks); */
+  const updateTaskData = async (
+    { dueDate, madeBy, owner, statusId, title }: Task,
+    updatedTaskId: number
+  ) => {
+    await updateTask({
+      variables: {
+        taskId: updatedTaskId,
+        dueDate,
+        madeBy,
+        owner,
+        statusId,
+        title,
+      },
+    });
   };
 
   const handleSortStatusChange = (status: StatusOptions) => () => {

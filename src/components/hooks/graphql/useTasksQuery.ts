@@ -59,6 +59,7 @@ export const useTasksQuery = () => {
     data: rawData,
     error: tasksError,
     loading: tasksLoading,
+    refetch: tasksRefetch,
   } = useQuery<RawTasks>(GET_ALL_TASKS);
 
   return {
@@ -68,5 +69,6 @@ export const useTasksQuery = () => {
     })),
     tasksError,
     tasksLoading,
+    tasksRefetch,
   };
 };
