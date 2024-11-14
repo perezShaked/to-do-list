@@ -14,6 +14,7 @@
     "@apollo/client": "^3.11.9",
     "@fontsource/inter": "^5.0.20",
     "clsx": "^2.1.1",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "graphql": "^15.9.0",
     "postgraphile": "^4.13.0",

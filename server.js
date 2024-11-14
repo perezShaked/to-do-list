@@ -1,8 +1,11 @@
 import express from 'express';
+import cors from 'cors';
 import { postgraphile } from 'postgraphile';
 //import { ConnectionFilterPlugin } from 'postgraphile-plugin-connection-filter';
 
+
 const app = express();
+app.use(cors());
 
 app.use(
   postgraphile(
@@ -19,7 +22,7 @@ app.use(
 
 const PORT = 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}/graphiql`);
+  console.log(`Server is running at http://localhost:${PORT}/graphql`);
 });
 
 

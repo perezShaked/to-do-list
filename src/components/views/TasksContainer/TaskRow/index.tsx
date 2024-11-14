@@ -4,13 +4,13 @@ import './TaskRow.css';
 import { CheckBox } from '../../../elements';
 import { ArrowIcon } from '../../../elements';
 import { TaskStatusChanger } from './TaskStatusChanger';
-import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes, newTask } from '../../../../types';
+import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes } from '../../../../types';
 import { SubTaskRow } from './SubTask';
 import { convertDateToString } from '../../../../utils';
-import { useSubTasksByTaskId } from '../../../hooks';
+
 
 type TaskRowProps = {
-  task: newTask;
+  task: Task;
   handleCheckedTask: (
     taskId: number,
     checkedStatus: boolean,
@@ -18,7 +18,7 @@ type TaskRowProps = {
     parentId: number
   ) => void;
   isTaskChecked: boolean;
-  updateTaskData: (updatedTask: newTask, taskId: number) => void;
+  updateTaskData: (updatedTask: Task, taskId: number) => void;
   sortStatus: StatusOptions;
   checkedSubTasks: CheckedTask[];
 };
@@ -37,25 +37,23 @@ export const TaskRow = ({
   const [taskMadeBy, setTaskMadeBy] = useState(task.madeBy);
   const [taskOwner, setTaskOwner] = useState(task.owner);
   const [isChecked, setIsChecked] = useState(isTaskChecked);
-  const subTasks = useSubTasksByTaskId(task.taskId).data;
-  const haveSubTasks = subTasks && subTasks.length > 0;
+  const haveSubTasks = task.subTasks.length > 0;
 
   const isSubTaskChecked = (subTaskId: number): boolean =>
     checkedSubTasks.some((subTask) => subTaskId === subTask.id);
 
-  const handleInputChange =
-    (field: keyof newTask) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      let value: string | Date = event.currentTarget.value;
-      if (field === 'dueDate') {
-        value = new Date(event.target.value);
-        if (isNaN(value.getTime())) {
-          event.preventDefault();
-          event.target.focus();
-        }
+  const handleInputChange = (field: keyof Task) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value: string | Date = event.currentTarget.value;
+    if (field === 'dueDate') {
+      value = new Date(event.target.value);
+      if (isNaN(value.getTime())) {
+        event.preventDefault();
+        event.target.focus();
       }
-      const updatedTask: newTask = { ...task, [field]: value };
-      updateTaskData(updatedTask, task.taskId);
-    };
+    }
+    const updatedTask: Task = { ...task, [field]: value };
+    updateTaskData(updatedTask, task.taskId);
+  };
 
   const handleStatusChange = (status: StatusOptions) => () => {
     const updatedTask = { ...task, status };
@@ -111,7 +109,7 @@ export const TaskRow = ({
             onChange={(e) => setTaskTitle(e.target.value)}
             onBlur={handleInputChange('title')}
           />
-          {haveSubTasks && <div className="numOfSubTasks">{`${subTasks.length}+`}</div>}
+          {haveSubTasks && <div className="numOfSubTasks">{`${task.subTasks.length}+`}</div>}
         </div>
         <input
           className="inputTask dueDate"
@@ -134,13 +132,13 @@ export const TaskRow = ({
         />
         {<TaskStatusChanger onClick={handleStatusChange} statusId={task.statusId} />}
       </div>
-      {subTasks && subTasks.length > 0 && subTasksExpanded && (
+      {task.subTasks.length > 0 && subTasksExpanded && (
         <div>
-          {subTasks.map((subTask) => (
+          {task.subTasks.map((subTask) => (
             <SubTaskRow
               key={subTask.subTaskId}
               updateSubTaskData={updateSubTaskData}
-              isSubTaskChecked={isSubTaskChecked(subTask.subTaskId)}
+              isSubTaskChecked={isSubTaskChecked(subTask.subTaskId || 0)}
               subTask={subTask}
               parentId={task.taskId}
               handleCheckedTask={handleCheckedTask}

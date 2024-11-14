@@ -14,7 +14,7 @@ export type Statuses = {
   };
 };
 
-export type Task = {
+/* export type Task = {
   id: number;
   title: string;
   dueDate: Date;
@@ -22,21 +22,22 @@ export type Task = {
   owner: string;
   status: StatusOptions;
   subTasks: SubTask[];
-};
+}; */
 
-export type newTask = {
+export type Task = {
   taskId: number;
   dueDate: string;
   madeBy: string;
   owner: string;
   statusId: number;
   title: string;
+  subTasks: SubTask[];
 };
 
 export type SubTask = {
-  subTaskId: number;
-  statusId: number;
-  title: string;
+  subTaskId?: number;
+  statusId?: number;
+  title?: string;
 };
 
 export enum TasksTypes {

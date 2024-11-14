@@ -1,19 +1,40 @@
 import { gql, useQuery } from '@apollo/client';
 
 export const GET_ALL_TASKS = gql`
-  query getAllTasks {
-    allTasks(condition: { isDeleted: false }) {
-      nodes {
-        taskId
-        dueDate
-        madeBy
-        owner
-        statusId
-        title
+  query allTasks {
+    allTasks {
+      edges {
+        node {
+          taskId
+          title
+          dueDate
+          madeBy
+          owner
+          statusId
+          subTasksByParentTaskId(condition: { isDeleted: false }) {
+            nodes {
+              parentTaskId
+              statusId
+              subTaskId
+              title
+            }
+          }
+        }
       }
     }
   }
 `;
+
+export type RawSubTask = {
+  parentTaskId: number;
+  statusId: number;
+  subTaskId: number;
+  title: string;
+};
+
+export type RawSubTasks = {
+  nodes: RawSubTask[];
+};
 
 export type RowTask = {
   taskId: number;
@@ -22,11 +43,14 @@ export type RowTask = {
   owner: string;
   statusId: number;
   title: string;
+  subTasksByParentTaskId: RawSubTasks;
 };
 
 export type RawTasks = {
   allTasks: {
-    nodes: RowTask[];
+    edges: {
+      node: RowTask;
+    }[];
   };
 };
 
@@ -38,13 +62,9 @@ export const useTasksQuery = () => {
   } = useQuery<RawTasks>(GET_ALL_TASKS);
 
   return {
-    data: rawData?.allTasks.nodes.map(({ taskId, dueDate, madeBy, owner, statusId, title }) => ({
-      taskId,
-      dueDate,
-      madeBy,
-      owner,
-      statusId,
-      title,
+    data: rawData?.allTasks.edges.map(({ node }) => ({
+      ...node,
+      subTasks: node.subTasksByParentTaskId.nodes,
     })),
     tasksError,
     tasksLoading,

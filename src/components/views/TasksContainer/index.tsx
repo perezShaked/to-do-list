@@ -4,9 +4,8 @@ import { StatusOptions, Task, CheckedTask, TasksTypes } from '../../../types';
 import { useTasksQuery } from '../../hooks';
 
 type TasksContainerProps = {
-  displayTasks: Task[];
+  displayTasks: Task[] | undefined;
   sortStatus: StatusOptions;
-
   checkedTasks: CheckedTask[];
   updateTaskData: (updateTask: Task, taskId: number) => void;
   handleCheckedTask: (
@@ -24,7 +23,7 @@ export const TasksContainer = ({
   checkedTasks,
   handleCheckedTask,
 }: TasksContainerProps) => {
-  const tasks = useTasksQuery().data;
+  /*   const tasks = useTasksQuery().data; */
   const isTaskChecked = (taskId: number, parentId: number) =>
     checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
 
@@ -32,7 +31,7 @@ export const TasksContainer = ({
     <>
       <TasksContentTitles />
       <div className="tasksContainer">
-        {tasks?.map((task) => (
+        {displayTasks?.map((task) => (
           <TaskRow
             key={task.taskId}
             isTaskChecked={isTaskChecked(task.taskId, -1)}

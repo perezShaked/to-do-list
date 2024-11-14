@@ -1,13 +1,13 @@
-import "./ManageContainer.css";
-import { SearchBar } from "./SearchBar";
-import { SortButton } from "./SortButton";
-import { DeleteTaskButton } from "./DeleteTaskButton";
-import { NewTaskButton } from "./NewTaskButton";
-import { Task, CheckedTask, StatusOptions, TasksTypes } from "../../../types";
-import { useState, useMemo } from "react";
+import './ManageContainer.css';
+import { SearchBar } from './SearchBar';
+import { SortButton } from './SortButton';
+import { DeleteTaskButton } from './DeleteTaskButton';
+import { NewTaskButton } from './NewTaskButton';
+import { Task, CheckedTask, StatusOptions, TasksTypes } from '../../../types';
+import { useState, useMemo } from 'react';
 
 type ManagementContainerProps = {
-  tasks: Task[];
+  tasks: Task[] | undefined;
   checkedTasks: CheckedTask[];
   sortStatus: StatusOptions;
   searchValue: string;
@@ -27,58 +27,43 @@ export const ManagementContainer = ({
   handleSearchValueChange,
   handleSortStatusChange,
 }: ManagementContainerProps) => {
-  const [nextId, setNextId] = useState(tasks.length);
+  /* const [nextId, setNextId] = useState(tasks.length); */
 
-  const addNewSubTask = ({ subTasks }: Task) => {
+  /*   const addNewSubTask = ({ subTasks }: Task) => {
     let nextSubTaskId = 0;
     if (subTasks.length > 0) {
       nextSubTaskId = subTasks[subTasks.length - 1].id + 1;
     }
     subTasks.push({
       id: nextSubTaskId,
-      title: "",
+      title: '',
       status: StatusOptions.PENDING_UPDATE,
     });
-  };
+  }; */
 
-  const createNewTask = (): Task => {
+  /*   const createNewTask = (): Task => {
     return {
       id: nextId,
-      title: "",
+      title: '',
       dueDate: new Date(),
-      madeBy: "",
-      owner: "",
+      madeBy: '',
+      owner: '',
       status: StatusOptions.PENDING_UPDATE,
       subTasks: [],
     };
-  };
-
-  const handleAddNewTaskClick = () => {
-    const updatedTasks = [...tasks];
-    if (checkedTasks.length > 0) {
-      checkedTasks.forEach((checkedTask) => {
-        updatedTasks.forEach((task) => {
-          if (checkedTask.id == task.id) {
-            addNewSubTask(task);
-          }
-        });
-      });
-    } else {
-      updatedTasks.push(createNewTask());
-      setNextId(nextId + 1);
-    }
-    updateTasksData(updatedTasks);
-  };
+  }; */
 
   const handleDeleteTask = () => {
-    let updatedTasks = [...tasks];
+    console.log('try to delete');
+
+    /*    let updatedTasks = [...tasks];
     checkedTasks.forEach(({ parentId, id, type }) => {
       if (type == TasksTypes.SUB_TASK) {
         updatedTasks = updatedTasks.map((task) => {
           if (task.id == parentId) {
             return {
               ...task,
-              subTasks: task.subTasks.filter((task) => task.id !== id),
+              subTasks: task.subTasks.filter((task) => task.subTaskId !== id),
             };
           }
           return task;
@@ -88,7 +73,7 @@ export const ManagementContainer = ({
       }
     });
     updateTasksData(updatedTasks);
-    updateCheckedTasksData([]);
+    updateCheckedTasksData([]); */
   };
 
   const isSubTaskChecked = useMemo(() => {
@@ -108,7 +93,7 @@ export const ManagementContainer = ({
       </div>
       <div className="addAndDelete">
         <DeleteTaskButton onClick={handleDeleteTask} />
-        <NewTaskButton onClick={handleAddNewTaskClick} disabled={isSubTaskChecked} />
+        <NewTaskButton disabled={isSubTaskChecked} checkedTasks={checkedTasks} />
       </div>
     </div>
   );
