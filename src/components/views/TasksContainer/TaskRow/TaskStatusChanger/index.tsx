@@ -25,7 +25,7 @@ export const TaskStatusChanger = ({ statusId, onClick }: StatusProps) => {
 
   useEffect(() => {
     setIsStatusSelectorOpen(false);
-  }, [status]);
+  }, [statusId]);
 
   return (
     <div ref={statusSelectorRef} className="statusChanger">

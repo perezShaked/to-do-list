@@ -5,6 +5,8 @@ import { DeleteTaskButton } from './DeleteTaskButton';
 import { NewTaskButton } from './NewTaskButton';
 import { Task, CheckedTask, StatusOptions, TasksTypes } from '../../../types';
 import { useState, useMemo } from 'react';
+import { useMutation } from '@apollo/client';
+import { DELETE_SUB_TASK, DELETE_TASK } from '../../../services';
 
 type ManagementContainerProps = {
   tasks: Task[] | undefined;
@@ -27,6 +29,12 @@ export const ManagementContainer = ({
   handleSearchValueChange,
   handleSortStatusChange,
 }: ManagementContainerProps) => {
+  const [deleteTask] = useMutation(DELETE_TASK, {
+    onCompleted: updateTasksData,
+  });
+  const [deleteSubTask] = useMutation(DELETE_SUB_TASK, {
+    onCompleted: updateTasksData,
+  });
   /* const [nextId, setNextId] = useState(tasks.length); */
 
   /*   const addNewSubTask = ({ subTasks }: Task) => {
@@ -41,39 +49,23 @@ export const ManagementContainer = ({
     });
   }; */
 
-  /*   const createNewTask = (): Task => {
-    return {
-      id: nextId,
-      title: '',
-      dueDate: new Date(),
-      madeBy: '',
-      owner: '',
-      status: StatusOptions.PENDING_UPDATE,
-      subTasks: [],
-    };
-  }; */
-
   const handleDeleteTask = () => {
-    console.log('try to delete');
-
-    /*    let updatedTasks = [...tasks];
-    checkedTasks.forEach(({ parentId, id, type }) => {
+    checkedTasks.forEach(async ({ id, type }) => {
       if (type == TasksTypes.SUB_TASK) {
-        updatedTasks = updatedTasks.map((task) => {
-          if (task.id == parentId) {
-            return {
-              ...task,
-              subTasks: task.subTasks.filter((task) => task.subTaskId !== id),
-            };
-          }
-          return task;
+        await deleteSubTask({
+          variables: {
+            subTaskId: id,
+          },
         });
       } else {
-        updatedTasks = updatedTasks.filter((task) => task.id !== id);
+        await deleteTask({
+          variables: {
+            taskId: id,
+          },
+        });
       }
     });
-    updateTasksData(updatedTasks);
-    updateCheckedTasksData([]); */
+    updateCheckedTasksData([]);
   };
 
   const isSubTaskChecked = useMemo(() => {

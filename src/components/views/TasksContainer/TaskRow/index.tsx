@@ -8,7 +8,6 @@ import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes } from '../../../
 import { SubTaskRow } from './SubTask';
 import { convertDateToString } from '../../../../utils';
 
-
 type TaskRowProps = {
   task: Task;
   handleCheckedTask: (
@@ -56,7 +55,7 @@ export const TaskRow = ({
   };
 
   const handleStatusChange = (status: StatusOptions) => () => {
-    const updatedTask = { ...task, status };
+    const updatedTask = { ...task, statusId: status };
     updateTaskData(updatedTask, task.taskId);
   };
 

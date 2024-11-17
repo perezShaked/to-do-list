@@ -9,7 +9,7 @@ export const ADD_NEW_TASK = gql`
 `;
 
 export const UPDATE_TASK = gql`
-  mutation MyMutation(
+  mutation updateTask(
     $taskId: Int!
     $dueDate: Date!
     $madeBy: String!
@@ -29,6 +29,14 @@ export const UPDATE_TASK = gql`
         taskId: $taskId
       }
     ) {
+      clientMutationId
+    }
+  }
+`;
+
+export const DELETE_TASK = gql`
+  mutation deleteTask($taskId: Int!) {
+    updateTaskByTaskId(input: { taskPatch: { isDeleted: true }, taskId: $taskId }) {
       clientMutationId
     }
   }

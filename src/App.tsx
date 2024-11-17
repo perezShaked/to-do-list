@@ -100,7 +100,7 @@ const App = () => {
             searchValue={searchValue}
             sortStatus={sortStatus}
             checkedTasks={checkedTasks}
-            updateTasksData={setTasks}
+            updateTasksData={allTasks.tasksRefetch}
             updateCheckedTasksData={setCheckedTasks}
             handleSearchValueChange={handleSearchValueChange}
             handleSortStatusChange={handleSortStatusChange}

@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 
 export const GET_ALL_TASKS = gql`
   query allTasks {
-    allTasks {
+    allTasks(condition: { isDeleted: false }) {
       edges {
         node {
           taskId

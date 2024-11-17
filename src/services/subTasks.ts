@@ -7,3 +7,11 @@ export const ADD_NEW_SUB_TASK = gql`
     }
   }
 `;
+
+export const DELETE_SUB_TASK = gql`
+  mutation deleteSubTask($subTaskId: Int!) {
+    updateSubTaskBySubTaskId(input: { subTaskPatch: { isDeleted: true }, subTaskId: $subTaskId }) {
+      clientMutationId
+    }
+  }
+`;
