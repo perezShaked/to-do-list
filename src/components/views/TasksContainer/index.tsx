@@ -2,12 +2,15 @@ import { TasksContentTitles } from './TasksContentTitles';
 import { TaskRow } from './TaskRow';
 import { StatusOptions, Task, CheckedTask, TasksTypes } from '../../../types';
 import { useTasksQuery } from '../../hooks';
+import { useMutation } from '@apollo/client';
+import { UPDATE_SUBTASK } from '../../../services';
 
 type TasksContainerProps = {
   displayTasks: Task[] | undefined;
   sortStatus: StatusOptions;
   checkedTasks: CheckedTask[];
   updateTaskData: (updateTask: Task, taskId: number) => void;
+  refetchTasks: (updateTasks: Task[]) => void;
   handleCheckedTask: (
     taskId: number,
     checkedStatus: boolean,
@@ -22,10 +25,14 @@ export const TasksContainer = ({
   updateTaskData,
   checkedTasks,
   handleCheckedTask,
+  refetchTasks,
 }: TasksContainerProps) => {
   /*   const tasks = useTasksQuery().data; */
   const isTaskChecked = (taskId: number, parentId: number) =>
     checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
+  const [updateSubTask] = useMutation(UPDATE_SUBTASK, {
+    onCompleted: refetchTasks,
+  });
 
   return (
     <>
@@ -36,6 +43,7 @@ export const TasksContainer = ({
             key={task.taskId}
             isTaskChecked={isTaskChecked(task.taskId, -1)}
             updateTaskData={updateTaskData}
+            updateSubTask={updateSubTask}
             task={task}
             handleCheckedTask={handleCheckedTask}
             sortStatus={sortStatus}

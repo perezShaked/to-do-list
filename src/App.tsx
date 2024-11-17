@@ -100,7 +100,7 @@ const App = () => {
             searchValue={searchValue}
             sortStatus={sortStatus}
             checkedTasks={checkedTasks}
-            updateTasksData={allTasks.tasksRefetch}
+            refetchTasks={allTasks.tasksRefetch}
             updateCheckedTasksData={setCheckedTasks}
             handleSearchValueChange={handleSearchValueChange}
             handleSortStatusChange={handleSortStatusChange}
@@ -111,6 +111,7 @@ const App = () => {
             updateTaskData={updateTaskData}
             checkedTasks={checkedTasks}
             handleCheckedTask={handleCheckedTask}
+            refetchTasks={allTasks.tasksRefetch}
           />
         </div>
       </statusesContext.Provider>

@@ -7,6 +7,8 @@ import { TaskStatusChanger } from './TaskStatusChanger';
 import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes } from '../../../../types';
 import { SubTaskRow } from './SubTask';
 import { convertDateToString } from '../../../../utils';
+import { useMutation, MutationFunction } from '@apollo/client';
+import { UPDATE_SUBTASK } from '../../../../services';
 
 type TaskRowProps = {
   task: Task;
@@ -18,6 +20,7 @@ type TaskRowProps = {
   ) => void;
   isTaskChecked: boolean;
   updateTaskData: (updatedTask: Task, taskId: number) => void;
+  updateSubTask: MutationFunction;
   sortStatus: StatusOptions;
   checkedSubTasks: CheckedTask[];
 };
@@ -27,6 +30,7 @@ export const TaskRow = ({
   handleCheckedTask,
   isTaskChecked,
   updateTaskData,
+  updateSubTask,
   sortStatus,
   checkedSubTasks,
 }: TaskRowProps) => {
@@ -67,16 +71,14 @@ export const TaskRow = ({
     handleCheckedTask(task.taskId, checked, TasksTypes.TASK, -1);
   };
 
-  const updateSubTaskData = (updatedSubTask: SubTask, subTaskId: number) => {
-    /*     updateTaskData(
-      {
-        ...task,
-        subTasks: task.subTasks.map((subTask) =>
-          subTask.id === subTaskId ? updatedSubTask : subTask
-        ),
+  const updateSubTaskData = async ({ title, statusId }: SubTask, subTaskId: number) => {
+    await updateSubTask({
+      variables: {
+        subTaskId,
+        title,
+        statusId,
       },
-      task.id
-    ); */
+    });
   };
 
   const prevSortStatus = useRef(sortStatus);

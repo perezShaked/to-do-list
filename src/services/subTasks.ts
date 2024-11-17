@@ -15,3 +15,13 @@ export const DELETE_SUB_TASK = gql`
     }
   }
 `;
+
+export const UPDATE_SUBTASK = gql`
+  mutation updateSubTask($subTaskId: Int!, $statusId: Int!, $title: String!) {
+    updateSubTaskBySubTaskId(
+      input: { subTaskPatch: { title: $title, statusId: $statusId }, subTaskId: $subTaskId }
+    ) {
+      clientMutationId
+    }
+  }
+`;

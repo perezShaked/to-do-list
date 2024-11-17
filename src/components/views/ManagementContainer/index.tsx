@@ -13,7 +13,7 @@ type ManagementContainerProps = {
   checkedTasks: CheckedTask[];
   sortStatus: StatusOptions;
   searchValue: string;
-  updateTasksData: (updateTasks: Task[]) => void;
+  refetchTasks: (updateTasks: Task[]) => void;
   updateCheckedTasksData: (updateCheckedTasks: CheckedTask[]) => void;
   handleSearchValueChange: (value: string) => void;
   handleSortStatusChange: (status: StatusOptions) => () => void;
@@ -22,7 +22,7 @@ type ManagementContainerProps = {
 export const ManagementContainer = ({
   tasks,
   checkedTasks,
-  updateTasksData,
+  refetchTasks,
   sortStatus,
   searchValue,
   updateCheckedTasksData,
@@ -30,24 +30,11 @@ export const ManagementContainer = ({
   handleSortStatusChange,
 }: ManagementContainerProps) => {
   const [deleteTask] = useMutation(DELETE_TASK, {
-    onCompleted: updateTasksData,
+    onCompleted: refetchTasks,
   });
   const [deleteSubTask] = useMutation(DELETE_SUB_TASK, {
-    onCompleted: updateTasksData,
+    onCompleted: refetchTasks,
   });
-  /* const [nextId, setNextId] = useState(tasks.length); */
-
-  /*   const addNewSubTask = ({ subTasks }: Task) => {
-    let nextSubTaskId = 0;
-    if (subTasks.length > 0) {
-      nextSubTaskId = subTasks[subTasks.length - 1].id + 1;
-    }
-    subTasks.push({
-      id: nextSubTaskId,
-      title: '',
-      status: StatusOptions.PENDING_UPDATE,
-    });
-  }; */
 
   const handleDeleteTask = () => {
     checkedTasks.forEach(async ({ id, type }) => {
