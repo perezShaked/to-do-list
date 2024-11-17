@@ -6,7 +6,7 @@ import { NewTaskButton } from './NewTaskButton';
 import { Task, CheckedTask, StatusOptions, TasksTypes } from '../../../types';
 import { useState, useMemo } from 'react';
 import { useMutation } from '@apollo/client';
-import { DELETE_SUB_TASK, DELETE_TASK } from '../../../services';
+import { DELETE_SUB_TASK, DELETE_TASK, ADD_NEW_SUB_TASK, ADD_NEW_TASK } from '../../../services';
 
 type ManagementContainerProps = {
   tasks: Task[] | undefined;
@@ -35,6 +35,12 @@ export const ManagementContainer = ({
   const [deleteSubTask] = useMutation(DELETE_SUB_TASK, {
     onCompleted: refetchTasks,
   });
+  const [addNewTask] = useMutation(ADD_NEW_TASK, {
+    onCompleted: refetchTasks,
+  });
+  const [addNewSubTask] = useMutation(ADD_NEW_SUB_TASK, {
+    onCompleted: refetchTasks,
+  });
 
   const handleDeleteTask = () => {
     checkedTasks.forEach(async ({ id, type }) => {
@@ -55,13 +61,24 @@ export const ManagementContainer = ({
     updateCheckedTasksData([]);
   };
 
+  const handleAddNewTaskClick = async () => {
+    if (checkedTasks.length > 0) {
+      checkedTasks.forEach(async (checkedTask) => {
+        await addNewSubTask({
+          variables: {
+            parentTaskId: checkedTask.id,
+          },
+        });
+        console.log('Sub Task created successfully');
+      });
+    } else {
+      await addNewTask();
+      console.log('Task created successfully');
+    }
+  };
+
   const isSubTaskChecked = useMemo(() => {
-    checkedTasks.forEach(({ type }) => {
-      if (type == TasksTypes.SUB_TASK) {
-        return true;
-      }
-    });
-    return false;
+    return checkedTasks.some(({ type }) => type === TasksTypes.SUB_TASK);
   }, [checkedTasks]);
 
   return (
@@ -72,7 +89,7 @@ export const ManagementContainer = ({
       </div>
       <div className="addAndDelete">
         <DeleteTaskButton onClick={handleDeleteTask} />
-        <NewTaskButton disabled={isSubTaskChecked} checkedTasks={checkedTasks} />
+        <NewTaskButton onClick={handleAddNewTaskClick} disabled={isSubTaskChecked} />
       </div>
     </div>
   );
