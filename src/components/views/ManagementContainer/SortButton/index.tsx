@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect, useContext } from 'react';
 import { ArrowIcon } from '../../../elements';
 import { StatusSelector } from '../../StatusSelector';
-import { StatusOptions } from '../../../../types';
 import { useOutsideClick } from '../../../hooks';
 import { statusesContext } from '../../../../context';
 import './SortButton.css';

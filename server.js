@@ -1,8 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import { postgraphile } from 'postgraphile';
-//import { ConnectionFilterPlugin } from 'postgraphile-plugin-connection-filter';
-
 
 const app = express();
 app.use(cors());
@@ -12,7 +10,6 @@ app.use(
     'postgres://postgres:123456@localhost:5432/shaked',
     'to_do_list', 
     {
-      //appendPlugins: [ConnectionFilterPlugin],
       graphiql: true,
       enhanceGraphiql: true,
     }

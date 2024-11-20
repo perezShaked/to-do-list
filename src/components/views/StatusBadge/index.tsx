@@ -1,5 +1,4 @@
 import './TaskStatusBadge.css';
-import { StatusOptions } from '../../../types';
 import clsx from 'clsx';
 import { useContext } from 'react';
 import { statusesContext } from '../../../context';

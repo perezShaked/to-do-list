@@ -1,18 +1,16 @@
 import clsx from 'clsx';
 import { useEffect, useState, useRef } from 'react';
-import './TaskRow.css';
+import { MutationFunction } from '@apollo/client';
+import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes } from '../../../../types';
 import { CheckBox } from '../../../elements';
 import { ArrowIcon } from '../../../elements';
 import { TaskStatusChanger } from './TaskStatusChanger';
-import { CheckedTask, StatusOptions, Task, SubTask, TasksTypes } from '../../../../types';
 import { SubTaskRow } from './SubTask';
-import { convertDateToString } from '../../../../utils';
-import { useMutation, MutationFunction } from '@apollo/client';
-import { UPDATE_SUBTASK } from '../../../../services';
+import './TaskRow.css';
 
 type TaskRowProps = {
   task: Task;
-  handleCheckedTask: (
+  manageTasksSelection: (
     taskId: number,
     checkedStatus: boolean,
     type: TasksTypes,
@@ -27,7 +25,7 @@ type TaskRowProps = {
 
 export const TaskRow = ({
   task,
-  handleCheckedTask,
+  manageTasksSelection,
   isTaskChecked,
   updateTaskData,
   updateSubTask,
@@ -63,12 +61,12 @@ export const TaskRow = ({
     updateTaskData(updatedTask, task.taskId);
   };
 
-  const handleChecked = ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckBox = ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(checked);
     if (checked) {
       setShowSubTask(true);
     }
-    handleCheckedTask(task.taskId, checked, TasksTypes.TASK, -1);
+    manageTasksSelection(task.taskId, checked, TasksTypes.TASK, -1);
   };
 
   const updateSubTaskData = async ({ title, statusId }: SubTask, subTaskId: number) => {
@@ -94,7 +92,7 @@ export const TaskRow = ({
     <div className="taskRow">
       <div className={clsx('task', { ShowSubTasks: subTasksExpanded && haveSubTasks })}>
         <div className="taskInfo">
-          <CheckBox checked={isChecked} onChange={handleChecked} />
+          <CheckBox checked={isChecked} onChange={handleCheckBox} />
           {haveSubTasks && (
             <ArrowIcon
               className="taskRowArrowButton"
@@ -142,7 +140,7 @@ export const TaskRow = ({
               isSubTaskChecked={isSubTaskChecked(subTask.subTaskId || 0)}
               subTask={subTask}
               parentId={task.taskId}
-              handleCheckedTask={handleCheckedTask}
+              manageTasksSelection={manageTasksSelection}
             />
           ))}
         </div>

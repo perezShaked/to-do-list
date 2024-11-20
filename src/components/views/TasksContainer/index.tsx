@@ -1,17 +1,15 @@
+import { useMutation } from '@apollo/client';
+import { StatusOptions, Task, CheckedTask, TasksTypes } from '../../../types';
+import { UPDATE_SUBTASK, UPDATE_TASK } from '../../../services';
 import { TasksContentTitles } from './TasksContentTitles';
 import { TaskRow } from './TaskRow';
-import { StatusOptions, Task, CheckedTask, TasksTypes } from '../../../types';
-import { useTasksQuery } from '../../hooks';
-import { useMutation } from '@apollo/client';
-import { UPDATE_SUBTASK } from '../../../services';
 
 type TasksContainerProps = {
   displayTasks: Task[] | undefined;
   sortStatus: StatusOptions;
   checkedTasks: CheckedTask[];
-  updateTaskData: (updateTask: Task, taskId: number) => void;
   refetchTasks: (updateTasks: Task[]) => void;
-  handleCheckedTask: (
+  manageTasksSelection: (
     taskId: number,
     checkedStatus: boolean,
     type: TasksTypes,
@@ -22,17 +20,36 @@ type TasksContainerProps = {
 export const TasksContainer = ({
   displayTasks,
   sortStatus,
-  updateTaskData,
   checkedTasks,
-  handleCheckedTask,
   refetchTasks,
+  manageTasksSelection,
 }: TasksContainerProps) => {
-  /*   const tasks = useTasksQuery().data; */
-  const isTaskChecked = (taskId: number, parentId: number) =>
-    checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
   const [updateSubTask] = useMutation(UPDATE_SUBTASK, {
     onCompleted: refetchTasks,
   });
+
+  const [updateTask] = useMutation(UPDATE_TASK, {
+    onCompleted: refetchTasks,
+  });
+
+  const isTaskChecked = (taskId: number, parentId: number) =>
+    checkedTasks.some((task) => task.id == taskId && task.parentId == parentId);
+
+  const updateTaskData = async (
+    { dueDate, madeBy, owner, statusId, title }: Task,
+    updatedTaskId: number
+  ) => {
+    await updateTask({
+      variables: {
+        taskId: updatedTaskId,
+        dueDate,
+        madeBy,
+        owner,
+        statusId,
+        title,
+      },
+    });
+  };
 
   return (
     <>
@@ -45,7 +62,7 @@ export const TasksContainer = ({
             updateTaskData={updateTaskData}
             updateSubTask={updateSubTask}
             task={task}
-            handleCheckedTask={handleCheckedTask}
+            manageTasksSelection={manageTasksSelection}
             sortStatus={sortStatus}
             checkedSubTasks={checkedTasks.filter((subTask) => subTask.parentId === task.taskId)}
           />

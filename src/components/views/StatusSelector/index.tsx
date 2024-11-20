@@ -7,8 +7,7 @@ type StatusSelectorProps = {
   onClick: (status: number) => () => void;
 };
 
-export const 
-StatusSelector = ({ className, onClick }: StatusSelectorProps) => {
+export const StatusSelector = ({ className, onClick }: StatusSelectorProps) => {
   return (
     <div className={className}>
       <StatusBadge statusId={StatusOptions.COMPLETED} onClick={onClick(StatusOptions.COMPLETED)} />

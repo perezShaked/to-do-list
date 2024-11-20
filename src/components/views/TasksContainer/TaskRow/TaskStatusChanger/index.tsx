@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState, useContext } from 'react';
-import './TaskStatusChanger.css';
-import { ArrowIcon } from '../../../../elements/ArrowIcon';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowIcon } from '../../../../elements';
 import { StatusOptions } from '../../../../../types';
+import { useOutsideClick } from '../../../../hooks';
 import { StatusSelector } from '../../../StatusSelector';
 import { StatusBadge } from '../../../StatusBadge';
-import { useOutsideClick } from '../../../../hooks/useOutsideClick';
-import { statusesContext } from '../../../../../context';
+import './TaskStatusChanger.css';
 
 type StatusProps = {
   statusId: number;

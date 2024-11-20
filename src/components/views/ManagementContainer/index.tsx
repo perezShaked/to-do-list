@@ -1,15 +1,14 @@
-import './ManageContainer.css';
+import { useMemo } from 'react';
+import { useMutation } from '@apollo/client';
+import { Task, CheckedTask, StatusOptions, TasksTypes } from '../../../types';
+import { DELETE_SUB_TASK, DELETE_TASK, ADD_NEW_SUB_TASK, ADD_NEW_TASK } from '../../../services';
 import { SearchBar } from './SearchBar';
 import { SortButton } from './SortButton';
 import { DeleteTaskButton } from './DeleteTaskButton';
 import { NewTaskButton } from './NewTaskButton';
-import { Task, CheckedTask, StatusOptions, TasksTypes } from '../../../types';
-import { useState, useMemo } from 'react';
-import { useMutation } from '@apollo/client';
-import { DELETE_SUB_TASK, DELETE_TASK, ADD_NEW_SUB_TASK, ADD_NEW_TASK } from '../../../services';
+import './ManageContainer.css';
 
 type ManagementContainerProps = {
-  tasks: Task[] | undefined;
   checkedTasks: CheckedTask[];
   sortStatus: StatusOptions;
   searchValue: string;
@@ -20,11 +19,10 @@ type ManagementContainerProps = {
 };
 
 export const ManagementContainer = ({
-  tasks,
   checkedTasks,
-  refetchTasks,
   sortStatus,
   searchValue,
+  refetchTasks,
   updateCheckedTasksData,
   handleSearchValueChange,
   handleSortStatusChange,
@@ -32,12 +30,15 @@ export const ManagementContainer = ({
   const [deleteTask] = useMutation(DELETE_TASK, {
     onCompleted: refetchTasks,
   });
+
   const [deleteSubTask] = useMutation(DELETE_SUB_TASK, {
     onCompleted: refetchTasks,
   });
+
   const [addNewTask] = useMutation(ADD_NEW_TASK, {
     onCompleted: refetchTasks,
   });
+
   const [addNewSubTask] = useMutation(ADD_NEW_SUB_TASK, {
     onCompleted: refetchTasks,
   });
@@ -61,7 +62,7 @@ export const ManagementContainer = ({
     updateCheckedTasksData([]);
   };
 
-  const handleAddNewTaskClick = async () => {
+  const handleAddNewTask = async () => {
     if (checkedTasks.length > 0) {
       checkedTasks.forEach(async (checkedTask) => {
         await addNewSubTask({
@@ -69,11 +70,9 @@ export const ManagementContainer = ({
             parentTaskId: checkedTask.id,
           },
         });
-        console.log('Sub Task created successfully');
       });
     } else {
       await addNewTask();
-      console.log('Task created successfully');
     }
   };
 
@@ -84,12 +83,12 @@ export const ManagementContainer = ({
   return (
     <div className="manageContainer">
       <div className="searchAndSort">
-        <SearchBar value={searchValue} onChange={handleSearchValueChange} />
+        <SearchBar onChange={handleSearchValueChange} value={searchValue} />
         <SortButton onClick={handleSortStatusChange} sortStatus={sortStatus} />
       </div>
       <div className="addAndDelete">
         <DeleteTaskButton onClick={handleDeleteTask} />
-        <NewTaskButton onClick={handleAddNewTaskClick} disabled={isSubTaskChecked} />
+        <NewTaskButton onClick={handleAddNewTask} disabled={isSubTaskChecked} />
       </div>
     </div>
   );
